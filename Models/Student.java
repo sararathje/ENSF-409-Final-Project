@@ -11,12 +11,14 @@ public class Student extends User implements Serializable
 
 	private int studentID;
 	
-	public Student(String firstName, String lastName, String emailAddress, char userType)
+	public Student(String firstName, String lastName, String emailAddress,
+					char userType, int idNumber)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.userType = userType;
+		this.studentID = idNumber;
 		setCourses();
 	}
 	
