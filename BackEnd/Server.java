@@ -22,21 +22,14 @@ public class Server implements ConnectionConstants {
      * Server-side socket connection
      */
     private ServerSocket serverSocket;
+    
     /**
      * Socket for establishing connection between client and server
      */
     private Socket socket;
-    /**
-     * Object to write to the socket
-     */
-    private PrintWriter out;
-    /**
-     * Object to read from the socket
-     */
-    private BufferedReader in;
 
     /**
-     * Thread pool for games
+     * Thread pool for client connections
      */
     private ExecutorService pool;
 
@@ -62,8 +55,9 @@ public class Server implements ConnectionConstants {
             try {
                 // NOTE: the in and out should probably be moved to what actually runs (ie., Worker)
                 socket = serverSocket.accept();
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
+                ServerWorker session = new ServerWorker(socket);
+                pool.execute(session);
+                System.out.println("Connection established...");
             } catch(IOException e) {
                 System.out.println("Error running server...");
                 e.printStackTrace();
@@ -74,8 +68,7 @@ public class Server implements ConnectionConstants {
     // SARA: Placeholder for now
     public static void main(String[] args) throws IOException {
         Server server = new Server();
-
-        // TODO: Run server
+        System.out.println("Server Running");
         server.runServer();
     }
 }
