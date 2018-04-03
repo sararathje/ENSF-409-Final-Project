@@ -2,6 +2,8 @@ package FrontEnd;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import Constants.*;
@@ -9,7 +11,7 @@ import Constants.*;
 /**
  * Provides data fields and methods to create a user login GUI for a learning platform application.
  *
- * @authors Sara Rathje, Jack Glass, Rylan Kettles
+ * @authors Jack Glass, Rylan Kettles, Sara Rathje
  * @verison 1.0
  * @since April 2, 2018
  */
@@ -20,9 +22,14 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
     private JPanel loginPanel;
 
     /**
-     * Input fields
+     * Username input filed
      */
-    private ArrayList<JTextField> inputTextFields;
+    private JTextField usernameField;
+
+    /**
+     * Password input field
+     */
+    private JPasswordField passwordField;
 
     /**
      * Sign-in button
@@ -39,7 +46,7 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
      */
     public LoginWindow() {
         // Set title
-        this.setTitle("Login");
+        this.setTitle(LOGIN_TITLE);
 
         // Add components
         setFrameComponents(this.getContentPane());
@@ -92,30 +99,19 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
      * Adds login fields to login GUI.
      */
     private void addLoginFields() {
-        ArrayList<String> inputLabels = new ArrayList<String>();
-        inputLabels.add(USERNAME);
-        inputLabels.add(PASSWORD);
-
-        inputTextFields = new ArrayList<JTextField> ();
-
         Insets insets = new Insets(5, 10, 5, 10);
 
-        Iterator<String> iterator = inputLabels.iterator();
-        while(iterator.hasNext()) {
-            String label = iterator.next();
+        addInputLabel(USERNAME, new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
+                0.5, 0.0, xPos, yPos++, insets).getConstraints());
 
-            // TODO: SARA: Fix this up. This is gross.
+        addUsernameField(new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
+                    0.5, 0.0, xPos, yPos++, insets).getConstraints());
 
-            LoginWindowConstraints labelConstraints = new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
-                    0.5, 0.0, xPos, yPos++, insets);
+        addInputLabel(PASSWORD, new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
+                0.5, 0.0, xPos, yPos++, insets).getConstraints());
 
-            addInputLabel(label, labelConstraints.getConstraints());
-
-            LoginWindowConstraints inputConstraints = new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
-                    0.5, 0.0, xPos, yPos++, insets);
-
-            addInputField(inputConstraints.getConstraints());
-        }
+        addPasswordField(new LoginWindowConstraints(GridBagConstraints.HORIZONTAL,
+                0.5, 0.0, xPos, yPos++, insets).getConstraints());
     }
 
     /**
@@ -138,16 +134,29 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
     }
 
     /**
-     * Adds input text fields to the login panel.
+     * Adds username text field to the login panel.
      * @param constraints text field constraints
      */
-    private void addInputField(GridBagConstraints constraints) {
-        JTextField inputField = new JTextField(20);
-        inputField.setFont(INPUT_FONT);
+    private void addUsernameField(GridBagConstraints constraints) {
+        usernameField = new JTextField(20);
+        usernameField.setFont(INPUT_FONT);
         constraints.gridwidth = 2;
 
-        inputTextFields.add(inputField);
-        loginPanel.add(inputField, constraints);
+        // inputTextFields.add(inputField);
+        loginPanel.add(usernameField, constraints);
+    }
+
+    /**
+     * Adds password field to the login panel.
+     * @param constraints password constraints
+     */
+    private void addPasswordField(GridBagConstraints constraints) {
+        passwordField = new JPasswordField(20);
+        passwordField.setFont(INPUT_FONT);
+        passwordField.setEchoChar('*');
+        constraints.gridwidth = 2;
+
+        loginPanel.add(passwordField, constraints);
     }
 
     /**
@@ -184,9 +193,29 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
         yPos = 0;
     }
 
+    /**
+     * Adds listener to sign-in button.
+     */
+    public void addSignInButtonListener(ActionListener listener) {
+        signInButton.addActionListener(listener);
+    }
+
     // Placeholder for now just to test what it looks like
     public static void main(String[] args) {
         LoginWindow login = new LoginWindow();
         login.setVisible(true);
+    }
+
+    /**
+     * Gets login credentials.
+     * @return login credentials (username and password)
+     */
+    public ArrayList<String> getLoginCredentials() {
+        ArrayList<String> credentials = new ArrayList<String> ();
+
+        credentials.add(usernameField.getText());
+        credentials.add(String.valueOf(passwordField.getPassword()));
+
+        return credentials;
     }
 }

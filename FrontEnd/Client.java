@@ -9,15 +9,14 @@ import java.io.InputStreamReader;
 
 /**
  * Retrieves information from server to feed to front-end of learning platform application.
+ * @author Jack Glass, Rylan Kettles, Sara Rathje
+ * @version 1.0
+ * @since April 1, 2018
  */
 
 public class Client implements ConnectionConstants {
     /**
      * Socket for establishing connection between client and server.
-     *
-     * @author Jack Glass, Rylan Kettles, Sara Rathje
-     * @version 1.0
-     * @since April 1, 2018
      */
     private Socket socket;
 
@@ -45,5 +44,14 @@ public class Client implements ConnectionConstants {
             System.out.println("Error establishing socket connection on " + HOSTNAME + ": " + PORT);
             e.printStackTrace();
         }
+    }
+
+    public void runClient() {
+        // TODO: Fill me in
+    }
+
+    void sendAuthenticationInformation(String username, String password) {
+        // TODO: This should be sent to the server, and then checked against DB data to authenticate
+        System.out.println("Authenticating...");
     }
 }
