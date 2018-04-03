@@ -16,6 +16,12 @@ public class Assignment implements Serializable{
 	 */
 	private static final long serialVersionUID = 5L;
 
+	private Dropbox dropbox;
 	
+	private String name;
+	
+	private Date dueDate;
+	
+	private Boolean isActive;
 	
 }

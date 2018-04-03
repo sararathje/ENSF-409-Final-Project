@@ -35,6 +35,10 @@ public class StudentList implements Serializable
 		//TODO implement this shit
 	}
 	
+	/**
+	 * adds a student to the 
+	 * @param newStudent
+	 */
 	public void enrollStudent(Student newStudent)
 	{
 		students.add(newStudent);
