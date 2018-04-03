@@ -45,11 +45,6 @@ public class Email implements Serializable
 		//TODO figure how to compose an email. Probably will be done once the email GUI is implemented
 	}
 	
-	public void send()
-	{
-		//TODO figure out how the email stuff works
-	}
-	
 	/**
 	 * Adds a recipient of the email
 	 * @param emailAddress
