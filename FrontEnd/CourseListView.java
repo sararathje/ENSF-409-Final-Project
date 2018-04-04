@@ -80,7 +80,7 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
      * Gets course list ArrayList.
      * @return courseList
      */
-    public ArrayList<JPanel> getViewButtons() {
+    public ArrayList<JPanel> getCourseList() {
         return courseList;
     }
     
