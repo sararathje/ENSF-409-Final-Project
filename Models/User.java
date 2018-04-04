@@ -1,20 +1,48 @@
 package Models;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public abstract class User 
+/**
+ * Model representing the users in the database. There are 2 types of users: professors and students
+ * @author Jack
+ *
+ */
+public class User implements Serializable
 {
-	protected Login login;
+	/**
+	 * Object ID when sending the object between the client and server
+	 */
+	private static final long serialVersionUID = 12L;
+
+	private Login login;
 	
-	protected String firstName;
+	private String firstName;
 	
-	protected String lastName;
+	private String lastName;
 	
-	protected String emailAddress;
+	private String emailAddress;
 	
-	protected ArrayList<Course> courses;
+	private ArrayList<Course> courses;
 	
-	protected char userType;
+	private int userID;
+	
+	private char userType;
+	
+	
+	public User (Login login, String firstName, String lastName, String emailAddress, int userID, char userType)
+	{
+		if(userType != 'S' || userType != 'P')
+		{
+			//TODO throw invalid user type exception
+		}
+		this.login = login;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailAddress = emailAddress;
+		this.userID = userID;
+		this.userType = userType;
+	}
 	
 	/**
 	 * Populates the array list of courses
