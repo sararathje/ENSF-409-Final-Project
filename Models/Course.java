@@ -20,6 +20,8 @@ public class Course implements Serializable
 	
 	private int courseNumber;
 	
+	private int profID;
+	
 	private ArrayList<Assignment> assignments;
 	
 	private Boolean isActive;
@@ -28,10 +30,11 @@ public class Course implements Serializable
 	
 	
 	
-	public Course(String courseName, int courseNumber)
+	public Course(String courseName, int courseNumber, int profID)
 	{
 		this.courseName = courseName;
 		this.courseNumber = courseNumber;
+		this.profID = profID;
 		//TODO construct the rest of the fields in this class
 	}
 	
@@ -59,6 +62,8 @@ public class Course implements Serializable
 	public String getCourseName() { return courseName; }
 	
 	public int getCourseNumber() { return courseNumber; }
+	
+	public int getProfID() { return profID; }
 	
 	public ArrayList<Assignment> getAssignmentList() { return assignments; }
 	

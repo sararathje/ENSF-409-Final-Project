@@ -50,7 +50,7 @@ public class DatabaseHelper implements DatabaseInformation
 				user.getEmail() + "', '" +
 				user.getFirstName() + "', '" +
 				user.getLastName() + "', '" +
-				user.getUserType() + "')";
+				user.getUserType() + "');";
 		try{
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
@@ -61,17 +61,40 @@ public class DatabaseHelper implements DatabaseInformation
 		}
 	}
 	
-	
+	/**
+	 * Removes a user from the database
+	 * @param user
+	 */
 	public void removeUser(User user)
 	{
 		//TODO
 	}
 	
+	/**
+	 * Adds course to the databse in the tabke course table
+	 * @param course
+	 */
 	public void addCourse(Course course)
 	{
-		//TODO
+		String sql = "INSERT INTO " + courseTable +
+				" VALUES ( " + course.getCourseNumber() + ", " +
+				course.getProfID() + ", '" +
+				course.getCourseName() + "', " +
+				course.isActive() + ");";
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
+	/**
+	 * Removes course from the database
+	 * @param courseID
+	 */
 	public void removeCourse(int courseID)
 	{
 		//TODO
@@ -100,25 +123,115 @@ public class DatabaseHelper implements DatabaseInformation
 		}
 	}
 	
-	
+	/**
+	 * Removes assignment from the database
+	 * @param assignmentID
+	 */
 	public void removeAssignment(int assignmentID)
 	{
-		//TODO
+		String sql = "delete from " + assignmentTable + " where ASSIGNMENTID=" 
+					+ assignmentID;
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public void addGrade(char Grade)
+	/**
+	 * Grades a submission in the database
+	 * @param grade
+	 * @param submission
+	 */
+	public void addGrade(int grade, Submission submission)
 	{
-		//TODO
+		String sql = "INSERT INTO " + gradeTable +
+				" VALUES ( " + submission.getAssignmentID() + ", " +
+				submission.getStudentID() + ", " +
+				submission.getCourseID() + ", " +
+				grade + ");";
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
+	/**
+	 * Removes a grade from the database
+	 */
 	public void removeGrade()
 	{
 		//TODO
 	}
 	
+	/**
+	 * Adds a submission to the database
+	 * @param submission
+	 */
 	public void addSubmission(Submission submission)
 	{
 		//TODO
 	}
 	
+	/**
+	 * Removes submission from the database
+	 * @param submissionID
+	 */
+	public void removeSubmission(int submissionID)
+	{
+		String sql = "delete from " + submissionTable + " where SUBMISSIONID="
+				+ submissionID;
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Enrolls student in a course.
+	 * @param studentID
+	 * @param courseID
+	 */
+	public void enrollStudent(int studentID, int courseID)
+	{
+		String sql = "INSERT INTO " + studentEnrollment +
+				" VALUES ( " + studentID + ", " + courseID + ");";
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Unenroll student in a course.
+	 * @param studentID
+	 */
+	public void unenrollStudent(int studentID, int courseID)
+	{
+		String sql = "delete from " + studentEnrollment + " where STUDENTID=" 
+					+ studentID + " and COURSEID=" + courseID;
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
