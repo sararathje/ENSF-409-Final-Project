@@ -18,19 +18,19 @@ public class StudentList implements Serializable
 	 */
 	private static final long serialVersionUID = 6L;
 	
-	private ArrayList<Student> students;
+	private ArrayList<User> students;
 	
 	public StudentList()
 	{
 		//TODO populate the arraylist of students
 	}
 	
-	public Student searchStudent(String lastName)
+	public User searchStudent(String lastName)
 	{
 		//TODO implement this shit
 	}
 	
-	public Student searchStudent(int studentID)
+	public User searchStudent(int studentID)
 	{
 		//TODO implement this shit
 	}
@@ -39,12 +39,12 @@ public class StudentList implements Serializable
 	 * adds a student to the 
 	 * @param newStudent
 	 */
-	public void enrollStudent(Student newStudent)
+	public void enrollStudent(User newStudent)
 	{
 		students.add(newStudent);
 	}
 	
-	public void unenrollStudent(Student student)
+	public void unenrollStudent(User student)
 	{
 		//TODO implement this shit
 	}

@@ -29,59 +29,40 @@ public class DatabaseHelper implements DatabaseInformation
 	}
 	
 	/**
-	 * Creates a database and populates a table with client information
+	 * Checks the database table user table for matching login information
+	 * @param login
 	 */
-	public void createDB()
+	public void authenticate(Login login)
 	{
-		try {
-			statement = jdbc_connection.prepareStatement("CREATE DATABASE " + databaseName);
-			statement.executeUpdate();
-			System.out.println("Created Database " + databaseName);
-		} 
-		catch( SQLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		//TODO may return a user object
 	}
 	
 	/**
-	 * Creates a table on the database with the information on the text file
+	 * Adds a user to the database in the table user table
+	 * @param user
 	 */
-	public void createTable()
+	public void addUser(User user)
 	{
-		String sql = "CREATE TABLE " + tableName + "(" +
-			     "ID INT(4) NOT NULL, " +
-			     "FIRSTNAME VARCHAR(20) NOT NULL, " + 
-			     "LASTNAME VARCHAR(20) NOT NULL, " + 
-			     "ADDRESS VARCHAR(50) NOT NULL, " + 
-			     "POSTALCODE CHAR(7) NOT NULL, " +
-			     "PHONENUMBER CHAR(12) NOT NULL, " +
-			     "CLIENTTYPE CHAR(1) NOT NULL)";
-	try{
-		statement = jdbc_connection.prepareStatement(sql);
-		statement.executeUpdate();
-		System.out.println("Created Table " + tableName);
-	}
-	catch(SQLException e)
-	{
-		e.printStackTrace();
-	}	
-	}
-	
-	public void addAssignment(Assignment assignment, int courseNumber)
-	{
-		//TODO
+		String sql = "INSERT INTO " + userTable +
+				" VALUES ( " + user.getID() + ", '" +
+				user.getLogin().getUN() + "', '" +
+				user.getLogin().getPW() + "', '" +
+				user.getEmail() + "', '" +
+				user.getFirstName() + "', '" +
+				user.getLastName() + "', '" +
+				user.getUserType() + "')";
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
-	public void removeStudent(Student student)
-	{
-		//TODO
-	}
 	
-	public void authenticate(Login login)
+	public void removeUser(User user)
 	{
 		//TODO
 	}
@@ -91,7 +72,46 @@ public class DatabaseHelper implements DatabaseInformation
 		//TODO
 	}
 	
+	public void removeCourse(int courseID)
+	{
+		//TODO
+	}
+	
+	/**
+	 * Adds an assignment to the database in the assignment table
+	 * @param assignment
+	 * @param courseNumber
+	 */
+	public void addAssignment(Assignment assignment, int courseNumber)
+	{
+		String sql = "INSERT INTO " + assignmentTable +
+				" VALUES ( " + assignment.getID() + ", " + 
+				courseNumber + ", '" + 
+				assignment.getName() + "', " + 
+				assignment.isActive() + ", '" + 
+				assignment.getDueDate() + "');";
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void removeAssignment(int assignmentID)
+	{
+		//TODO
+	}
+
 	public void addGrade(char Grade)
+	{
+		//TODO
+	}
+	
+	public void removeGrade()
 	{
 		//TODO
 	}

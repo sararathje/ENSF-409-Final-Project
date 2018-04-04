@@ -123,7 +123,6 @@ public class DatabaseCreator implements DatabaseInformation
 			     "ASSIGNMENTID INT(8) NOT NULL, " +
 			     "COURSEID INT(8) NOT NULL, " + 
 			     "TITLE VARCHAR(50) NOT NULL, " + 
-			     "PATH VARCHAR(100) NOT NULL, " + 
 			     "ACTIVE BIT(1) NOT NULL, " +
 			     "DUEDATE CHAR(16) NOT NULL)";
 		try{
@@ -184,14 +183,14 @@ public class DatabaseCreator implements DatabaseInformation
 	
 	public static void main(String[] args)
 	{
-		DatabaseCreator d = new DatabaseCreator();
-		d.createDB();
-		d.createAssignmentTable();
-		d.createCourseTable();
-		d.createGradeTable();
-		d.createStudentEnrollmentTable();
-		d.createSubmissionTable();
-		d.createUsertable();
+		//DatabaseCreator d = new DatabaseCreator();
+		//d.createDB();
+		//d.createAssignmentTable();
+		//d.createCourseTable();
+		//d.createGradeTable();
+		//d.createStudentEnrollmentTable();
+		//d.createSubmissionTable();
+		//d.createUsertable();
 		
 	}
 }

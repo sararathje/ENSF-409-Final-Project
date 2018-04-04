@@ -24,9 +24,9 @@ public class Submission implements Serializable
 	private String path;
 	
 	/**
-	 * Letter grade between A and F;
+	 * Letter grade between 0 and 100;
 	 */
-	private char grade;
+	private int grade;
 	
 	/**
 	 * Constructor for the class Submission
@@ -59,7 +59,7 @@ public class Submission implements Serializable
 	
 	public String getPath() { return path;}
 	
-	public char getGrade() { return grade;}
+	public int getGrade() { return grade;}
 	
 	public void setGrade(char grade)
 	{
