@@ -10,6 +10,10 @@ public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
     String AUTHENTICATE = "AUTHENTICATE";
-    String STUDENT = "S";
-    String PROFESSOR = "P";
+    String NEW_COURSE = "NEW_COURSE";
+    String UPDATE_COURSE_ACTIVE = "UPDATE_COURSE_ACTIVE";
+    String SEARCH_FOR_STUDENT = "STUDENT_SEARCH";
+    String REMOVE_STUDENT = "REMOVE_STUDENT";
+    String UPLOAD_ASSIGNMENT = "UPLOAD_ASSIGNMENT";
+    String SET_ASSIGNMENT_ACTIVE = "SET_ASSIGNMENT_ACTIVE";
 }
