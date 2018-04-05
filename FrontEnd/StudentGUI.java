@@ -15,7 +15,7 @@ public class StudentGUI extends UserGUI{                                        
      * Constructs an object of type StudentGUI.
      */
     public StudentGUI(){
-        //Get set data firls from super
+        //Get set data fields from super
         super();
         
         // Set title

@@ -55,22 +55,20 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         loginWindow = new LoginWindow();
         loginWindow.setVisible(true);
         
-          //Set frame format
+        //Set frame format
         setPreferredSize(new Dimension(1500, 1000));
         setLayout(new BorderLayout());
         setBackground(LOGIN_BACKGROUND_COLOUR);
         
         // Create the courseList
         courseList = new CourseListView();
+        add("Center", courseList);
        
         //add the refresh button
         addRefreshButton();
 
         //add 'My Courses' title to top
         addTitle();
-        
-        //add the course list to the center
-        add("Center", courseList);
         
        
         //add blank space to the left and the right
@@ -79,12 +77,12 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         
         // Add login window listeners
-        addLoginWindowListeners();
+       // addLoginWindowListeners();
         // addOtherListeners
     }
     
     /**
-     * Creates the refresh button for the client list of the GUI.
+     * Creates the refresh button for the course list of the GUI.
      */
     private void addRefreshButton(){
         refresh = new JButton("Refresh");
@@ -111,7 +109,10 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         this.add("North", top);
     }
     
-     private void addBorders(){
+    /**
+     * Adds blank space to either side of the GUI for aesthetic purposes.
+     */
+    private void addBorders(){
         JPanel right = new JPanel();
         right.setPreferredSize(new Dimension(100, 800));
         right.setBackground(LOGIN_BACKGROUND_COLOUR);
@@ -141,16 +142,16 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     /**
      * Adds listeners to login window.
      */
-    private void addLoginWindowListeners() {
-        loginWindow.addSignInButtonListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ArrayList<String> credentials = loginWindow.getLoginCredentials();
-
-                // Send credentials to server
-                client.sendAuthenticationInformation(credentials.get(0), credentials.get(1));
-            }
-        });
-    }
+//    private void addLoginWindowListeners() {
+//        loginWindow.addSignInButtonListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                ArrayList<String> credentials = loginWindow.getLoginCredentials();
+//
+//                // Send credentials to server
+//                client.sendAuthenticationInformation(credentials.get(0), credentials.get(1));
+//            }
+//        });
+//    }
 
     public static void main(String[] args) {
         UserGUI userGUI = new UserGUI();

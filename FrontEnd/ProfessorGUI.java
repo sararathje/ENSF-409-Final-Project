@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package FrontEnd;
 
 import static Constants.FontConstants.BUTTON_FONT;
@@ -13,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- *  Provides methods to create the GUI used by a student.
+ *  Provides methods to create the GUI used by a Professor.
  * @author Jack Glass, Rylan Kettles, Sara Rathje
  * @version 1.0
  * @since April 4, 2018
@@ -24,7 +20,7 @@ public class ProfessorGUI extends UserGUI {
     
     
     public ProfessorGUI(){
-        //Get set data firls from super
+        //Get set data fields from super
         super();
         
         // Set title
