@@ -223,6 +223,10 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
 
+    /**
+     * Sends request to server to set assignment as active.
+     * @param assignment assignment to set active
+     */
     void setAssignmentActive(Assignment assignment) {
         // TODO: This should be attached to the listener for setting an assignment as active.
         try {
