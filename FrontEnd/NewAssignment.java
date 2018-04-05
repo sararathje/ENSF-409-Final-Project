@@ -69,6 +69,7 @@ public class NewAssignment extends javax.swing.JDialog {
 
         jRadioButton1.setText("Yes");
 
+        setActive.add(jRadioButton2);
         jRadioButton2.setText("No");
 
         active.setText("Active:");
@@ -101,9 +102,9 @@ public class NewAssignment extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(active)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton1)
                 .addGap(18, 18, 18)
+                .addComponent(jRadioButton1)
+                .addGap(2, 2, 2)
                 .addComponent(jRadioButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

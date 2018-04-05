@@ -11,13 +11,16 @@ import java.awt.Dimension;
 import javax.swing.*;
 
 /**
- *
- * @author Rylan
+ * The Course home page.
+ * @author Jack Glass, Rylan Kettles, Sara Rathje
+ * @version 1.0
+ * @since April 4, 2018
  */
 public class CoursePage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants {
     protected AssignmentListView assignmentList;
     protected JButton refresh;
     protected JButton email;
+    protected JPanel middle;
     protected JPanel bottom; 
     
     public CoursePage(){
@@ -27,9 +30,12 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         setLayout(new BorderLayout());
         setBackground(LOGIN_BACKGROUND_COLOUR);
         
+        addMiddle();
+        
         //create assignment list
         assignmentList = new AssignmentListView();
-        add("Center", assignmentList);
+        middle.add(assignmentList);
+        
         
         //add 'Course Home' title to top
         addTitle();
@@ -78,6 +84,20 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     }
     
     /**
+     * Adds a panel to he center of the frame.
+     */
+    private void addMiddle(){
+        middle = new JPanel();
+        middle.setBackground(LOGIN_BACKGROUND_COLOUR);
+        middle.setLayout(new BoxLayout(middle, BoxLayout.Y_AXIS));
+        JLabel subTitle = new JLabel("Assignments:");
+        subTitle.setFont(PANEL_TITLE_FONT);
+        subTitle.setForeground(FOREGROUND_COLOUR);
+        middle.add(subTitle);
+        this.add("Center", middle);
+    }
+    
+    /**
      * Adds blank space to either side of the GUI for aesthetic purposes.
      */
     private void addBorders(){
@@ -105,6 +125,11 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         this.add("North", top);
     }
 
+    
+    /**
+     * Gets the AssignmentList.
+     * @return 
+     */
     public AssignmentListView getAssignmentList() {
         return assignmentList;
     }
@@ -112,13 +137,24 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     
     
    /**
-    * Adds an assignmrnt to the assignment list.
+    * Adds an assignment to the assignment list.
     * @param AssignmentName the name of the assignment to be added.
     */
    public void addAssignment(String AssignmentName){
        assignmentList.addAssignmentTOView(AssignmentName);
-        this.validate();
+       validate();
     }  
    
+   /**
+    * Returns the 'View' button of the assignment.
+    * @param index
+    * @return View button.
+    */
+   public JButton getAssignmentViewButton(int index){
+       JPanel temp = assignmentList.getAssignmentList().get(index);
+       System.out.println(temp.getComponentCount());
+       return (JButton)temp.getComponent(2);
+       
+   }
    
 }

@@ -10,17 +10,26 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- *
+ * The list of Assignments to be displayed on the course page.
  * @author Rylan
  */
 public class AssignmentListView extends JScrollPane implements ColourSchemeConstants, FontConstants{
     
+    /**
+     * List of assignment panels
+     */
     private ArrayList<JPanel> assignmentList;
     
+    
+    /**
+     * Panel to display the assignments
+     */
     private JPanel displayPanel;
     
     
-    
+    /**
+     * Creates an object of type AssignmentList View.
+     */
     public AssignmentListView(){
         displayPanel = new JPanel();
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.PAGE_AXIS));
@@ -30,6 +39,10 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
         assignmentList = new ArrayList<>();
     }
     
+    /**
+     * Adds panels that represent assignments to the display panel.
+     * @param assignmentName 
+     */
     public void addAssignmentTOView(String assignmentName){
         JPanel newAssignment = new JPanel();
         newAssignment.setLayout(new BoxLayout(newAssignment, BoxLayout.LINE_AXIS));
@@ -51,11 +64,16 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
         assignmentList.add(newAssignment);
         
         displayPanel.removeAll();
+
         for(int i = 0; i < assignmentList.size(); i++){
             displayPanel.add(assignmentList.get(i));
         }
     }
     
+    /**
+     * Gets the 
+     * @return 
+     */
      public ArrayList<JPanel> getAssignmentList() {
         return assignmentList;
     }
