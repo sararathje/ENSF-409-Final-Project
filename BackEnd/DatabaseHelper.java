@@ -67,11 +67,32 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public void removeUser(User user)
 	{
-		//TODO
+		String sql = "delete from " + userTable + " where USERID=" 
+				+ user.getID();
+		
+		String bql = "delete from " + submissionTable + " where STUDENTID=" 
+				+ user.getID();
+		
+		String dql = "delete from " + studentEnrollment + " where STUDENTID=" 
+				+ user.getID();
+		try{
+			statement = jdbc_connection.prepareStatement(sql);
+			statement.executeUpdate();
+			
+			statement = jdbc_connection.prepareStatement(bql);
+			statement.executeUpdate();
+			
+			statement = jdbc_connection.prepareStatement(dql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
-	 * Adds course to the databse in the tabke course table
+	 * Adds course to the database in the course table
 	 * @param course
 	 */
 	public void addCourse(Course course)
@@ -233,5 +254,20 @@ public class DatabaseHelper implements DatabaseInformation
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * for testing
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+		Login deez = new Login("Amazing", "Booty");
+		User nuts = new User(deez, "Valery", "Booty", "VBooty@gmail.com", 9, 'S');
+		
+		DatabaseHelper rock = new DatabaseHelper();
+		rock.addUser(nuts);
+		
+		System.out.println("woot");
 	}
 }
