@@ -1,11 +1,11 @@
 package FrontEnd;
 
-import Constants.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.io.InputStreamReader;
+import Models.*;
+import Constants.*;
+
+import javax.swing.*;
 
 /**
  * Retrieves information from server to feed to front-end of learning platform application.
@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * @since April 1, 2018
  */
 
-public class Client implements ConnectionConstants {
+public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Socket for establishing connection between client and server.
      */
@@ -23,12 +23,32 @@ public class Client implements ConnectionConstants {
     /**
      * Object to write to the socket
      */
-    private PrintWriter socketOut;
+    private ObjectOutputStream socketOut;
 
     /**
      * Object to read from the socket
      */
-    private BufferedReader socketIn;
+    private ObjectInputStream socketIn;
+
+    /**
+     * Message stream that sends strings to the client
+     */
+    BufferedReader stringIn;
+
+    /**
+     * Message stream that receives strings from the client
+     */
+    PrintWriter stringOut;
+
+    /**
+     * Indicates whether user session is in progress
+     */
+    boolean sessionInProgress;
+
+    /**
+     * User to log in
+     */
+    User authenticatedUser;
 
     /**
      * Constructs a Client object with specified values for serverName and portNumber.
@@ -38,20 +58,192 @@ public class Client implements ConnectionConstants {
         try {
             // Establish socket connection
             socket = new Socket(HOSTNAME, PORT);
-            socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            socketOut = new PrintWriter((socket.getOutputStream()), true);
+            socketOut = new ObjectOutputStream(socket.getOutputStream());
+            socketIn = new ObjectInputStream(socket.getInputStream());
+            stringIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            stringOut = new PrintWriter((socket.getOutputStream()), true);
         } catch (IOException e) {
             System.out.println("Error establishing socket connection on " + HOSTNAME + ": " + PORT);
             e.printStackTrace();
         }
     }
 
+    /**
+     * Runs the client.
+     */
     public void runClient() {
-        // TODO: Fill me in
+        String serverOutput;
+
+        try {
+            while(true) {
+                while(true) {
+                    serverOutput = stringIn.readLine();
+                    processServerOutput(serverOutput);
+                }
+            }
+        } catch(IOException e) {
+            System.out.println("Error reading from socket");
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close input and output streams
+                socketIn.close();
+                socketOut.close();
+                stringIn.close();
+                stringOut.close();
+            } catch (IOException e) {
+                System.out.println("Error closing streams");
+                e.printStackTrace();
+            }
+        }
     }
 
-    void sendAuthenticationInformation(String username, String password) {
-        // TODO: This should be sent to the server, and then checked against DB data to authenticate
-        System.out.println("Authenticating...");
+    /**
+     * Processes the server otuput.
+     * @param serverOutput server output string
+     */
+    private void processServerOutput(String serverOutput) {
+        // If authentication has been performed
+        // if (!serverOutput.equals(null) && serverOutput.equals(AUTHENTICATE)) {
+            // try {
+                // authenticatedUser = (User)socketIn.readObject();
+            // } catch(IOException e) {
+                // e.printStackTrace();
+           //  } catch(ClassNotFoundException e) {
+                // e.printStackTrace();
+            // }
+        // }
+    }
+
+    /**
+     * Sends authentication information to the server.
+     * @param login login information to be sent (username and password)
+     */
+    void sendAuthenticationInformation(Login login) {
+        try {
+            stringOut.println(AUTHENTICATE);
+            socketOut.writeObject(login);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending login information to server...");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends new course to server.
+     * @param course course to send to server
+     */
+    void createNewCourse(Course course) {
+        // TODO: This should be attached to the listener to create course in GUI.
+        try {
+            stringOut.println(NEW_COURSE);
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends course to server to update active status.
+     * @param course course to update active status
+     */
+    void setCourseActive(Course course) {
+        // TODO: This should be attached to listener to set course active.
+        try {
+            stringOut.println(UPDATE_COURSE_ACTIVE);
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends search request to server by for student by last name and ID.
+     * Note that a search is only performed on non-empty fields.
+     * @param lastName student last name
+     * @param id student ID
+     */
+    void searchForStudent(String lastName, String id) {
+        // TODO: This should be attached to listener to search for student by last name.
+        try {
+            String studentLastName = lastName == "" ? null : lastName,
+                    studentID = id == ""? null : id;
+
+            stringOut.println(SEARCH_FOR_STUDENT);
+            socketOut.writeObject(studentLastName);
+            socketOut.flush();
+            socketOut.writeObject(studentID);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending student search to server.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to unenroll student from a course.
+     * @param student student to un-enroll
+     * @param course course to un-enroll student from
+     */
+    void unenrollStudent(User student, Course course) {
+        // TODO: This should be attached to the listener for removing a student from a course.
+        try {
+            stringOut.println(REMOVE_STUDENT);
+            socketOut.writeObject(student);
+            socketOut.flush();
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to upload assignment to course.
+     * @param assignment assignment to upload
+     * @param course course to upload assignment to
+     */
+    void uploadAssignment(Assignment assignment, Course course) {
+        // TODO: This should be attached to the listener for uploading an assignment.
+        try {
+            stringOut.println(UPLOAD_ASSIGNMENT);
+            socketOut.writeObject(assignment);
+            socketOut.flush();
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to set assignment as active.
+     * @param assignment assignment to set active
+     */
+    void setAssignmentActive(Assignment assignment) {
+        // TODO: This should be attached to the listener for setting an assignment as active.
+        try {
+            stringOut.println(SET_ASSIGNMENT_ACTIVE);
+            socketOut.writeObject(assignment);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets the authenticated user.
+     * @return authenticated user
+     */
+    User getAuthenticatedUser() {
+        return authenticatedUser;
     }
 }
