@@ -9,4 +9,7 @@ package Constants;
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
+    String AUTHENTICATE = "AUTHENTICATE";
+    String STUDENT = "S";
+    String PROFESSOR = "P";
 }
