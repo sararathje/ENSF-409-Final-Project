@@ -75,5 +75,7 @@ public class User implements Serializable
 	
 	public char getUserType() { return userType; }
 	
+	public int getID() { return userID; }
+	
 	//TODO create setters if we need them
 }

@@ -22,6 +22,11 @@ public class Assignment implements Serializable{
 	private Dropbox dropbox;
 	
 	/**
+	 * number representing the assignment id
+	 */
+	private int assignmentID;
+	
+	/**
 	 * Name of the assignment
 	 */
 	private String name;
@@ -41,11 +46,12 @@ public class Assignment implements Serializable{
 	 * @param name
 	 * @param dueDate
 	 */
-	public Assignment(String name, Date dueDate)
+	public Assignment(String name, Date dueDate, int assignmentID)
 	{
 		dropbox = new Dropbox();
 		this.name = name;
 		this.dueDate = dueDate;
+		this.assignmentID = assignmentID;
 		isActive = false;
 	}
 	
@@ -56,6 +62,10 @@ public class Assignment implements Serializable{
 	public Date getDueDate() { return dueDate; }
 	
 	public Dropbox getDropbox() { return dropbox;}
+	
+	public int getID() { return assignmentID; }
+	
+	public Boolean isActive() { return isActive;}
 	
 	public void activateAssignment() { isActive = true;}
 	

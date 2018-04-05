@@ -24,18 +24,36 @@ public class Submission implements Serializable
 	private String path;
 	
 	/**
-	 * Letter grade between A and F;
+	 * Letter grade between 0 and 100;
 	 */
-	private char grade;
+	private int grade;
+	
+	/**
+	 * The assignment that the submission belongs to
+	 */
+	private int assignmentID;
+	
+	/**
+	 * The course in which the assignment was assigned
+	 */
+	private int courseID;
+	
+	/**
+	 * The id of the student who submitted the submission
+	 */
+	private int studentID;
 	
 	/**
 	 * Constructor for the class Submission
 	 * @param localPath
 	 */
-	public Submission(String localPath)
+	public Submission(String localPath, int assignmentID, int courseID, int studentID)
 	{
 		this.path = localPath;
-		grade = '\0';
+		this.grade = 0;
+		this.assignmentID = assignmentID;
+		this.courseID = courseID;
+		this.studentID = studentID;
 	}
 	
 	/**
@@ -59,11 +77,17 @@ public class Submission implements Serializable
 	
 	public String getPath() { return path;}
 	
-	public char getGrade() { return grade;}
+	public int getGrade() { return grade;}
 	
-	public void setGrade(char grade)
+	public int getCourseID() { return courseID; }
+	
+	public int getAssignmentID() { return assignmentID; }
+	
+	public int getStudentID() { return studentID; }
+	
+	public void setGrade(int grade)
 	{
-		if(grade > 'F' || grade < 'A')
+		if(grade > 100 || grade < 0)
 		{
 			//TODO invalid grade exception??
 			return;
