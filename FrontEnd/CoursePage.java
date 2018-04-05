@@ -116,7 +116,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * @param AssignmentName the name of the assignment to be added.
     */
    public void addAssignment(String AssignmentName){
-       assignmentList.addAssignment(AssignmentName);
+       assignmentList.addAssignmentTOView(AssignmentName);
         this.validate();
     }  
    

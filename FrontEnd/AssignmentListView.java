@@ -30,7 +30,7 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
         assignmentList = new ArrayList<>();
     }
     
-    public void addAssignment(String assignmentName){
+    public void addAssignmentTOView(String assignmentName){
         JPanel newAssignment = new JPanel();
         newAssignment.setLayout(new BoxLayout(newAssignment, BoxLayout.LINE_AXIS));
         newAssignment.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));

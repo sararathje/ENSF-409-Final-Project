@@ -10,6 +10,9 @@ import javax.swing.*;
  * @author Rylan
  */
 public class ProfCoursePage extends CoursePage{
+    
+    private JOptionPane StudentList;
+    private NewAssignment newAssignment;
     private JButton enrollStudents;
     private JButton getStudentList;
     private JButton addAssignment;
@@ -47,14 +50,18 @@ public class ProfCoursePage extends CoursePage{
         bottom.add(addAssignment);
     }
     
+    public void addAssignment(){
+        newAssignment = new NewAssignment(this, true);
+        //some stuff that greates a new assinment
+        
+    }
     
     
     public static void main(String[] args) {
         ProfCoursePage coursePage = new ProfCoursePage();
         coursePage.setVisible(true);
-        coursePage.addAssignment("TESTAssign1");
-        coursePage.addAssignment("TESTAssign2");
-        coursePage.addAssignment("TESTAssign3");
+        coursePage.addAssignment();
+        
         System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
     }
 

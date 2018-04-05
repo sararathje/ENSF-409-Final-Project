@@ -16,8 +16,15 @@ import javax.swing.JPanel;
  */
 public class ProfessorGUI extends UserGUI {
     
+    /**
+     * Button to create a new course
+     */
     private JButton createCourse;
     
+    /**
+     * new course JOptionPane
+     */
+    private NewCourse newCourse;
     
     public ProfessorGUI(){
         //Get set data fields from super
