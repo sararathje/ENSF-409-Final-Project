@@ -1,13 +1,13 @@
 package BackEnd;
 
-import static Constants.ConnectionConstants.AUTHENTICATE;
+import Constants.ConnectionConstants;
 import java.net.Socket;
 import java.io.*;
 
 import Models.*;
 
 
-public class ServerWorker implements Runnable
+public class ServerWorker implements Runnable, ConnectionConstants
 {
 	/**
 	 * Socket that communicates with the client
@@ -39,32 +39,41 @@ public class ServerWorker implements Runnable
             } 
 	}
 
-        private void sendAuthenticatedUser(User user){
-            try{
-                objOut.writeObject(AUTHENTICATE);
-                
-                objOut.writeObject(user);
-                objOut.flush();
-            }
-            catch(IOException ex){
-                ex.printStackTrace();
-            }
+	/**
+	 * Sends an 
+	 * @param user
+	 */
+    private void sendAuthenticatedUser(User user){
+        try{
+            objOut.writeObject(AUTHENTICATE);
+            
+            objOut.writeObject(user);
+            objOut.flush();
         }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
         
 	@Override
 	public void run()
 	{
-            try {
-                Object input = objIn.readObject();
-                if (input instanceof Login) {
-                    User user = dbHelper.authenticate((Login)input);
-                    sendAuthenticatedUser(user);
-                }
-            } catch(IOException e) {
-                e.printStackTrace();
-            } catch(ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        try {
+//        	while(true)
+//        	{
+	            Object input = objIn.readObject();
+	            if (input instanceof Login) {
+	                User user = dbHelper.authenticate((Login)input);
+	                sendAuthenticatedUser(user);
+	            }
+	            
+	            
+        	//}
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
      
 	
 	}
