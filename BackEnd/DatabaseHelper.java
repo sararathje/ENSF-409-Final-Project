@@ -35,7 +35,6 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public User authenticate(Login login)
 	{
-		//TODO may return a user object
             User user = null;
             ResultSet userResult;
             

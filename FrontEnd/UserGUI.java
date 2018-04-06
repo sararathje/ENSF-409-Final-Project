@@ -10,6 +10,7 @@ import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,9 +67,31 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         //add blank space to the left and the right
         addBorders();
         pack();
-        setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+        setCloseOptions();
     }
     
+	/**
+	 * Sets the options for when the user presses exit
+	 */
+	private void setCloseOptions()
+	{
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() 
+		{
+			public void windowClosing(WindowEvent e) 
+			{
+				//JFrame frame = (JFrame) e.getSource();
+				int result = JOptionPane.showConfirmDialog((JFrame) e.getSource(), "Are you sure you want to exit the application?",
+				"Exit Application", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION)
+				{
+				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				client.quit();
+				}
+			}
+		});
+	}
+	
     /**
      * Creates the refresh button for the course list of the GUI.
      */

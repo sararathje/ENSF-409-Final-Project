@@ -65,10 +65,9 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Runs the client.
      */
     public void runClient() {
-        loginWindow = new LoginWindow(socketIn, socketOut);
-        loginWindow.setVisible(true);
-
         while (true) {
+        	loginWindow = new LoginWindow(socketIn, socketOut);
+            loginWindow.setVisible(true);
             try {
                 if (socketIn.readObject().equals(AUTHENTICATE)) {
                     authenticatedUser = (User) socketIn.readObject();
@@ -87,6 +86,7 @@ public class Client implements ConnectionConstants, MessageConstants {
 
                     break;
                 } else {
+                	loginWindow.dispose();
                     JOptionPane.showMessageDialog(loginWindow, NO_USER_FOUND, "", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (IOException ex) {
@@ -183,9 +183,25 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param course course to un-enroll student from
      */
     void unenrollStudent(User student, Course course) {
-        // TODO: This should be attached to the listener for removing a student from a course.
         try {
-            sendObject(REMOVE_STUDENT);
+            sendObject(UNENROLL_STUDENT);
+            sendObject(student);
+            sendObject(course);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Sends request to server to enroll student from a course.
+     * @param student student to un-enroll
+     * @param course course to un-enroll student from
+     */
+    void enrollStudent(User student, Course course) {
+        try {
+            sendObject(ENROLL_STUDENT);
             sendObject(student);
             sendObject(course);
             
@@ -201,7 +217,6 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param course course to upload assignment to
      */
     void uploadAssignment(Assignment assignment) {
-        // TODO: This should be attached to the listener for uploading an assignment.
         try {
             sendObject(assignment);
         } catch(IOException e) {
@@ -215,7 +230,6 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param assignment assignment to set active
      */
     void setAssignmentActive(Assignment assignment) {
-        // TODO: This should be attached to the listener for setting an assignment as active.
         try {
         	sendObject(SET_ASSIGNMENT_ACTIVE);
             sendObject(assignment);
@@ -224,6 +238,19 @@ public class Client implements ConnectionConstants, MessageConstants {
             System.out.println("Error sending request to set assignment as active");
             e.printStackTrace();
         }
+    }
+    
+    void quit()
+    {
+    	try
+    	{
+    		sendObject(QUIT);	
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Mwahahahahahahahahah");
+    	}
+    	
     }
 
     private void sendObject(Object obj) throws IOException

@@ -10,6 +10,7 @@ public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
     
+    String QUIT = "QUIT";
     String AUTHENTICATE = "AUTHENTICATE";
     String NEW_COURSE = "NEW_COURSE";
     String UPDATE_COURSE_ACTIVE = "UPDATE_COURSE_ACTIVE";
@@ -19,5 +20,6 @@ public interface ConnectionConstants {
     String UNENROLL_STUDENT = "UNENROLL_STUDENT";
     String UPLOAD_ASSIGNMENT = "UPLOAD_ASSIGNMENT";
     String SET_ASSIGNMENT_ACTIVE = "SET_ASSIGNMENT_ACTIVE";
-    String SET_ASSIGNMENT_NOT_ACTIVE = "SET_A_NOT_ACTIVE";
+    String SET_ASSIGNMENT_INACTIVE = "SET_A_INACTIVE";
+    String GET_COURSE_INFO = "Get Course Info";
 }

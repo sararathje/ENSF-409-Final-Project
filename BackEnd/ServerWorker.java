@@ -73,19 +73,39 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					System.out.println("trying to make new course");
 					dbHelper.addCourse((Course)input);
 				}
-				
-				else if(input instanceof String && input.equals("Get Course Info")){
-					objOut.writeObject("Sending Course List");
-					objOut.flush();
-					objOut.writeObject(dbHelper.getCourseList());
-					objOut.flush();
-				}
 				else if(input instanceof String)
 				{
-					if(input.equals(SET_ASSIGNMENT_ACTIVE))
+					if(input.equals(GET_COURSE_INFO)){
+						objOut.writeObject("Sending Course List");
+						objOut.flush();
+						objOut.writeObject(dbHelper.getCourseList());
+						objOut.flush();
+					}
+					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
 						input = objIn.readObject();
 						dbHelper.setAssignmentActive(((Assignment) input).getID());
+					}
+					else if(input.equals(SET_ASSIGNMENT_INACTIVE))
+					{
+						input = objIn.readObject();
+						dbHelper.setAssignmentInactive(((Assignment) input).getID());
+					}
+					else if (input.equals(UNENROLL_STUDENT))
+					{
+						Object userTemp = objIn.readObject();
+						input = objIn.readObject();
+						dbHelper.unenrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+					}
+					else if(input.equals(ENROLL_STUDENT))
+					{
+						Object userTemp = objIn.readObject();
+						input = objIn.readObject();
+						dbHelper.enrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+					}
+					else if(input.equals(QUIT))
+					{
+						break;
 					}
 				}
 				
@@ -96,6 +116,16 @@ public class ServerWorker implements Runnable, ConnectionConstants
 				e.printStackTrace();
 				break;
 			}
+		}
+		try
+		{
+		objIn.close();
+		objOut.close();
+		aSocket.close();
+		}
+		catch(IOException e)
+		{
+			System.err.println("error closing streams");
 		}
 	}
 }
