@@ -1,6 +1,9 @@
 
 package FrontEnd;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 /**
  * Provides methods to create the NewAssignment JDiologue Box
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -9,11 +12,14 @@ package FrontEnd;
  */
 public class NewAssignment extends javax.swing.JDialog {
 
+	Client client;
+	
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Frame parent, boolean modal) {
+    public NewAssignment(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
     }
 
@@ -234,11 +240,7 @@ public class NewAssignment extends javax.swing.JDialog {
     private javax.swing.JTextField yearField;
     private javax.swing.JRadioButton yesButton;
     // End of variables declaration//GEN-END:variables
-<<<<<<< HEAD
 
-
-
-=======
     
     /**
      * Adds action listeners to the class
@@ -248,7 +250,8 @@ public class NewAssignment extends javax.swing.JDialog {
     	add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
             	String name = nameField.getText();
-            	String time = timeField.getText();
+            	int hour = Integer.parseInt(hourField.getText());
+            	int minute = Integer.parseInt(minuteField.getText());
 
             	int month = monthComboBox.getSelectedIndex();
             	int day = dayComboBox.getSelectedIndex();
@@ -276,8 +279,9 @@ public class NewAssignment extends javax.swing.JDialog {
     private void clearInputFields()
     {
     	nameField.setText("");
-    	timeField.setText("");
+    	hourField.setText("");
+    	minuteField.setText("");
     	yearField.setText("");
     }
->>>>>>> 0a69bea944145f82de9f9a8f9fe0d979512a7378
+
 }
