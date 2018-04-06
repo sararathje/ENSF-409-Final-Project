@@ -385,7 +385,7 @@ public class DatabaseHelper implements DatabaseInformation
             // Create query string
             if (!id.equals("")) {
                 String query = " WHERE ID = ?" +
-                        " AND LASTNAME = IFNULL(?, LASTNAME) + " +
+                        " AND LASTNAME = IFNULL(?, LASTNAME) " +
 						" AND CLIENTTYPE = ?";
                 sql += query;
             } else {
