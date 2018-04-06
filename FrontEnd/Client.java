@@ -127,6 +127,116 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
 
+   /**
+     * Sends new course to server.
+     * @param course course to send to server
+     */
+    void createNewCourse(Course course) {
+        // TODO: This should be attached to the listener to create course in GUI.
+        try {
+            socketOut.writeObject(NEW_COURSE);
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends course to server to update active status.
+     * @param course course to update active status
+     */
+    void setCourseActive(Course course) {
+        // TODO: This should be attached to listener to set course active.
+        try {
+            socketOut.writeObject(UPDATE_COURSE_ACTIVE);
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends search request to server by for student by last name and ID.
+     * Note that a search is only performed on non-empty fields.
+     * @param lastName student last name
+     * @param id student ID
+     */
+    void searchForStudent(String lastName, String id) {
+        // TODO: This should be attached to listener to search for student by last name.
+        try {
+            String studentLastName = lastName == "" ? null : lastName,
+                    studentID = id == ""? null : id;
+
+            socketOut.writeObject(SEARCH_FOR_STUDENT);
+            socketOut.flush();
+            socketOut.writeObject(studentLastName);
+            socketOut.flush();
+            socketOut.writeObject(studentID);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending student search to server.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to unenroll student from a course.
+     * @param student student to un-enroll
+     * @param course course to un-enroll student from
+     */
+    void unenrollStudent(User student, Course course) {
+        // TODO: This should be attached to the listener for removing a student from a course.
+        try {
+            socketOut.writeObject(REMOVE_STUDENT);
+            socketOut.writeObject(student);
+            socketOut.flush();
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to upload assignment to course.
+     * @param assignment assignment to upload
+     * @param course course to upload assignment to
+     */
+    void uploadAssignment(Assignment assignment, Course course) {
+        // TODO: This should be attached to the listener for uploading an assignment.
+        try {
+            socketOut.writeObject(UPLOAD_ASSIGNMENT);
+            socketOut.writeObject(assignment);
+            socketOut.flush();
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends request to server to set assignment as active.
+     * @param assignment assignment to set active
+     */
+    void setAssignmentActive(Assignment assignment) {
+        // TODO: This should be attached to the listener for setting an assignment as active.
+        try {
+            socketOut.writeObject(SET_ASSIGNMENT_ACTIVE);
+            socketOut.writeObject(assignment);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Processes the server otuput.
      * @param serverOutput server output string
