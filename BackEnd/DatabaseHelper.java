@@ -18,9 +18,6 @@ public class DatabaseHelper implements DatabaseInformation
     /**
      * Connection info, login and password for database connection.
      */
-    public String connectionInfo = "jdbc:mysql://localhost:3306/FinalProjectDB",
-            login          = "root",
-            password       = "Greenbananas567?";
 	/**
 	 * Constructor for the database controller
 	 */
