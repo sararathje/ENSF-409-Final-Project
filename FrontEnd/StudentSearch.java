@@ -6,16 +6,27 @@
 
 package FrontEnd;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import Constants.*;
+
 /**
- *
- * @author Rylan
+ * Creates a Student Search form.
+ * @author Rylan Kettles, Sara Rathje
+ * @version 1.0
+ * @since April 5, 2018
  */
-public class StudentSearch extends javax.swing.JDialog {
+public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
+    private Client client;
 
     /** Creates new form StudentSearch */
-    public StudentSearch(java.awt.Frame parent, boolean modal) {
+    public StudentSearch(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
+        addListeners();
     }
 
     /** This method is called from within the constructor to
@@ -117,7 +128,7 @@ public class StudentSearch extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true);
+                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true, new Client());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -138,4 +149,39 @@ public class StudentSearch extends javax.swing.JDialog {
     private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Adds listeners to search panel.
+     */
+    private void addListeners() {
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String lastName = lastNameField.getText(),
+                        id = IDField.getText();
+
+                if (lastName.equals("") && id.equals("")) {
+                    JOptionPane.showMessageDialog(null, EMPTY_SEARCH, "",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    clearInputFields();
+                    dispose();
+                    client.searchForStudent(lastName, id);
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                clearInputFields();
+                dispose();
+            }
+        });
+    }
+
+    /**
+     * Clears input fields on submit and close.
+     */
+    private void clearInputFields() {
+        lastNameField.setText("");
+        IDField.setText("");
+    }
 }

@@ -160,22 +160,30 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param lastName student last name
      * @param id student ID
      */
-//    void searchForStudent(String lastName, String id) {
-//        // TODO: This should be attached to listener to search for student by last name.
-//        try {
-//            String studentLastName = lastName == "" ? null : lastName,
-//                    studentID = id == ""? null : id;
-//
-//            stringOut.println(SEARCH_FOR_STUDENT);
-//            sendObject(studentLastName);
-//            
-//            sendObject(studentID);
-//            
-//        } catch(IOException e) {
-//            System.out.println("Error sending student search to server.");
-//            e.printStackTrace();
-//        }
-//    }
+    void searchForStudent(String lastName, String id) {
+        // TODO: This should be attached to listener to search for student by last name.
+        try {
+            String studentLastName = lastName == "" ? null : lastName,
+                    studentID = id == ""? null : id;
+
+            System.out.println("Sending request for searching...");
+
+            socketOut.writeObject(SEARCH_FOR_STUDENT);
+            sendObject(studentLastName);
+            sendObject(studentID);
+
+            Object input = socketIn.readObject();
+
+            if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
+                // Read in matching student object and then show the Student GUI?
+            }
+        } catch(IOException e) {
+            System.out.println("Error sending student search to server.");
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Sends request to server to unenroll student from a course.
@@ -214,7 +222,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Sends request to server to upload assignment to course.
      * @param assignment assignment to upload
-     * @param course course to upload assignment to
      */
     void uploadAssignment(Assignment assignment) {
         try {

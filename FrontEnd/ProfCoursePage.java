@@ -3,6 +3,8 @@ package FrontEnd;
 
 import static Constants.FontConstants.BUTTON_FONT;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -31,9 +33,9 @@ public class ProfCoursePage extends CoursePage {
     /**
      * Creates an object of ProfCoursePage.
      */
-    public ProfCoursePage(String courseName){
+    public ProfCoursePage(String courseName, Client client){
         //Get set data fields from super
-        super(courseName);
+        super(courseName, client);
         
         addStudentSubtitle();
         studentList = new StudentListView();
@@ -63,6 +65,14 @@ public class ProfCoursePage extends CoursePage {
         searchStudent = new JButton("Search Students");
         searchStudent.setFont(BUTTON_FONT);
         searchStudent.setMinimumSize(new Dimension(0, 50));
+
+        searchStudent.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client);
+                studentSearch.setVisible(true);
+            }
+        });
+
         bottom.add(searchStudent);
     }
 
@@ -78,9 +88,9 @@ public class ProfCoursePage extends CoursePage {
     
     /**
      * Adds a panel representing a student to the JScrollPane.
-     * @param firstName
-     * @param lastName
-     * @param ID 
+     * @param firstName student first name
+     * @param lastName student last name
+     * @param ID student ID
      */
     public void addStudent(String firstName, String lastName, int ID){
        studentList.addStudentToView(firstName, lastName, ID);
@@ -100,7 +110,7 @@ public class ProfCoursePage extends CoursePage {
    }
     
     public static void main(String[] args) {
-        ProfCoursePage coursePage = new ProfCoursePage("someString");
+        ProfCoursePage coursePage = new ProfCoursePage("someString", new Client());
         coursePage.setVisible(true);
         coursePage.addAssignment("TEST_ASSIGNMENT 1");
         coursePage.addAssignment("TEST_ASSIGNMENT 2");

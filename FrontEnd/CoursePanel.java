@@ -46,11 +46,11 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         view.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(client.getAuthenticatedUser().getUserType() == 'P' && e.getSource() == view){
-                    ProfCoursePage profCoursePage = new ProfCoursePage(CoursePanel.this.getCourseName());
+                    ProfCoursePage profCoursePage = new ProfCoursePage(CoursePanel.this.getCourseName(), client);
                     profCoursePage.setVisible(true);
                 }
                 else if(client.getAuthenticatedUser().getUserType() == 'S' && e.getSource() == view){
-                    StudentCoursePage studCoursePage = new StudentCoursePage(CoursePanel.this.getCourseName());
+                    StudentCoursePage studCoursePage = new StudentCoursePage(CoursePanel.this.getCourseName(), client);
                     studCoursePage.setVisible(true);
                 }
             }

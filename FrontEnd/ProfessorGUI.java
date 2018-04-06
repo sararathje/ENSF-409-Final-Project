@@ -51,22 +51,16 @@ public class ProfessorGUI extends UserGUI {
         
         createCourse.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(e.getSource()== createCourse){
-                    newCourse = new NewCourse(ProfessorGUI.this, true,ProfessorGUI.this.getClient());
-                    newCourse.setVisible(true);
-                }
+                newCourse = new NewCourse(ProfessorGUI.this, true,ProfessorGUI.this.getClient());
+                newCourse.setVisible(true);
             }
         });
     }
 
-    
-    
     public Client getClient() {
         return client;
     }
-    
-    
-    
+
      public static void main(String[] args) {
          Client c = new Client();
 //        ProfessorGUI ProfHome = new ProfessorGUI(c);
