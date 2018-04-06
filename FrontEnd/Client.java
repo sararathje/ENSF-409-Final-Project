@@ -167,7 +167,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Sends authentication information to the server.
      * @param login login information to be sent (username and password)
      */
-    //void sendAuthenticationInformation(Login login) {
+//    void sendAuthenticationInformation(Login login) {
 //        try {
 //            //stringOut.println(AUTHENTICATE);
 //            socketOut.writeObject(login);
@@ -176,7 +176,7 @@ public class Client implements ConnectionConstants, MessageConstants {
 //            System.out.println("Error sending login information to server...");
 //            e.printStackTrace();
 //        }
-    //}
+//    }
 
     /**
      * Sends new course to server.
@@ -295,3 +295,5 @@ public class Client implements ConnectionConstants, MessageConstants {
 //        return authenticatedUser;
 //    }
 //}
+    
+}
