@@ -15,9 +15,9 @@ public class DatabaseCreator implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
-	public String connectionInfo = "jdbc:mysql://localhost:3306/d2l",
-				  login          = "root",
-				  password       = "Rysql";
+	/**
+	 * Connection info, login and password for database connection.
+	 */
         
 	/**
 	 * Constructor for the database controller

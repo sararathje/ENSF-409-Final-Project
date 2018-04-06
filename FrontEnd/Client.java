@@ -163,19 +163,19 @@ public class Client implements ConnectionConstants, MessageConstants {
     void searchForStudent(String lastName, String id) {
         // TODO: This should be attached to listener to search for student by last name.
         try {
-            String studentLastName = lastName == "" ? null : lastName,
-                    studentID = id == ""? null : id;
-
             System.out.println("Sending request for searching...");
 
-            socketOut.writeObject(SEARCH_FOR_STUDENT);
-            sendObject(studentLastName);
-            sendObject(studentID);
+            sendObject(SEARCH_FOR_STUDENT);
+            sendObject(lastName);
+            sendObject(id);
 
             Object input = socketIn.readObject();
 
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
+                ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
+                // SARA: Temp check to see matches
+                System.out.println(matchedStudents.get(0).getFirstName());
             }
         } catch(IOException e) {
             System.out.println("Error sending student search to server.");

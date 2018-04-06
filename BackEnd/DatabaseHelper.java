@@ -14,6 +14,10 @@ public class DatabaseHelper implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
+
+    /**
+     * Connection info, login and password for database connection.
+     */
 	/**
 	 * Constructor for the database controller
 	 */
@@ -160,7 +164,8 @@ public class DatabaseHelper implements DatabaseInformation
 	   try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2), rs.getBoolean(4)));
+				list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
+                        rs.getBoolean(4)));
 			}
 	   }
 	   catch(SQLException ex){
@@ -182,7 +187,6 @@ public class DatabaseHelper implements DatabaseInformation
 	/**
 	 * Adds an assignment to the database in the assignment table
 	 * @param assignment
-	 * @param courseNumber
 	 */
 	public void addAssignment(Assignment assignment)
 	{
@@ -349,6 +353,79 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
+
+    /**
+     * Searches for student in user list.
+     * @param lastName student last name
+     * @param id student ID
+     * @return students found in database that match the given last name or ID or both. Otherwise, return null.
+     */
+	public ArrayList<User> searchForStudent(String lastName, String id) {
+	    ArrayList<User> matchedStudents = new ArrayList<> ();
+        User user = null;
+        ResultSet studentResults;
+
+        Integer idParam = null;
+        String lastNameParam = null;
+
+        String sql = "SELECT * FROM " + userTable;
+
+        try {
+            // Create query string
+            if (!id.equals("")) {
+                String query = " WHERE ID = ?" +
+                        " AND LASTNAME = IFNULL(?, LASTNAME)";
+                sql += query;
+            } else {
+                String query = " WHERE LASTNAME = IFNULL(?, FIRSTNAME)";
+                sql += query;
+            }
+
+
+            // Set the parameters
+            if (!id.equals("")) {
+                idParam = Integer.parseInt(id);
+            }
+
+
+            if (!lastName.equals("")) {
+                lastNameParam = lastName;
+            }
+
+            // statement
+            statement = jdbc_connection.prepareStatement(sql);
+
+            if (!id.equals("")) {
+                statement.setInt(1, idParam);
+                statement.setString(2, lastNameParam);
+            } else {
+                statement.setString(1, lastNameParam);
+            }
+
+            // execute query
+            studentResults = statement.executeQuery();
+
+            // int userID, Login login, String emailAddress, String firstName, String lastName, char userType
+
+            while(studentResults.next()){
+                Login userLogin = new Login(studentResults.getString("USERNAME"),
+                        studentResults.getString("PASSWORD"));
+
+                userLogin.setAuthenticated(true);
+
+                user = new User(studentResults.getInt("USERID"),
+                        userLogin,
+                        studentResults.getString("EMAIL"),
+                        studentResults.getString("FIRSTNAME"),
+                        studentResults.getString("LASTNAME"),
+                        studentResults.getString("CLIENTTYPE").charAt(0));
+
+                matchedStudents.add(user);
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+
+        return matchedStudents;
+    }
 	
 	/**
 	 * for testing
@@ -366,8 +443,6 @@ public class DatabaseHelper implements DatabaseInformation
 		//rock.addAssignment(nuts);
 		
 		rock.setAssignmentActive(nuts.getID());
-		
-
 
 		System.out.println("woot");
 	}

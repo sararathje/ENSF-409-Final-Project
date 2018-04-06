@@ -3,6 +3,7 @@ package BackEnd;
 import Constants.ConnectionConstants;
 import java.net.Socket;
 import java.io.*;
+import java.util.ArrayList;
 
 import Models.*;
 
@@ -73,6 +74,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					System.out.println("trying to make new course");
 					dbHelper.addCourse((Course)input);
 				}
+
 				else if(input instanceof String)
 				{
 					if(input.equals(GET_COURSE_INFO)){
@@ -102,6 +104,18 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						Object userTemp = objIn.readObject();
 						input = objIn.readObject();
 						dbHelper.enrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+					}
+					else if(input.equals(SEARCH_FOR_STUDENT)) {
+						System.out.println("Made it here!");
+						String lastName = (String)objIn.readObject();
+						String id = (String)objIn.readObject();
+
+						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
+						objOut.writeObject(SEND_STUDENT_RESULT);
+						objOut.flush();
+						objOut.writeObject(matchedStudents);
+						objOut.flush();
+						System.out.println("Sent matched students back to client");
 					}
 					else if(input.equals(QUIT))
 					{
