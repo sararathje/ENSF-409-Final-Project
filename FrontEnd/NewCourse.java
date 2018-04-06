@@ -1,6 +1,10 @@
 
 package FrontEnd;
 
+import Models.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Provides methods to create the NewCourse JDiologue Box
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -29,11 +33,11 @@ public class NewCourse extends javax.swing.JDialog {
         activeGroup = new javax.swing.ButtonGroup();
         name = new javax.swing.JLabel();
         departmentField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        courseNumber = new javax.swing.JLabel();
         courseNumberField = new javax.swing.JTextField();
         active = new javax.swing.JLabel();
         yesRButton = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        noRBUtton = new javax.swing.JRadioButton();
         addButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
@@ -42,15 +46,15 @@ public class NewCourse extends javax.swing.JDialog {
 
         name.setText("Depatment:");
 
-        jLabel1.setText("Course Number:");
+        courseNumber.setText("Course Number:");
 
         active.setText("Active:");
 
         activeGroup.add(yesRButton);
         yesRButton.setText("Yes");
 
-        activeGroup.add(jRadioButton1);
-        jRadioButton1.setText("No");
+        activeGroup.add(noRBUtton);
+        noRBUtton.setText("No");
 
         addButton.setText("Add");
 
@@ -66,14 +70,14 @@ public class NewCourse extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(active)
-                            .addComponent(jLabel1)
+                            .addComponent(courseNumber)
                             .addComponent(name))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(yesRButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton1))
+                                .addComponent(noRBUtton))
                             .addComponent(courseNumberField)
                             .addComponent(departmentField, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
@@ -93,12 +97,12 @@ public class NewCourse extends javax.swing.JDialog {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(courseNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(courseNumber))
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(active)
                     .addComponent(yesRButton)
-                    .addComponent(jRadioButton1))
+                    .addComponent(noRBUtton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
@@ -157,11 +161,27 @@ public class NewCourse extends javax.swing.JDialog {
     private javax.swing.ButtonGroup activeGroup;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel courseNumber;
     private javax.swing.JTextField courseNumberField;
     private javax.swing.JTextField departmentField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JLabel name;
+    private javax.swing.JRadioButton noRBUtton;
     private javax.swing.JRadioButton yesRButton;
     // End of variables declaration//GEN-END:variables
+
+// finish this after login is complete.
+    
+//    class NewCourseListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent event) {
+//            if(event.getSource() == addButton){
+//                
+//                Course newCourse = new
+//            }
+//        }
+//        
+//    }
+
+
 }
