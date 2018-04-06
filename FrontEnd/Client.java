@@ -102,10 +102,10 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
         System.out.println("authenticated");
         
-        //if(authenticatedUser.getUserType() == 'S'){
+        if(authenticatedUser.getUserType() == 'P'){
             ProfessorGUI profGUI = new ProfessorGUI();
             profGUI.setVisible(true);
-       // }
+        }
 
 //        try {
 //            while(true) {

@@ -303,11 +303,12 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-		Login deez = new Login("Amazing", "Booty");
+		Login deez = new Login("test", "password");
 		User nuts = new User(12345678, deez, "12@34.com",  "bob", "smith", 'P');
 		
 		DatabaseHelper rock = new DatabaseHelper();
 		rock.addUser(nuts);
+               
 		
 		System.out.println("woot");
 	}
