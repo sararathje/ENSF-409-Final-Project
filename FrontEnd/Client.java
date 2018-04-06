@@ -90,6 +90,7 @@ public class Client implements ConnectionConstants, MessageConstants {
                 }
 
                 if (authenticatedUser != null) {
+                    loginWindow.dispose();
                     System.out.println("authenticated");
                     if (authenticatedUser.getUserType() == 'P') {
                         ProfessorGUI profGUI = new ProfessorGUI(this);
@@ -97,7 +98,6 @@ public class Client implements ConnectionConstants, MessageConstants {
                     } else if (authenticatedUser.getUserType() == 'S') {
                         StudentGUI stuGUI = new StudentGUI(this);
                         stuGUI.setVisible(true);
-
                     }
                 } else {
                     System.out.println("Not Authentic");
@@ -178,7 +178,7 @@ public class Client implements ConnectionConstants, MessageConstants {
     void createNewCourse(Course course) {
 //        // TODO: This should be attached to the listener to create course in GUI.
         try {
-            //stringOut.println(NEW_COURSE);
+            System.out.println("Should be creating course");
             socketOut.writeObject(course);
             socketOut.flush();
         } catch(IOException e) {

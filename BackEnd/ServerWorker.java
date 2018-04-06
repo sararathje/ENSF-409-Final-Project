@@ -40,8 +40,8 @@ public class ServerWorker implements Runnable, ConnectionConstants
 	}
 
 	/**
-	 * Sends an 
-	 * @param user
+	 * Sends an authenticated user back to the client.
+	 * @param user authenticated user
 	 */
     private void sendAuthenticatedUser(User user){
         try{
@@ -54,7 +54,10 @@ public class ServerWorker implements Runnable, ConnectionConstants
             ex.printStackTrace();
         }
     }
-        
+
+	/**
+	 * Implements the run method in Runnable interface.
+	 */
 	@Override
 	public void run()
 	{
@@ -66,7 +69,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					sendAuthenticatedUser(user);
 				}
 
-				else if( input instanceof Course){
+				else if(input instanceof Course){
 					System.out.println("trying to make new course");
 					dbHelper.addCourse((Course)input);
 				}

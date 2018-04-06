@@ -172,22 +172,42 @@ public class NewCourse extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private Client client;
 
+    /**
+     * Clears input fields on submit and close.
+     */
+    private void clearInputFields() {
+        departmentField.setText("");
+        courseNumberField.setText("");
+        noRBUtton.setSelected(false);
+        yesRButton.setSelected(false);
+    }
+
     
 private void addListener(){
     addButton.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent event) {
-            if(event.getSource() == addButton){
-                String courseName = departmentField.getText();
-                int courseNumber = Integer.parseInt(courseNumberField.getText());
-                int profID = client.getAuthenticatedUser().getID();
-                boolean active = false;
-                if(yesRButton.isSelected()){
-                    active = true;
-                }
-                Course newCourse = new Course(courseName, courseNumber, profID, active);
-                client.createNewCourse(newCourse);
+
+            // TODO: Add handling for creating new course with empty fields
+            String courseName = departmentField.getText();
+            int courseNumber = Integer.parseInt(courseNumberField.getText());
+            int profID = client.getAuthenticatedUser().getID();
+            boolean active = false;
+            if(yesRButton.isSelected()){
+                active = true;
             }
+
+            Course newCourse = new Course(courseName, courseNumber, profID, active);
+            client.createNewCourse(newCourse);
+            clearInputFields();
+            dispose();
         }   
+    });
+
+    cancelButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+            clearInputFields();
+            dispose();
+        }
     });
 }
 
