@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import Models.*;
 import Constants.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +51,7 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * User to log in
      */
-    User authenticatedUser;
+    private User authenticatedUser;
     
     LoginWindow loginWindow;
     
@@ -86,159 +87,64 @@ public class Client implements ConnectionConstants, MessageConstants {
                 authenticatedUser = (User)socketIn.readObject();
                 
             }
-//                while(!loginWindow.getLogin().getAuthenticated()) {
-//                    
-//                }
 
-        if(authenticatedUser == null){
-            System.out.println("Not Authentic");
-        }
-        else{
-           System.out.println("authenticated");
-        }
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        catch(ClassNotFoundException e){
-            e.printStackTrace();
-        }
-        System.out.println("authenticated");
+
+            if(authenticatedUser == null){
+                System.out.println("Not Authentic");
+            }
+            else{
+               System.out.println("authenticated");
+            }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            catch(ClassNotFoundException e){
+                e.printStackTrace();
+            }
+
+            if(authenticatedUser.getUserType() == 'P'){
+                ProfessorGUI profGUI = new ProfessorGUI(this);
+                profGUI.setVisible(true);
+            }
+            else if(authenticatedUser.getUserType() == 'S'){
+                StudentGUI stuGUI = new StudentGUI(this);
+                stuGUI.setVisible(true);
+                
+            }
         
-        if(authenticatedUser.getUserType() == 'P'){
-            ProfessorGUI profGUI = new ProfessorGUI();
-            profGUI.setVisible(true);
+           
+        
+
+
         }
 
-//        try {
-//            while(true) {
-//                while(true) {
-//                }
-//            }
-//        } catch(IOException e) {
-//            System.out.println("Error reading from socket");
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                // Close input and output streams
-//                socketIn.close();
-//                socketOut.close();
-//            } catch (IOException e) {
-//                System.out.println("Error closing streams");
-//                e.printStackTrace();
-//            }
+        public User getAuthenticatedUser() {
+            return authenticatedUser;
         }
-    }
-
-   /**
-     * Sends new course to server.
-     * @param course course to send to server
-     */
-    void createNewCourse(Course course) {
-        // TODO: This should be attached to the listener to create course in GUI.
+        
+        /**
+         * Gets the Courses from the Database
+         */
+        public void getCourseInfo(){
         try {
-            socketOut.writeObject(NEW_COURSE);
-            socketOut.writeObject(course);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending new course to server");
-            e.printStackTrace();
+                String instruction = "Get Course Info";
+                socketOut.writeObject(instruction);
+                
+                if(socketIn.readObject() instanceof String ){
+                        ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
+                        this.authenticatedUser.setCourses(list);
+                    }
+                
+                
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            catch(ClassNotFoundException e){
+                    e.printStackTrace();
+              
+                }
         }
-    }
-
-    /**
-     * Sends course to server to update active status.
-     * @param course course to update active status
-     */
-    void setCourseActive(Course course) {
-        // TODO: This should be attached to listener to set course active.
-        try {
-            socketOut.writeObject(UPDATE_COURSE_ACTIVE);
-            socketOut.writeObject(course);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending new course to server");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Sends search request to server by for student by last name and ID.
-     * Note that a search is only performed on non-empty fields.
-     * @param lastName student last name
-     * @param id student ID
-     */
-    void searchForStudent(String lastName, String id) {
-        // TODO: This should be attached to listener to search for student by last name.
-        try {
-            String studentLastName = lastName == "" ? null : lastName,
-                    studentID = id == ""? null : id;
-
-            socketOut.writeObject(SEARCH_FOR_STUDENT);
-            socketOut.flush();
-            socketOut.writeObject(studentLastName);
-            socketOut.flush();
-            socketOut.writeObject(studentID);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending student search to server.");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Sends request to server to unenroll student from a course.
-     * @param student student to un-enroll
-     * @param course course to un-enroll student from
-     */
-    void unenrollStudent(User student, Course course) {
-        // TODO: This should be attached to the listener for removing a student from a course.
-        try {
-            socketOut.writeObject(REMOVE_STUDENT);
-            socketOut.writeObject(student);
-            socketOut.flush();
-            socketOut.writeObject(course);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending server request to un-enroll student");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Sends request to server to upload assignment to course.
-     * @param assignment assignment to upload
-     * @param course course to upload assignment to
-     */
-    void uploadAssignment(Assignment assignment, Course course) {
-        // TODO: This should be attached to the listener for uploading an assignment.
-        try {
-            socketOut.writeObject(UPLOAD_ASSIGNMENT);
-            socketOut.writeObject(assignment);
-            socketOut.flush();
-            socketOut.writeObject(course);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending server request to un-enroll student");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Sends request to server to set assignment as active.
-     * @param assignment assignment to set active
-     */
-    void setAssignmentActive(Assignment assignment) {
-        // TODO: This should be attached to the listener for setting an assignment as active.
-        try {
-            socketOut.writeObject(SET_ASSIGNMENT_ACTIVE);
-            socketOut.writeObject(assignment);
-            socketOut.flush();
-        } catch(IOException e) {
-            System.out.println("Error sending request to set assignment as active");
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Processes the server otuput.
@@ -276,16 +182,18 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Sends new course to server.
      * @param course course to send to server
      */
-    //void createNewCourse(Course course) {
+    void createNewCourse(Course course) {
 //        // TODO: This should be attached to the listener to create course in GUI.
-//        try {
-//            // stringOut.println(NEW_COURSE);
-//            socketOut.writeObject(course);
-//            socketOut.flush();
-//        } catch(IOException e) {
-//            System.out.println("Error sending new course to server");
-//            e.printStackTrace();
-//        }
+        try {
+            //stringOut.println(NEW_COURSE);
+            socketOut.writeObject(course);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+}
     //}
 
     /**

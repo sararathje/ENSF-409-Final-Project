@@ -16,9 +16,11 @@ public class NewCourse extends javax.swing.JDialog {
     /**
      * Creates new newCourse object.
      */
-    public NewCourse(java.awt.Frame parent, boolean modal) {
+    public NewCourse(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
+        addListener();
     }
 
     /**
@@ -142,18 +144,18 @@ public class NewCourse extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                NewCourse dialog = new NewCourse(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                NewCourse dialog = new NewCourse(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -168,20 +170,26 @@ public class NewCourse extends javax.swing.JDialog {
     private javax.swing.JRadioButton noRBUtton;
     private javax.swing.JRadioButton yesRButton;
     // End of variables declaration//GEN-END:variables
+    private Client client;
 
-// finish this after login is complete.
     
-//    class NewCourseListener implements ActionListener{
-//
-//        @Override
-//        public void actionPerformed(ActionEvent event) {
-//            if(event.getSource() == addButton){
-//                
-//                Course newCourse = new
-//            }
-//        }
-//        
-//    }
+private void addListener(){
+    addButton.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent event) {
+            if(event.getSource() == addButton){
+                String courseName = departmentField.getText();
+                int courseNumber = Integer.parseInt(courseNumberField.getText());
+                int profID = client.getAuthenticatedUser().getID();
+                boolean active = false;
+                if(yesRButton.isSelected()){
+                    active = true;
+                }
+                Course newCourse = new Course(courseName, courseNumber, profID, active);
+                client.createNewCourse(newCourse);
+            }
+        }   
+    });
+}
 
 
 }

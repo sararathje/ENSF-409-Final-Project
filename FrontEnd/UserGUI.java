@@ -26,7 +26,7 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     /**
      * Client
      */
-    Client client;
+    protected Client client;
     
     /**
      * The list of courses on the GUI
@@ -45,9 +45,9 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
    
    
 
-    public UserGUI() {
-        client = new Client();
-
+    public UserGUI(Client client) {
+        
+        this.client = client;
        
         
         //Set frame format
@@ -56,7 +56,9 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         setBackground(LOGIN_BACKGROUND_COLOUR);
         
         // Create the courseList
-        courseList = new CourseListView();
+        courseList = new CourseListView(client);
+        this.client.getCourseInfo();
+        initializeCourseListView();
         add("Center", courseList);
        
         //add the refresh button
@@ -86,6 +88,16 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         bottom.setBackground(LOGIN_BACKGROUND_COLOUR);
         bottom.add(refresh);
         this.add("South", bottom);
+        
+        refresh.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(e.getSource()== refresh){
+                    ArrayList<CoursePanel> newList = new ArrayList<>();
+                    UserGUI.this.getCourseList().setCourseList(newList);
+                    initializeCourseListView();
+                }
+            }
+        });
     }
 
     /**
@@ -120,8 +132,8 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      * Adds a course to the courseList
      * @param courseName the name of the course
      */
-    public void addCourse(String courseName){
-        courseList.addCourse(courseName);
+    public void addCourse(String courseName, Client client){
+        courseList.addCourse(courseName, client);
         this.validate();
     }
 
@@ -133,8 +145,24 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         return courseList;
     }
     
+    /**
+     * Initializes the displayPanel with courses.
+     */
+    private void initializeCourseListView(){
+        UserGUI.this.client.getCourseInfo();
+                    for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++){
+                        UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName() 
+                                +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
+                    }
+    }
+    
+//    public JButton getCourseViewButton(int index){
+//        JPanel temp = courseList.getCourseList().get(index);
+//        System.out.println(temp.getComponentCount());
+//       return (JButton)temp.getComponent(2);
+//    }
 
     public static void main(String[] args) {
-        UserGUI userGUI = new UserGUI();
+        //UserGUI userGUI = new UserGUI();
     }
 }

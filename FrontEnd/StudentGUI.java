@@ -14,9 +14,9 @@ public class StudentGUI extends UserGUI{                                        
      /**
      * Constructs an object of type StudentGUI.
      */
-    public StudentGUI(){
+    public StudentGUI(Client client){
         //Get set data fields from super
-        super();
+        super(client);
         
         // Set title
         setTitle("Student Home Page");
@@ -26,11 +26,11 @@ public class StudentGUI extends UserGUI{                                        
    
     // Placeholder for now just to test what it looks like
     public static void main(String[] args) {
-        StudentGUI studentHome = new StudentGUI();
-        studentHome.setVisible(true);
-        studentHome.addCourse("TEST 123");
-        studentHome.addCourse("TEST 456");
-        studentHome.addCourse("TEST 789");
-        
+//        StudentGUI studentHome = new StudentGUI();
+//        studentHome.setVisible(true);
+//        studentHome.addCourse("TEST 123");
+//        studentHome.addCourse("TEST 456");
+//        studentHome.addCourse("TEST 789");
+//        
     }
 }

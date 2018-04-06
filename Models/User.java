@@ -43,14 +43,18 @@ public class User implements Serializable
 		this.userID = userID;
 		this.userType = userType;
 	}
+
+        /**
+         * Sets the ArrayList of courses.
+         * @param courses 
+         */
+        public void setCourses(ArrayList<Course> courses) {
+            this.courses = courses;
+        }
+        
+        
 	
-	/**
-	 * Populates the array list of courses
-	 */
-	public void setCourses()
-	{
-		//TODO put all student courses into the arraylist
-	}
+	
 	
 	/**
 	 * Adds a course to the array list of courses

@@ -28,9 +28,9 @@ public class ProfessorGUI extends UserGUI {
      */
     private NewCourse newCourse;
     
-    public ProfessorGUI(){
+    public ProfessorGUI(Client client){
         //Get set data fields from super
-        super();
+        super(client);
         
         // Set title
         setTitle("Professor Home Page");
@@ -39,9 +39,6 @@ public class ProfessorGUI extends UserGUI {
         addCreateCourseButton();
     }
     
-//    public ProfessorGUI getOuter() {
-//        return ProfessorGUI.this;
-//    }
 
     /**
      * Adds the create course button to the bottom JPanel.
@@ -55,19 +52,29 @@ public class ProfessorGUI extends UserGUI {
         createCourse.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(e.getSource()== createCourse){
-                newCourse = new NewCourse(ProfessorGUI.this, true);
+                newCourse = new NewCourse(ProfessorGUI.this, true,ProfessorGUI.this.getClient());
                 newCourse.setVisible(true);
                 }
             }
         });
     }
+
+    
+    
+    public Client getClient() {
+        return client;
+    }
+    
+    
     
      public static void main(String[] args) {
-        ProfessorGUI ProfHome = new ProfessorGUI();
-        ProfHome.setVisible(true);
-        ProfHome.addCourse("TEST 123");
-        ProfHome.addCourse("TEST 456");
-        ProfHome.addCourse("TEST 789");
+         Client c = new Client();
+//        ProfessorGUI ProfHome = new ProfessorGUI(c);
+//        ProfHome.setVisible(true);
+//        ProfHome.addCourse("TEST 123");
+//        ProfHome.addCourse("TEST 456");
+//        ProfHome.addCourse("TEST 789");
+//        JButton b = ProfHome.getCourseViewButton(1);
         
     }
 }

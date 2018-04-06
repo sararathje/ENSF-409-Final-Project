@@ -12,19 +12,19 @@ public class StudentCoursePage extends CoursePage {
     /**
      * Creates new StudentCourse object.
      */
-    public StudentCoursePage(){
+    public StudentCoursePage(String courseName){
         //Get set data fields from super
-        super();
+        super(courseName);
         
         setTitle("Student Course Page");
     }
     
      public static void main(String[] args) {
-        StudentCoursePage coursePage = new StudentCoursePage();
-        coursePage.setVisible(true);
-        coursePage.addAssignment("TESTAssign1");
-        coursePage.addAssignment("TESTAssign2");
-        coursePage.addAssignment("TESTAssign3");
-        System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
+//        StudentCoursePage coursePage = new StudentCoursePage();
+//        coursePage.setVisible(true);
+//        coursePage.addAssignment("TESTAssign1");
+//        coursePage.addAssignment("TESTAssign2");
+//        coursePage.addAssignment("TESTAssign3");
+//        System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
     }
 }

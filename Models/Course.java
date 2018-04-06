@@ -30,11 +30,12 @@ public class Course implements Serializable
 	
 	
 	
-	public Course(String courseName, int courseNumber, int profID)
+	public Course(String courseName, int courseNumber, int profID, boolean isActive)
 	{
 		this.courseName = courseName;
 		this.courseNumber = courseNumber;
 		this.profID = profID;
+                this.isActive = isActive;
 		//TODO construct the rest of the fields in this class
 	}
 	

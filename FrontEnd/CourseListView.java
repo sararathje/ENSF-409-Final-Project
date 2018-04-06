@@ -4,8 +4,12 @@ package FrontEnd;
 import Constants.ColourSchemeConstants;
 import Constants.FontConstants;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+
+
 
 /**
  * Provides data fields to add courses to a displayPanel.
@@ -15,19 +19,20 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
     /**
      * the list of JPanels representing courses
      */
-    private ArrayList<JPanel> courseList;
+    private ArrayList<CoursePanel> courseList;
     
     /**
      * The JPanel that holds the courses
      */
     private JPanel displayPanel;
     
-    
+    private Client client;
     
     /**
      * Creates an object of CourseListView.
      */
-    public CourseListView(){
+    public CourseListView(Client client){
+        this.client = client;
         displayPanel = new JPanel();
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.PAGE_AXIS));
         displayPanel.setBackground(LOGIN_BACKGROUND_COLOUR);
@@ -42,27 +47,10 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
      * Adds courses to the displayPanel.
      * @param courseName 
      */
-    public void addCourse(String courseName){
+    public void addCourse(String courseName, Client client){
         //creates a new JPanel for a course
-        JPanel newCourse = new JPanel();
-        newCourse.setLayout(new BoxLayout(newCourse, BoxLayout.LINE_AXIS));
-        newCourse.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        newCourse.setMinimumSize(new Dimension(0, 50));
-        newCourse.setBackground(LOGIN_BACKGROUND_COLOUR);
-        newCourse.setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
-        
-        //creates the label for the course
-        JLabel label = new JLabel(" " + courseName + " ");
-        label.setFont(PANEL_TITLE_FONT);
-        label.setForeground(FOREGROUND_COLOUR);
-        newCourse.add(label);
-        newCourse.add(Box.createHorizontalGlue());
-        
-        //creates the view button for the course
-        JButton view = new JButton("View");
-        view.setFont(BUTTON_FONT);
-        newCourse.add(view);
-        newCourse.add(Box.createRigidArea(new Dimension(20,0)));
+        CoursePanel newCourse = new CoursePanel(courseName, client);
+       
         courseList.add(newCourse);
         
        
@@ -74,14 +62,16 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
     }
 
     
-    
-
     /**
      * Gets course list ArrayList.
      * @return courseList
      */
-    public ArrayList<JPanel> getCourseList() {
+    public ArrayList<CoursePanel> getCourseList() {
         return courseList;
+    }
+
+    public void setCourseList(ArrayList<CoursePanel> courseList) {
+        this.courseList = courseList;
     }
     
     

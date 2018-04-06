@@ -54,16 +54,33 @@ public class ServerWorker implements Runnable
 	@Override
 	public void run()
 	{
-            try {
-                Object input = objIn.readObject();
-                if (input instanceof Login) {
-                    User user = dbHelper.authenticate((Login)input);
-                    sendAuthenticatedUser(user);
+            while(true){
+                try {
+                    Object input = objIn.readObject();
+                    if (input instanceof Login) {
+                        User user = dbHelper.authenticate((Login)input);
+                        sendAuthenticatedUser(user);
+                    }
+
+                    else if( input instanceof Course){
+                        System.out.println("trying to make new course");
+                        dbHelper.addCourse((Course)input);
+                    }
+                    
+                    else if(input instanceof String && input.equals("Get Course Info")){
+                        objOut.writeObject("Sending Course List");
+                        objOut.flush();
+                        objOut.writeObject(dbHelper.getCourseList());
+                        objOut.flush();
+                    }
+                    
+                } catch(IOException e) {
+                    e.printStackTrace();
+                    break;
+                } catch(ClassNotFoundException e) {
+                    e.printStackTrace();
+                    break;
                 }
-            } catch(IOException e) {
-                e.printStackTrace();
-            } catch(ClassNotFoundException e) {
-                e.printStackTrace();
             }
      
 	

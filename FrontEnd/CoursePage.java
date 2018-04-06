@@ -17,14 +17,16 @@ import javax.swing.*;
  * @since April 4, 2018
  */
 public class CoursePage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants {
+    protected String name;
     protected AssignmentListView assignmentList;
     protected JButton refresh;
     protected JButton email;
     protected JPanel middle;
     protected JPanel bottom; 
     
-    public CoursePage(){
+    public CoursePage(String courseName){
        
+        name = courseName;
         //Set frame format
         setPreferredSize(new Dimension(1500, 1000));
         setLayout(new BorderLayout());
@@ -38,7 +40,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         
         
         //add 'Course Home' title to top
-        addTitle();
+        addTitle(courseName);
         
         //add buttons
         addBottomPanel();
@@ -114,11 +116,11 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     /**
      * Adds a title to the GUI.
      */
-    private void addTitle(){
+    private void addTitle(String courseName){
         JPanel top = new JPanel();
         top.setPreferredSize(new Dimension(1000, 100));
         top.setBackground(LOGIN_BACKGROUND_COLOUR);
-        JLabel title = new JLabel("Course Home Page"); //change this to get the name of the course
+        JLabel title = new JLabel(courseName + " Home Page"); 
         title.setFont(TITLE_FONT);
         title.setForeground(FOREGROUND_COLOUR);
         top.add(title);

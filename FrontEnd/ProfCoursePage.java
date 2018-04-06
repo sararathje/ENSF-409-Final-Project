@@ -31,9 +31,9 @@ public class ProfCoursePage extends CoursePage{
     /**
      * Creates an object of ProfCoursePage.
      */
-    public ProfCoursePage(){
+    public ProfCoursePage(String courseName){
         //Get set data fields from super
-        super();
+        super(courseName);
         
         addStudentSubtitle();
         studentList = new StudentListView();
@@ -67,6 +67,7 @@ public class ProfCoursePage extends CoursePage{
         bottom.add(searchStudent);
     }
     
+   
     
     /**
      * Adds the add assignment button.

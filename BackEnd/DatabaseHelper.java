@@ -8,6 +8,7 @@ import Constants.DatabaseInformation;
 import java.sql.ResultSet;
 
 import Models.*;
+import java.util.ArrayList;
 
 public class DatabaseHelper implements DatabaseInformation
 {
@@ -152,6 +153,23 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
+        
+        public ArrayList<Course> getCourseList(){
+            ArrayList<Course> list = new ArrayList<>();
+           String sql = "SELECT * FROM " + courseTable;
+           try{
+                ResultSet rs = statement.executeQuery(sql);
+                while(rs.next()){
+                    list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2), rs.getBoolean(4)));
+                    
+                }
+           
+           }
+           catch(SQLException ex){
+               ex.printStackTrace();
+           }
+           return list;
+        }
 	
 	/**
 	 * Removes course from the database
