@@ -42,6 +42,16 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Login window
      */
     LoginWindow loginWindow;
+
+    /**
+     * Professor GUI
+     */
+    ProfessorGUI profGUI;
+
+    /**
+     * Student GUI
+     */
+    StudentGUI stuGUI;
     
 
     /**
@@ -77,10 +87,10 @@ public class Client implements ConnectionConstants, MessageConstants {
                     loginWindow.dispose();
                     System.out.println("authenticated");
                     if (authenticatedUser.getUserType() == 'P') {
-                        ProfessorGUI profGUI = new ProfessorGUI(this);
+                        profGUI = new ProfessorGUI(this);
                         profGUI.setVisible(true);
                     } else if (authenticatedUser.getUserType() == 'S') {
-                        StudentGUI stuGUI = new StudentGUI(this);
+                        stuGUI = new StudentGUI(this);
                         stuGUI.setVisible(true);
                     }
 
@@ -174,8 +184,13 @@ public class Client implements ConnectionConstants, MessageConstants {
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
                 ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
-                // SARA: Temp check to see matches
-                System.out.println(matchedStudents.get(0).getFirstName());
+                if (matchedStudents.get(0) != null) {
+                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this);
+                    studentResults.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No matches found", "",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         } catch(IOException e) {
             System.out.println("Error sending student search to server.");
