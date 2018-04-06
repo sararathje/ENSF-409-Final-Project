@@ -11,7 +11,7 @@ import javax.swing.*;
  * @version 1.0
  * @since April 4, 2018
  */
-public class ProfCoursePage extends CoursePage{
+public class ProfCoursePage extends CoursePage {
     
     /**
      * The list of students JscrollPane
@@ -66,9 +66,7 @@ public class ProfCoursePage extends CoursePage{
         searchStudent.setMinimumSize(new Dimension(0, 50));
         bottom.add(searchStudent);
     }
-    
-   
-    
+
     /**
      * Adds the add assignment button.
      */
@@ -103,7 +101,7 @@ public class ProfCoursePage extends CoursePage{
    }
     
     public static void main(String[] args) {
-        ProfCoursePage coursePage = new ProfCoursePage();
+        ProfCoursePage coursePage = new ProfCoursePage("someString");
         coursePage.setVisible(true);
         coursePage.addAssignment("TEST_ASSIGNMENT 1");
         coursePage.addAssignment("TEST_ASSIGNMENT 2");

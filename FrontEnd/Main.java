@@ -7,8 +7,6 @@ package FrontEnd;
  */
 public class Main {
 
-    LoginWindow login;
-
     public Main() {
         Client client = new Client();
         client.runClient();
@@ -16,7 +14,6 @@ public class Main {
     
     public static void main(String[] args){
         Main m = new Main();
-        
     }
     
 }

@@ -13,7 +13,7 @@ public class EmailHelper
 	 * Constructor for the emailHelper
 	 * @param email
 	 */
-	public emailHelper(Email email)
+	public EmailHelper(Email email)
 	{
 		this.email = email;
 	}

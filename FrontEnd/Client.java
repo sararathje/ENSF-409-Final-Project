@@ -193,7 +193,6 @@ public class Client implements ConnectionConstants, MessageConstants {
             e.printStackTrace();
         }
     }
-}
     //}
 
     /**
@@ -296,4 +295,4 @@ public class Client implements ConnectionConstants, MessageConstants {
 //    }
 //}
     
-}
+ }
