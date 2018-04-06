@@ -22,4 +22,5 @@ public interface ConnectionConstants {
     String SET_ASSIGNMENT_ACTIVE = "SET_ASSIGNMENT_ACTIVE";
     String SET_ASSIGNMENT_INACTIVE = "SET_A_INACTIVE";
     String GET_COURSE_INFO = "Get Course Info";
+    String SEND_STUDENT_RESULT = "SEND_STUDENT_RESULT";
 }
