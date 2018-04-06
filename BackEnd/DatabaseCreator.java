@@ -15,7 +15,10 @@ public class DatabaseCreator implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
-	
+	public String connectionInfo = "jdbc:mysql://localhost:3306/d2l",
+				  login          = "root",
+				  password       = "Rysql";
+        
 	/**
 	 * Constructor for the database controller
 	 */
@@ -183,14 +186,14 @@ public class DatabaseCreator implements DatabaseInformation
 	
 	public static void main(String[] args)
 	{
-		//DatabaseCreator d = new DatabaseCreator();
+		DatabaseCreator d = new DatabaseCreator();
 		//d.createDB();
-		//d.createAssignmentTable();
-		//d.createCourseTable();
-		//d.createGradeTable();
-		//d.createStudentEnrollmentTable();
-		//d.createSubmissionTable();
-		//d.createUsertable();
+		d.createAssignmentTable();
+		d.createCourseTable();
+		d.createGradeTable();
+		d.createStudentEnrollmentTable();
+		d.createSubmissionTable();
+		d.createUsertable();
 		
 	}
 }

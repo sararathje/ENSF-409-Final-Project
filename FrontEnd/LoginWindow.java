@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import Constants.*;
+import static Constants.ConnectionConstants.AUTHENTICATE;
+import Models.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Provides data fields and methods to create a user login GUI for a learning platform application.
@@ -40,11 +45,30 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
      * xPos and yPos for GridBagLayout, respectively
      */
     private int xPos, yPos;
+    
+     /**
+     * Object to write to the socket
+     */
+    private ObjectOutputStream socketOut;
+
+    /**
+     * Object to read from the socket
+     */
+    private ObjectInputStream socketIn;
+    
+    /**
+     * 
+     */
+    private Login login;
+    
 
     /**
      * Constructs an object of type LoginWindow.
      */
-    public LoginWindow() {
+    public LoginWindow(ObjectInputStream in, ObjectOutputStream out) {
+        socketIn = in;
+        socketOut = out;
+        login = new Login("", "");
         // Set title
         this.setTitle(LOGIN_TITLE);
 
@@ -174,8 +198,38 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
                 0.5, 0.0, ++xPos, yPos, insets);
         GridBagConstraints constraints = buttonConstraints.getConstraints();
 
+        signInButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = getUsername();
+                String password = getPassword();
+                login = new Login(username, password);
+                
+                sendAuthenticationInformation(login);
+            }
+        });
+        
+      
         loginPanel.add(signInButton, constraints);
+        
+        
+        
+        
     }
+    
+    public Login getLogin() {
+        return login;
+    }
+    
+     private void sendAuthenticationInformation(Login login) {
+           try {
+            socketOut.writeObject(login);
+            socketOut.flush();
+             
+        } catch(IOException e) {
+            System.out.println("Error sending login information to server...");
+            e.printStackTrace();
+        } 
+     }
 
     /**
      * Sets login window styling.
@@ -201,21 +255,40 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
     }
 
     // Placeholder for now just to test what it looks like
-    public static void main(String[] args) {
-        LoginWindow login = new LoginWindow();
-        login.setVisible(true);
+//    public static void main(String[] args) {
+//        LoginWindow login = new LoginWindow();
+//        login.setVisible(true);
+//    }
+    
+    private String getUsername() {
+        return usernameField.getText();
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+
+    
+
+    
+    
+    
+    
+    
+    private String getPassword() {
+        return String.valueOf(passwordField.getPassword());
     }
 
     /**
      * Gets login credentials.
      * @return login credentials (username and password)
      */
-    public ArrayList<String> getLoginCredentials() {
-        ArrayList<String> credentials = new ArrayList<String> ();
-
-        credentials.add(usernameField.getText());
-        credentials.add(String.valueOf(passwordField.getPassword()));
-
-        return credentials;
-    }
+//    public ArrayList<String> getLoginCredentials() {
+//        ArrayList<String> credentials = new ArrayList<String> ();
+//
+//        credentials.add(usernameField.getText());
+//        credentials.add(String.valueOf(passwordField.getPassword()));
+//
+//        return credentials;
+//    }
 }

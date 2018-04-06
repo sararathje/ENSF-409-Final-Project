@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import Constants.DatabaseInformation;
+import java.sql.ResultSet;
 
 import Models.*;
 
@@ -12,7 +13,9 @@ public class DatabaseHelper implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
-	
+	public String connectionInfo = "jdbc:mysql://localhost:3306/d2l",
+				  login          = "root",
+				  password       = "Rysql";
 	/**
 	 * Constructor for the database controller
 	 */
@@ -32,9 +35,47 @@ public class DatabaseHelper implements DatabaseInformation
 	 * Checks the database table user table for matching login information
 	 * @param login
 	 */
-	public void authenticate(Login login)
+	public User authenticate(Login login)
 	{
 		//TODO may return a user object
+            User user = null;
+            ResultSet userResult;
+            
+            String sql = "SELECT * FROM " + userTable + " WHERE " + 
+                    "USERNAME = ? AND " + 
+                    "PASSWORD = ?";
+            
+            try {
+                statement = jdbc_connection.prepareStatement(sql);
+                
+                statement.setString(1, login.getUN());
+                statement.setString(2, login.getPW());
+                
+                userResult = statement.executeQuery();
+                
+               while(userResult.next()){
+                    Login userLogin = new Login(userResult.getString("USERNAME"), 
+                     userResult.getString("PASSWORD")); 
+                    
+                    userLogin.setAuthenticated(true);
+                        
+                    user = new User(userResult.getInt("USERID"), 
+                    userLogin,
+                    userResult.getString("EMAIL"),
+                    userResult.getString("FIRSTNAME"),
+                    userResult.getString("LASTNAME"),
+                    userResult.getString("CLIENTTYPE").charAt(0));
+                    System.out.println("got up init");
+               }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (user != null){
+                
+            }
+          
+             return user;
 	}
 	
 	/**
@@ -263,7 +304,7 @@ public class DatabaseHelper implements DatabaseInformation
 	public static void main(String[] args)
 	{
 		Login deez = new Login("Amazing", "Booty");
-		User nuts = new User(deez, "Valery", "Booty", "VBooty@gmail.com", 9, 'S');
+		User nuts = new User(12345678, deez, "12@34.com",  "bob", "smith", 'P');
 		
 		DatabaseHelper rock = new DatabaseHelper();
 		rock.addUser(nuts);

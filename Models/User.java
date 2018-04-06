@@ -30,7 +30,7 @@ public class User implements Serializable
 	private char userType;
 	
 	
-	public User (Login login, String firstName, String lastName, String emailAddress, int userID, char userType)
+	public User (int userID, Login login, String emailAddress, String firstName, String lastName, char userType)
 	{
 		if(userType != 'S' || userType != 'P')
 		{

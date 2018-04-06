@@ -19,6 +19,11 @@ public class Login implements Serializable
 	 */
 	private String password;
 	
+         /**
+         * 
+         */
+        private volatile boolean authenticated;
+
 	/**
 	 * Constructor function for the class login
 	 * @param un string that will be the user's username
@@ -28,6 +33,7 @@ public class Login implements Serializable
 	{
 		this.username = un;
 		this.password = pw;
+                authenticated = false;
 	}
 	
 	/**
@@ -41,6 +47,12 @@ public class Login implements Serializable
 	 * @return
 	 */
 	public String getPW() { return password;}
+        
+        public boolean getAuthenticated() {
+            System.out.println("was called");
+            return authenticated;
+            
+        }
 	
 	/**
 	 * Setter function for username
@@ -53,4 +65,9 @@ public class Login implements Serializable
 	 * @param newPW
 	 */
 	public void setPW(String newPW) { password = newPW;}
+        
+        public void setAuthenticated(boolean authenticated) {
+        this.authenticated = authenticated;
+           // System.out.println("was called");
+    }
 }

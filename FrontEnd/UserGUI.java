@@ -43,17 +43,12 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      */
     protected JPanel bottom;
    
-    /**
-     * Login window
-     */
-    LoginWindow loginWindow;
+   
 
     public UserGUI() {
         client = new Client();
 
-        // Show login window on initial startup
-        loginWindow = new LoginWindow();
-        loginWindow.setVisible(true);
+       
         
         //Set frame format
         setPreferredSize(new Dimension(1500, 1000));
@@ -76,9 +71,7 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         pack();
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         
-        // Add login window listeners
-       // addLoginWindowListeners();
-        // addOtherListeners
+       
     }
     
     /**
@@ -139,19 +132,7 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     public CourseListView getCourseList() {
         return courseList;
     }
-    /**
-     * Adds listeners to login window.
-     */
-//    private void addLoginWindowListeners() {
-//        loginWindow.addSignInButtonListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                ArrayList<String> credentials = loginWindow.getLoginCredentials();
-//
-//                // Send credentials to server
-//                client.sendAuthenticationInformation(credentials.get(0), credentials.get(1));
-//            }
-//        });
-//    }
+    
 
     public static void main(String[] args) {
         UserGUI userGUI = new UserGUI();
