@@ -3,6 +3,7 @@ package BackEnd;
 import Constants.ConnectionConstants;
 import java.net.Socket;
 import java.io.*;
+import java.util.ArrayList;
 
 import Models.*;
 
@@ -80,14 +81,23 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					objOut.writeObject(dbHelper.getCourseList());
 					objOut.flush();
 				}
-				else if(input instanceof String)
+				else if(input instanceof String && input.equals(SET_ASSIGNMENT_ACTIVE))
 				{
-					if(input.equals(SET_ASSIGNMENT_ACTIVE))
-					{
-						input = objIn.readObject();
-						dbHelper.setAssignmentActive(((Assignment) input).getID());
-					}
+                    input = objIn.readObject();
+                    dbHelper.setAssignmentActive(((Assignment) input).getID());
 				}
+				else if(input instanceof String && input.equals(SEARCH_FOR_STUDENT)) {
+				    System.out.println("Made it here!");
+				    String lastName = (String)objIn.readObject();
+				    String id = (String)objIn.readObject();
+
+                    ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
+                    objOut.writeObject(SEND_STUDENT_RESULT);
+                    objOut.flush();
+                    objOut.writeObject(matchedStudents);
+                    objOut.flush();
+                    System.out.println("Sent matched students back to client");
+                }
 				
 			} catch(IOException e) {
 				e.printStackTrace();
