@@ -66,7 +66,6 @@ public class DatabaseHelper implements DatabaseInformation
                     userResult.getString("FIRSTNAME"),
                     userResult.getString("LASTNAME"),
                     userResult.getString("CLIENTTYPE").charAt(0));
-                    System.out.println("got up init");
                }
 
             } catch (SQLException e) {
@@ -374,7 +373,7 @@ public class DatabaseHelper implements DatabaseInformation
         try {
             // Create query string
             if (!id.equals("")) {
-                String query = " WHERE ID = ?" +
+                String query = " WHERE USERID = ?" +
                         " AND LASTNAME = IFNULL(?, LASTNAME)";
                 sql += query;
             } else {

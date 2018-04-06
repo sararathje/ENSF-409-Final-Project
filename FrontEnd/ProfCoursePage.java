@@ -30,6 +30,7 @@ public class ProfCoursePage extends CoursePage {
      */
     private JButton addAssignment;
     
+    
     /**
      * Creates an object of ProfCoursePage.
      */
@@ -83,6 +84,21 @@ public class ProfCoursePage extends CoursePage {
         addAssignment = new JButton("Add Assignment");
         addAssignment.setFont(BUTTON_FONT);
         addAssignment.setMinimumSize(new Dimension(0, 50));
+        
+        addAssignment.addActionListener(new ActionListener()
+        		{
+        			public void actionPerformed(ActionEvent event)
+        			{
+        				if(event.getSource() == ProfCoursePage.this.addAssignment)
+        				{
+        					String [] course = ProfCoursePage.this.name.split(" ");
+        					
+        					NewAssignment newView = new NewAssignment(ProfCoursePage.this, true, ProfCoursePage.this.client,
+        							Integer.parseInt(course[1]));
+        					newView.setVisible(true);
+        				}
+        			}
+        		});
         bottom.add(addAssignment);
     }
     
@@ -94,7 +110,6 @@ public class ProfCoursePage extends CoursePage {
      */
     public void addStudent(String firstName, String lastName, int ID){
        studentList.addStudentToView(firstName, lastName, ID);
-       validate();
     }  
     
     /**

@@ -14,12 +14,14 @@ public class NewAssignment extends javax.swing.JDialog {
 
 	Client client;
 	
+	int courseID;
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Frame parent, boolean modal, Client client) {
+    public NewAssignment(java.awt.Frame parent, boolean modal, Client client, int courseID) {
         super(parent, modal);
         this.client = client;
+        this.courseID = courseID;
         initComponents();
     }
 
