@@ -410,8 +410,7 @@ public class DatabaseHelper implements DatabaseInformation
 
             if (!id.equals("")) {
                 statement.setInt(1, idParam);
-                statement.setString(2, lastNameParam);
-                statement.setString(3, "S");
+                statement.setString(2, "S");
             } else {
                 statement.setString(1, lastNameParam);
                 statement.setString(2, "S");
