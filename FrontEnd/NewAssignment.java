@@ -1,6 +1,12 @@
 
 package FrontEnd;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import Models.Date;
+import Models.Assignment;
+import java.util.Random;
+
 /**
  * Provides methods to create the NewAssignment JDiologue Box
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -9,11 +15,16 @@ package FrontEnd;
  */
 public class NewAssignment extends javax.swing.JDialog {
 
+	Client client;
+	
+	int courseID;
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Frame parent, boolean modal) {
+    public NewAssignment(java.awt.Frame parent, boolean modal, Client client, int courseID) {
         super(parent, modal);
+        this.client = client;
+        this.courseID = courseID;
         initComponents();
     }
 
@@ -234,11 +245,7 @@ public class NewAssignment extends javax.swing.JDialog {
     private javax.swing.JTextField yearField;
     private javax.swing.JRadioButton yesButton;
     // End of variables declaration//GEN-END:variables
-<<<<<<< HEAD
 
-
-
-=======
     
     /**
      * Adds action listeners to the class
@@ -248,24 +255,30 @@ public class NewAssignment extends javax.swing.JDialog {
     	add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
             	String name = nameField.getText();
-            	String time = timeField.getText();
-
+            	int minute = Integer.parseInt(minuteField.getText());
+            	int hour = Integer.parseInt(hourField.getText());
+            	int year = Integer.parseInt(yearField.getText());
             	int month = monthComboBox.getSelectedIndex();
             	int day = dayComboBox.getSelectedIndex();
             	
+            	Date date = new Date(day, month, year, hour, minute);
             	Boolean active = false;
             	if(yesButton.isSelected())
             	{
             		active = true;
             	}
-                
+                Random r = new Random();
+            	Assignment newAss = new Assignment(name, date, r.nextInt(999999), NewAssignment.this.courseID);
+            	NewAssignment.this.client.uploadAssignment(newAss);
+            	dispose();
+            	
             }   
         });
     	
     	cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 clearInputFields();
-                dispose();
+                dispose();	
             }
         });
     }
@@ -276,8 +289,9 @@ public class NewAssignment extends javax.swing.JDialog {
     private void clearInputFields()
     {
     	nameField.setText("");
-    	timeField.setText("");
+    	hourField.setText("");
+    	minuteField.setText("");
     	yearField.setText("");
     }
->>>>>>> 0a69bea944145f82de9f9a8f9fe0d979512a7378
+
 }
