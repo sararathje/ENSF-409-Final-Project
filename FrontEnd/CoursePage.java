@@ -22,10 +22,11 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     protected JButton refresh;
     protected JButton email;
     protected JPanel middle;
-    protected JPanel bottom; 
+    protected JPanel bottom;
+    protected Client client;
     
-    public CoursePage(String courseName){
-       
+    public CoursePage(String courseName, Client client){
+       this.client = client;
         name = courseName;
         //Set frame format
         setPreferredSize(new Dimension(1500, 1000));

@@ -12,9 +12,9 @@ public class StudentCoursePage extends CoursePage {
     /**
      * Creates new StudentCourse object.
      */
-    public StudentCoursePage(String courseName){
+    public StudentCoursePage(String courseName, Client client){
         //Get set data fields from super
-        super(courseName);
+        super(courseName, client);
         
         setTitle("Student Course Page");
     }
