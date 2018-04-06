@@ -173,8 +173,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     void searchForStudent(String lastName, String id) {
         // TODO: This should be attached to listener to search for student by last name.
         try {
-            System.out.println("Sending request for searching...");
-
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
             sendObject(id);
