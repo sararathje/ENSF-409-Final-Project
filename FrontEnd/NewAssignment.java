@@ -3,6 +3,9 @@ package FrontEnd;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import Models.Date;
+import Models.Assignment;
+import java.util.Random;
 
 /**
  * Provides methods to create the NewAssignment JDiologue Box
@@ -252,25 +255,30 @@ public class NewAssignment extends javax.swing.JDialog {
     	add.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
             	String name = nameField.getText();
-            	int hour = Integer.parseInt(hourField.getText());
             	int minute = Integer.parseInt(minuteField.getText());
-
+            	int hour = Integer.parseInt(hourField.getText());
+            	int year = Integer.parseInt(yearField.getText());
             	int month = monthComboBox.getSelectedIndex();
             	int day = dayComboBox.getSelectedIndex();
             	
+            	Date date = new Date(day, month, year, hour, minute);
             	Boolean active = false;
             	if(yesButton.isSelected())
             	{
             		active = true;
             	}
-                
+                Random r = new Random();
+            	Assignment newAss = new Assignment(name, date, r.nextInt(999999), NewAssignment.this.courseID);
+            	NewAssignment.this.client.uploadAssignment(newAss);
+            	dispose();
+            	
             }   
         });
     	
     	cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 clearInputFields();
-                dispose();
+                dispose();	
             }
         });
     }
