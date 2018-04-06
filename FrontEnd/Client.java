@@ -93,6 +93,9 @@ public class Client implements ConnectionConstants, MessageConstants {
         if(authenticatedUser == null){
             System.out.println("Not Authentic");
         }
+        else{
+           System.out.println("authenticated");
+        }
             
         } catch (IOException ex) {
             ex.printStackTrace();
