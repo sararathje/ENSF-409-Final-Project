@@ -2,17 +2,13 @@
 package FrontEnd;
 
 /**
- *
+ *	Program that starts an instance of the client
  * @author Rylan
  */
 public class Main {
-
-    public Main() {
-        Client client = new Client();
-        client.runClient();
-    }
     
     public static void main(String[] args){
-        Main m = new Main();
+    	Client client = new Client();
+        client.runClient();
     }
 }

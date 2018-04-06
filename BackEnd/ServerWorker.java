@@ -74,30 +74,54 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					System.out.println("trying to make new course");
 					dbHelper.addCourse((Course)input);
 				}
-				
-				else if(input instanceof String && input.equals("Get Course Info")){
-					objOut.writeObject("Sending Course List");
-					objOut.flush();
-					objOut.writeObject(dbHelper.getCourseList());
-					objOut.flush();
-				}
-				else if(input instanceof String && input.equals(SET_ASSIGNMENT_ACTIVE))
-				{
-                    input = objIn.readObject();
-                    dbHelper.setAssignmentActive(((Assignment) input).getID());
-				}
-				else if(input instanceof String && input.equals(SEARCH_FOR_STUDENT)) {
-				    System.out.println("Made it here!");
-				    String lastName = (String)objIn.readObject();
-				    String id = (String)objIn.readObject();
 
-                    ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
-                    objOut.writeObject(SEND_STUDENT_RESULT);
-                    objOut.flush();
-                    objOut.writeObject(matchedStudents);
-                    objOut.flush();
-                    System.out.println("Sent matched students back to client");
-                }
+				else if(input instanceof String)
+				{
+					if(input.equals(GET_COURSE_INFO)){
+						objOut.writeObject("Sending Course List");
+						objOut.flush();
+						objOut.writeObject(dbHelper.getCourseList());
+						objOut.flush();
+					}
+					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
+					{
+						input = objIn.readObject();
+						dbHelper.setAssignmentActive(((Assignment) input).getID());
+					}
+					else if(input.equals(SET_ASSIGNMENT_INACTIVE))
+					{
+						input = objIn.readObject();
+						dbHelper.setAssignmentInactive(((Assignment) input).getID());
+					}
+					else if (input.equals(UNENROLL_STUDENT))
+					{
+						Object userTemp = objIn.readObject();
+						input = objIn.readObject();
+						dbHelper.unenrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+					}
+					else if(input.equals(ENROLL_STUDENT))
+					{
+						Object userTemp = objIn.readObject();
+						input = objIn.readObject();
+						dbHelper.enrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+					}
+					else if(input.equals(SEARCH_FOR_STUDENT)) {
+						System.out.println("Made it here!");
+						String lastName = (String)objIn.readObject();
+						String id = (String)objIn.readObject();
+
+						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
+						objOut.writeObject(SEND_STUDENT_RESULT);
+						objOut.flush();
+						objOut.writeObject(matchedStudents);
+						objOut.flush();
+						System.out.println("Sent matched students back to client");
+					}
+					else if(input.equals(QUIT))
+					{
+						break;
+					}
+				}
 				
 			} catch(IOException e) {
 				e.printStackTrace();
@@ -106,6 +130,16 @@ public class ServerWorker implements Runnable, ConnectionConstants
 				e.printStackTrace();
 				break;
 			}
+		}
+		try
+		{
+		objIn.close();
+		objOut.close();
+		aSocket.close();
+		}
+		catch(IOException e)
+		{
+			System.err.println("error closing streams");
 		}
 	}
 }
