@@ -375,10 +375,12 @@ public class DatabaseHelper implements DatabaseInformation
             // Create query string
             if (!id.equals("")) {
                 String query = " WHERE ID = ?" +
-                        " AND LASTNAME = IFNULL(?, LASTNAME)";
+                        " AND LASTNAME = IFNULL(?, LASTNAME) + " +
+						" AND CLIENTTYPE = ?";
                 sql += query;
             } else {
-                String query = " WHERE LASTNAME = IFNULL(?, FIRSTNAME)";
+                String query = " WHERE LASTNAME = IFNULL(?, FIRSTNAME)" +
+						" AND CLIENTTYPE = ?";
                 sql += query;
             }
 
@@ -399,8 +401,10 @@ public class DatabaseHelper implements DatabaseInformation
             if (!id.equals("")) {
                 statement.setInt(1, idParam);
                 statement.setString(2, lastNameParam);
+                statement.setString(3, "S");
             } else {
                 statement.setString(1, lastNameParam);
+                statement.setString(2, "S");
             }
 
             // execute query

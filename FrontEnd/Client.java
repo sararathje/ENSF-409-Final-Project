@@ -173,8 +173,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     void searchForStudent(String lastName, String id) {
         // TODO: This should be attached to listener to search for student by last name.
         try {
-            System.out.println("Sending request for searching...");
-
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
             sendObject(id);
@@ -185,7 +183,8 @@ public class Client implements ConnectionConstants, MessageConstants {
                 // Read in matching student object and then show the Student GUI?
                 ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
                 if (matchedStudents.get(0) != null) {
-                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this);
+                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this,
+                            matchedStudents);
                     studentResults.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "No matches found", "",

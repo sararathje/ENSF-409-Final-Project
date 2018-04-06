@@ -5,24 +5,61 @@
  */
 package FrontEnd;
 
+import Models.Login;
+import Models.User;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author Rylan
  */
 public class StudentSearchResults extends javax.swing.JDialog {
-    
+    /**
+     * Client
+     */
     private Client client;
+
+    /**
+     * List of students to display
+     */
+    private ArrayList<User> students;
+
 
     /**
      * Creates new form StudentSearchResults
      */
-    public StudentSearchResults(java.awt.Frame parent, boolean modal, Client client) {
+    public StudentSearchResults(java.awt.Frame parent, boolean modal, Client client, ArrayList<User> students) {
         super(parent, modal);
         this.client = client;
+        this.students = students;
         initComponents();
+        resultArea.setText("");
+        showResultsInTextArea();
+    }
+
+    /**
+     * Shows results in text area
+     */
+    private void showResultsInTextArea() {
+        String id, email, firstName, lastName;
+        Iterator<User> iterator = students.iterator();
+
+        while (iterator.hasNext()) {
+            User user = iterator.next();
+
+            id = Integer.toString(user.getID());
+            email = user.getEmail();
+            firstName = user.getFirstName();
+            lastName = user.getLastName();
+
+            String toAdd = "Student ID: " + id + ", " + "First Name: " + firstName + ", " + "Last Name: " +
+                    lastName + ", " + "Email: " + email + "\n";
+            resultArea.append(toAdd);
+        }
     }
 
     /**
