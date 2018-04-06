@@ -186,14 +186,14 @@ public class DatabaseHelper implements DatabaseInformation
 	 * @param assignment
 	 * @param courseNumber
 	 */
-	public void addAssignment(Assignment assignment, int courseNumber)
+	public void addAssignment(Assignment assignment)
 	{
 		String sql = "INSERT INTO " + assignmentTable +
 				" VALUES ( " + assignment.getID() + ", " + 
-				courseNumber + ", '" + 
+				assignment.getCourseID() + ", '" + 
 				assignment.getName() + "', " + 
 				assignment.isActive() + ", '" + 
-				assignment.getDueDate() + "');";
+				assignment.getDueDate().toString() + "');";
 		try{
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
@@ -220,6 +220,42 @@ public class DatabaseHelper implements DatabaseInformation
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Sets an assignment as active in the database. Allows student to view the assignment
+	 * @param assignmentID
+	 */
+	void setAssignmentActive(int assignmentID)
+	{
+		String sql = "update " + assignmentTable + " set ACTIVE = 1 where ASSIGNMENTID=" 
+				+ assignmentID;
+	try{
+		statement = jdbc_connection.prepareStatement(sql);
+		statement.executeUpdate();
+	}
+	catch(SQLException e)
+	{
+		e.printStackTrace();
+	}
+	}
+	
+	/**
+	 * Sets an assignment as inactive in the database. Allows student to view the assignment
+	 * @param assignmentID
+	 */
+	void setAssignmentInactive(int assignmentID)
+	{
+		String sql = "update " + assignmentTable + " set ACTIVE = 0 where ASSIGNMENTID=" 
+				+ assignmentID;
+	try{
+		statement = jdbc_connection.prepareStatement(sql);
+		statement.executeUpdate();
+	}
+	catch(SQLException e)
+	{
+		e.printStackTrace();
+	}
 	}
 
 	/**
@@ -322,13 +358,19 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-//		Login deez = new Login("test", "password");
-//		User nuts = new User(12345678, deez, "12@34.com",  "bob", "smith", 'P');
-//
-//		DatabaseHelper rock = new DatabaseHelper();
-//		rock.addUser(nuts);
-//
-//
-//		System.out.println("woot");
+		Login deez = new Login("test", "password");
+		Course banana = new Course("Banana", 2345, 4, true);
+		
+		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber());
+
+		DatabaseHelper rock = new DatabaseHelper();
+		//rock.addCourse(banana);
+		//rock.addAssignment(nuts);
+		
+		rock.setAssignmentActive(nuts.getID());
+		
+
+
+		System.out.println("woot");
 	}
 }

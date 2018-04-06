@@ -80,6 +80,14 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					objOut.writeObject(dbHelper.getCourseList());
 					objOut.flush();
 				}
+				else if(input instanceof String)
+				{
+					if(input.equals(SET_ASSIGNMENT_ACTIVE))
+					{
+						input = objIn.readObject();
+						dbHelper.setAssignmentActive(((Assignment) input).getID());
+					}
+				}
 				
 			} catch(IOException e) {
 				e.printStackTrace();

@@ -39,6 +39,11 @@ public class Time implements Serializable
 		this.minute = minute;
 	}
 	
+	public String toString()
+	{
+		String theString = hour + "," + minute;
+		return theString;
+	}
 	
 	//Getters and setters
 	

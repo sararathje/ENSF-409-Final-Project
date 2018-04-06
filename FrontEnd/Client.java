@@ -219,16 +219,18 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Sends request to server to set assignment as active.
      * @param assignment assignment to set active
      */
-//    void setAssignmentActive(Assignment assignment) {
-//        // TODO: This should be attached to the listener for setting an assignment as active.
-////        try {
-////            socketOut.writeObject(assignment);
-////            socketOut.flush();
-////        } catch(IOException e) {
-////            System.out.println("Error sending request to set assignment as active");
-////            e.printStackTrace();
-////        }
-//    }
+    void setAssignmentActive(Assignment assignment) {
+        // TODO: This should be attached to the listener for setting an assignment as active.
+        try {
+        	socketOut.writeObject(SET_ASSIGNMENT_ACTIVE);
+        	socketOut.flush();
+            socketOut.writeObject(assignment);
+            socketOut.flush();
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Gets the authenticated user.

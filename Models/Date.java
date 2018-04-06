@@ -31,6 +31,12 @@ public class Date implements Serializable
 		this.time = new Time(hour, minute);
 	}
 	
+	public String toString()
+	{
+		String theString = day + "," + month + "," + year + "," + time.toString();
+		return theString;
+	}
+	
 	//Getters and Setters
 	
 	public int getDay() {return day;}
