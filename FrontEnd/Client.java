@@ -128,9 +128,6 @@ public class Client implements ConnectionConstants, MessageConstants {
 //                e.printStackTrace();
 //            }
         }
-<<<<<<< HEAD
-    
-=======
     }
 
    /**
@@ -242,7 +239,6 @@ public class Client implements ConnectionConstants, MessageConstants {
             e.printStackTrace();
         }
     }
->>>>>>> 4ef27a907fe6b75e499eb0d626d4b3ef840121a1
 
     /**
      * Processes the server otuput.
