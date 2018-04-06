@@ -52,7 +52,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Student GUI
      */
     StudentGUI stuGUI;
-    
+
 
     /**
      * Constructs a Client object with specified values for serverName and portNumber.
@@ -169,8 +169,9 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Note that a search is only performed on non-empty fields.
      * @param lastName student last name
      * @param id student ID
+     * @param courseName course name
      */
-    void searchForStudent(String lastName, String id) {
+    void searchForStudent(String lastName, String id, String courseName) {
         // TODO: This should be attached to listener to search for student by last name.
         try {
             sendObject(SEARCH_FOR_STUDENT);
@@ -182,8 +183,14 @@ public class Client implements ConnectionConstants, MessageConstants {
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
                 ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
+<<<<<<< HEAD
                 if (!matchedStudents.isEmpty()) {
                     StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents);
+=======
+                if (matchedStudents.get(0) != null) {
+                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this,
+                            matchedStudents, courseName);
+>>>>>>> b7ed85e43aa5e18e08baedec4e14b3dd2f281c28
                     studentResults.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "No matches found", "",
@@ -201,13 +208,13 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Sends request to server to unenroll student from a course.
      * @param student student to un-enroll
-     * @param course course to un-enroll student from
+     * @param courseName course to un-enroll student from
      */
-    void unenrollStudent(User student, Course course) {
+    void unenrollStudent(User student, String courseName) {
         try {
             sendObject(UNENROLL_STUDENT);
             sendObject(student);
-            sendObject(course);
+            sendObject(courseName);
             
         } catch(IOException e) {
             System.out.println("Error sending server request to un-enroll student");
@@ -218,14 +225,13 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Sends request to server to enroll student from a course.
      * @param student student to un-enroll
-     * @param course course to un-enroll student from
+     * @param courseName course to un-enroll student from
      */
-    void enrollStudent(User student, Course course) {
+    void enrollStudent(User student, String courseName) {
         try {
             sendObject(ENROLL_STUDENT);
             sendObject(student);
-            sendObject(course);
-            
+            sendObject(courseName);
         } catch(IOException e) {
             System.out.println("Error sending server request to un-enroll student");
             e.printStackTrace();
