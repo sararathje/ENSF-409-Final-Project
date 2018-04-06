@@ -14,6 +14,7 @@ import javax.swing.*;
  * @author Rylan
  */
 public class AssignmentListView extends JScrollPane implements ColourSchemeConstants, FontConstants{
+    // TODO: Make panels their own class
     
     /**
      * List of assignment panels
