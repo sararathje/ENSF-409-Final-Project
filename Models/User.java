@@ -51,11 +51,7 @@ public class User implements Serializable
         public void setCourses(ArrayList<Course> courses) {
             this.courses = courses;
         }
-        
-        
-	
-	
-	
+
 	/**
 	 * Adds a course to the array list of courses
 	 * @param course

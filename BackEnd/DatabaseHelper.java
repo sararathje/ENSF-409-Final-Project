@@ -14,9 +14,6 @@ public class DatabaseHelper implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
-	public String connectionInfo = "jdbc:mysql://localhost:3306/d2l",
-				  login          = "root",
-				  password       = "Rysql";
 	/**
 	 * Constructor for the database controller
 	 */
@@ -153,23 +150,27 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
-        
-        public ArrayList<Course> getCourseList(){
-            ArrayList<Course> list = new ArrayList<>();
-           String sql = "SELECT * FROM " + courseTable;
-           try{
-                ResultSet rs = statement.executeQuery(sql);
-                while(rs.next()){
-                    list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2), rs.getBoolean(4)));
-                    
-                }
-           
-           }
-           catch(SQLException ex){
-               ex.printStackTrace();
-           }
-           return list;
-        }
+
+    /**
+     * Gets course list from the database.
+     * @return courselist
+     */
+	public ArrayList<Course> getCourseList() {
+	   ArrayList<Course> list = new ArrayList<>();
+	   String sql = "SELECT * FROM " + courseTable;
+
+	   try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2), rs.getBoolean(4)));
+			}
+	   }
+	   catch(SQLException ex){
+		   ex.printStackTrace();
+	   }
+
+	   return list;
+	}
 	
 	/**
 	 * Removes course from the database
@@ -321,13 +322,13 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-		Login deez = new Login("test", "password");
-		User nuts = new User(12345678, deez, "12@34.com",  "bob", "smith", 'P');
-		
-		DatabaseHelper rock = new DatabaseHelper();
-		rock.addUser(nuts);
-               
-		
-		System.out.println("woot");
+//		Login deez = new Login("test", "password");
+//		User nuts = new User(12345678, deez, "12@34.com",  "bob", "smith", 'P');
+//
+//		DatabaseHelper rock = new DatabaseHelper();
+//		rock.addUser(nuts);
+//
+//
+//		System.out.println("woot");
 	}
 }

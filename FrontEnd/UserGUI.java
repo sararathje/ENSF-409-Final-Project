@@ -85,7 +85,9 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         refresh.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 ArrayList<CoursePanel> newList = new ArrayList<>();
-                UserGUI.this.getCourseList().setCourseList(newList);
+                // empty out the current course list.
+                courseList.setCourseList(newList);
+                UserGUI.this.getCourseList();
                 initializeCourseListView();
             }
         });

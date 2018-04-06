@@ -84,6 +84,8 @@ public class Client implements ConnectionConstants, MessageConstants {
                         StudentGUI stuGUI = new StudentGUI(this);
                         stuGUI.setVisible(true);
                     }
+
+                    break;
                 } else {
                     JOptionPane.showMessageDialog(loginWindow, NO_USER_FOUND, "", JOptionPane.WARNING_MESSAGE);
                 }
@@ -103,11 +105,13 @@ public class Client implements ConnectionConstants, MessageConstants {
          * Gets the Courses from the Database
          */
         public void getCourseInfo(){
-        try {
+            try {
                 String instruction = "Get Course Info";
                 socketOut.writeObject(instruction);
-                
-                if(socketIn.readObject() instanceof String ){
+
+                Object input = socketIn.readObject();
+
+                if(input instanceof String && input.equals("Sending Course List")) {
                         ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
                         this.authenticatedUser.setCourses(list);
                     }
@@ -115,9 +119,8 @@ public class Client implements ConnectionConstants, MessageConstants {
                 ex.printStackTrace();
             }
             catch(ClassNotFoundException e){
-                    e.printStackTrace();
-              
-                }
+                e.printStackTrace();
+            }
         }
 
     /**
@@ -127,7 +130,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     void createNewCourse(Course course) {
 //        // TODO: This should be attached to the listener to create course in GUI.
         try {
-            System.out.println("Should be creating course");
             socketOut.writeObject(course);
             socketOut.flush();
         } catch(IOException e) {
