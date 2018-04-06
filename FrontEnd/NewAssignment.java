@@ -26,6 +26,7 @@ public class NewAssignment extends javax.swing.JDialog {
         this.client = client;
         this.courseID = courseID;
         initComponents();
+        addListener();
     }
 
     /**
