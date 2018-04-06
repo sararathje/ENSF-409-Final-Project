@@ -6,16 +6,25 @@
 
 package FrontEnd;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import Constants.*;
+
 /**
- *
- * @author Rylan
+ * Creates a Student Search form.
+ * @author Rylan Kettles, Sara Rathje
+ * @version 1.0
+ * @since April 5, 2018
  */
-public class StudentSearch extends javax.swing.JDialog {
+public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
 
     /** Creates new form StudentSearch */
     public StudentSearch(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        addListeners();
     }
 
     /** This method is called from within the constructor to
@@ -138,4 +147,22 @@ public class StudentSearch extends javax.swing.JDialog {
     private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Adds listeners to search panel.
+     */
+    private void addListeners() {
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String lastName = lastNameField.getText(),
+                        id = IDField.getText();
+
+                if (lastName.equals("") && id.equals("")) {
+                    JOptionPane.showMessageDialog(null, EMPTY_SEARCH, "",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // TODO: Send request for student search. Not sure how to do this without passing in client?
+                }
+            }
+        });
+    }
 }
