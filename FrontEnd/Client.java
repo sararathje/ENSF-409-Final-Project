@@ -128,7 +128,6 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param course course to send to server
      */
     void createNewCourse(Course course) {
-        // TODO: This should be attached to the listener to create course in GUI.
         try {
             sendObject(course);
         } catch(IOException e) {
@@ -142,17 +141,16 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Sends course to server to update active status.
      * @param course course to update active status
      */
-//    void setCourseActive(Course course) {
-//        // TODO: This should be attached to listener to set course active.
-//        try {
-//            //stringOut.println(UPDATE_COURSE_ACTIVE);
-//            sendObject(course);
-//            
-//        } catch(IOException e) {
-//            System.out.println("Error sending new course to server");
-//            e.printStackTrace();
-//        }
-//    }
+    void setCourseActive(Course course) {
+        try {
+            //stringOut.println(UPDATE_COURSE_ACTIVE);
+            sendObject(course);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Sends search request to server by for student by last name and ID.
