@@ -183,15 +183,8 @@ public class Client implements ConnectionConstants, MessageConstants {
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
                 ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
-<<<<<<< HEAD
                 if (!matchedStudents.isEmpty()) {
-                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents);
-=======
-                if (matchedStudents.get(0) != null) {
-                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this,
-                            matchedStudents, courseName);
->>>>>>> b7ed85e43aa5e18e08baedec4e14b3dd2f281c28
-                    studentResults.setVisible(true);
+                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
                 } else {
                     JOptionPane.showMessageDialog(null, "No matches found", "",
                             JOptionPane.WARNING_MESSAGE);

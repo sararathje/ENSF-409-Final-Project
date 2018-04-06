@@ -69,7 +69,7 @@ public class ProfCoursePage extends CoursePage {
 
         searchStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client);
+                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client, ProfCoursePage.this.name);
                 studentSearch.setVisible(true);
             }
         });
