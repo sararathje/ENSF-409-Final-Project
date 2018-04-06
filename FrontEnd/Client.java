@@ -255,7 +255,7 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     	catch(IOException e)
     	{
-    		System.err.println("Mwahahahahahahahahah");
+    		System.err.println("Client out baby! (Drops mic)");
     	}
     	
     }
