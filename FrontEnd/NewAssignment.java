@@ -191,18 +191,18 @@ public class NewAssignment extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                NewAssignment dialog = new NewAssignment(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                NewAssignment dialog = new NewAssignment(new javax.swing.JFrame(), true, );
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
     
 
@@ -224,10 +224,43 @@ public class NewAssignment extends javax.swing.JDialog {
     private javax.swing.JRadioButton yesButton;
     // End of variables declaration//GEN-END:variables
     
+    /**
+     * Adds action listeners to the class
+     */
     private void addListener()
     {
+    	add.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event) {
+            	String name = nameField.getText();
+            	String time = timeField.getText();
+
+            	int month = monthComboBox.getSelectedIndex();
+            	int day = dayComboBox.getSelectedIndex();
+            	
+            	Boolean active = false;
+            	if(yesButton.isSelected())
+            	{
+            		active = true;
+            	}
+                
+            }   
+        });
     	
+    	cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                clearInputFields();
+                dispose();
+            }
+        });
     }
     
-    
+    /**
+     * Clear input fields on the frame
+     */
+    private void clearInputFields()
+    {
+    	nameField.setText("");
+    	timeField.setText("");
+    	yearField.setText("");
+    }
 }
