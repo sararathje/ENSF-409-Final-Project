@@ -66,7 +66,6 @@ public class DatabaseHelper implements DatabaseInformation
                     userResult.getString("FIRSTNAME"),
                     userResult.getString("LASTNAME"),
                     userResult.getString("CLIENTTYPE").charAt(0));
-                    System.out.println("got up init");
                }
 
             } catch (SQLException e) {

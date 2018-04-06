@@ -1,6 +1,11 @@
 
 package FrontEnd;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import Models.Course;
+
 /**
  * Provides methods to create the NewAssignment JDiologue Box
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -8,12 +13,15 @@ package FrontEnd;
  * @since April 4, 2018
  */
 public class NewAssignment extends javax.swing.JDialog {
+	
+	Client client;
 
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Frame parent, boolean modal) {
+    public NewAssignment(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
     }
 
@@ -196,6 +204,7 @@ public class NewAssignment extends javax.swing.JDialog {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel active;
@@ -214,4 +223,11 @@ public class NewAssignment extends javax.swing.JDialog {
     private javax.swing.JTextField yearField;
     private javax.swing.JRadioButton yesButton;
     // End of variables declaration//GEN-END:variables
+    
+    private void addListener()
+    {
+    	
+    }
+    
+    
 }
