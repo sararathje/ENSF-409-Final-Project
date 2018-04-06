@@ -5,6 +5,8 @@ import static Constants.FontConstants.BUTTON_FONT;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -37,6 +39,10 @@ public class ProfessorGUI extends UserGUI {
         addCreateCourseButton();
     }
     
+//    public ProfessorGUI getOuter() {
+//        return ProfessorGUI.this;
+//    }
+
     /**
      * Adds the create course button to the bottom JPanel.
      */
@@ -45,6 +51,15 @@ public class ProfessorGUI extends UserGUI {
         createCourse.setFont(BUTTON_FONT);
         createCourse.setPreferredSize(new Dimension(200, 50));
         bottom.add(createCourse);
+        
+        createCourse.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(e.getSource()== createCourse){
+                newCourse = new NewCourse(ProfessorGUI.this, true);
+                newCourse.setVisible(true);
+                }
+            }
+        });
     }
     
      public static void main(String[] args) {
