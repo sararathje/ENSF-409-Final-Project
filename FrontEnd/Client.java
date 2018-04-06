@@ -107,7 +107,7 @@ public class Client implements ConnectionConstants, MessageConstants {
         public void getCourseInfo(){
             try {
                 String instruction = "Get Course Info";
-                socketOut.writeObject(instruction);
+                sendObject(instruction);
 
                 Object input = socketIn.readObject();
 
@@ -128,10 +128,9 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param course course to send to server
      */
     void createNewCourse(Course course) {
-//        // TODO: This should be attached to the listener to create course in GUI.
+        // TODO: This should be attached to the listener to create course in GUI.
         try {
-            socketOut.writeObject(course);
-            socketOut.flush();
+            sendObject(course);
         } catch(IOException e) {
             System.out.println("Error sending new course to server");
             e.printStackTrace();
@@ -144,15 +143,15 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param course course to update active status
      */
 //    void setCourseActive(Course course) {
-////        // TODO: This should be attached to listener to set course active.
-////        try {
-////            //stringOut.println(UPDATE_COURSE_ACTIVE);
-////            socketOut.writeObject(course);
-////            socketOut.flush();
-////        } catch(IOException e) {
-////            System.out.println("Error sending new course to server");
-////            e.printStackTrace();
-////        }
+//        // TODO: This should be attached to listener to set course active.
+//        try {
+//            //stringOut.println(UPDATE_COURSE_ACTIVE);
+//            sendObject(course);
+//            
+//        } catch(IOException e) {
+//            System.out.println("Error sending new course to server");
+//            e.printStackTrace();
+//        }
 //    }
 
     /**
@@ -162,58 +161,54 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param id student ID
      */
 //    void searchForStudent(String lastName, String id) {
-////        // TODO: This should be attached to listener to search for student by last name.
-////        try {
-////            String studentLastName = lastName == "" ? null : lastName,
-////                    studentID = id == ""? null : id;
-////
-////            stringOut.println(SEARCH_FOR_STUDENT);
-////            socketOut.writeObject(studentLastName);
-////            socketOut.flush();
-////            socketOut.writeObject(studentID);
-////            socketOut.flush();
-////        } catch(IOException e) {
-////            System.out.println("Error sending student search to server.");
-////            e.printStackTrace();
-////        }
+//        // TODO: This should be attached to listener to search for student by last name.
+//        try {
+//            String studentLastName = lastName == "" ? null : lastName,
+//                    studentID = id == ""? null : id;
+//
+//            stringOut.println(SEARCH_FOR_STUDENT);
+//            sendObject(studentLastName);
+//            
+//            sendObject(studentID);
+//            
+//        } catch(IOException e) {
+//            System.out.println("Error sending student search to server.");
+//            e.printStackTrace();
+//        }
 //    }
 
-//    /**
-//     * Sends request to server to unenroll student from a course.
-//     * @param student student to un-enroll
-//     * @param course course to un-enroll student from
-//     */
-////    void unenrollStudent(User student, Course course) {
-////        // TODO: This should be attached to the listener for removing a student from a course.
-////        try {
-////            stringOut.println(REMOVE_STUDENT);
-////            socketOut.writeObject(student);
-////            socketOut.flush();
-////            socketOut.writeObject(course);
-////            socketOut.flush();
-////        } catch(IOException e) {
-////            System.out.println("Error sending server request to un-enroll student");
-////            e.printStackTrace();
-////        }
-//    }
+    /**
+     * Sends request to server to unenroll student from a course.
+     * @param student student to un-enroll
+     * @param course course to un-enroll student from
+     */
+    void unenrollStudent(User student, Course course) {
+        // TODO: This should be attached to the listener for removing a student from a course.
+        try {
+            sendObject(REMOVE_STUDENT);
+            sendObject(student);
+            sendObject(course);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
 
-//    /**
-//     * Sends request to server to upload assignment to course.
-//     * @param assignment assignment to upload
-//     * @param course course to upload assignment to
-//     */
-////    void uploadAssignment(Assignment assignment, Course course) {
-////        // TODO: This should be attached to the listener for uploading an assignment.
-////        try {
-////            socketOut.writeObject(assignment);
-////            socketOut.flush();
-////            socketOut.writeObject(course);
-////            socketOut.flush();
-////        } catch(IOException e) {
-////            System.out.println("Error sending server request to un-enroll student");
-////            e.printStackTrace();
-////        }
-//    }
+    /**
+     * Sends request to server to upload assignment to course.
+     * @param assignment assignment to upload
+     * @param course course to upload assignment to
+     */
+    void uploadAssignment(Assignment assignment) {
+        // TODO: This should be attached to the listener for uploading an assignment.
+        try {
+            sendObject(assignment);
+        } catch(IOException e) {
+            System.out.println("Error sending server request to un-enroll student");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Sends request to server to set assignment as active.
@@ -222,23 +217,19 @@ public class Client implements ConnectionConstants, MessageConstants {
     void setAssignmentActive(Assignment assignment) {
         // TODO: This should be attached to the listener for setting an assignment as active.
         try {
-        	socketOut.writeObject(SET_ASSIGNMENT_ACTIVE);
-        	socketOut.flush();
-            socketOut.writeObject(assignment);
-            socketOut.flush();
+        	sendObject(SET_ASSIGNMENT_ACTIVE);
+            sendObject(assignment);
+            
         } catch(IOException e) {
             System.out.println("Error sending request to set assignment as active");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Gets the authenticated user.
-     * @return authenticated user
-     */
-//    User getAuthenticatedUser() {
-//        return authenticatedUser;
-//    }
-//}
+    private void sendObject(Object obj) throws IOException
+    {
+        socketOut.writeObject(obj);
+        socketOut.flush();
+    }
     
  }
