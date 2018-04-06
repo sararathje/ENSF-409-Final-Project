@@ -244,7 +244,6 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     void uploadAssignment(Assignment assignment) {
         try {
-        	sendObject(ADD_ASSIGNMENT);
             sendObject(assignment);
         } catch(IOException e) {
             System.out.println("Error sending server request to un-enroll student");
