@@ -44,7 +44,6 @@ public class ProfCoursePage extends CoursePage {
         setTitle("Professor Course Page");
         addSearchlStudentButton();
         addAssignmentButton();
-        
     }
     
     /**

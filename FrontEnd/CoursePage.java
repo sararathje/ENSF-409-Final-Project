@@ -50,8 +50,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         //add blank space to the left and the right
         addBorders();
         pack();
-        setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
     
     /**
