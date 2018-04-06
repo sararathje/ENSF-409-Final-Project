@@ -28,11 +28,15 @@ public class StudentList implements Serializable
 	public User searchStudent(String lastName)
 	{
 		//TODO implement this shit
+        // NOTE: This is just a placeholder to get the program to run
+        return new User(1, new Login("", ""), "", "", "", 'C');
 	}
 	
 	public User searchStudent(int studentID)
 	{
 		//TODO implement this shit
+        // NOTE: This is just a placeholder to get the program to run
+        return new User(1, new Login("", ""), "", "", "", 'C');
 	}
 	
 	/**
