@@ -82,42 +82,35 @@ public class Client implements ConnectionConstants, MessageConstants {
     public void runClient() {
         loginWindow = new LoginWindow(socketIn, socketOut);
         loginWindow.setVisible(true);
-        try {
-            if(socketIn.readObject().equals(AUTHENTICATE)){
-                authenticatedUser = (User)socketIn.readObject();
-                
-            }
 
+        while (true) {
+            try {
+                if (socketIn.readObject().equals(AUTHENTICATE)) {
+                    authenticatedUser = (User) socketIn.readObject();
+                }
 
-            if(authenticatedUser == null){
-                System.out.println("Not Authentic");
-            }
-            else{
-               System.out.println("authenticated");
-            }
+                if (authenticatedUser != null) {
+                    System.out.println("authenticated");
+                    if (authenticatedUser.getUserType() == 'P') {
+                        ProfessorGUI profGUI = new ProfessorGUI(this);
+                        profGUI.setVisible(true);
+                    } else if (authenticatedUser.getUserType() == 'S') {
+                        StudentGUI stuGUI = new StudentGUI(this);
+                        stuGUI.setVisible(true);
 
+                    }
+                } else {
+                    System.out.println("Not Authentic");
+                    String error = "No account was found for this username and password";
+                    JOptionPane.showMessageDialog(loginWindow, error, "", JOptionPane.WARNING_MESSAGE);
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
-            }
-            catch(ClassNotFoundException e){
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-            if(authenticatedUser.getUserType() == 'P'){
-                ProfessorGUI profGUI = new ProfessorGUI(this);
-                profGUI.setVisible(true);
-            }
-            else if(authenticatedUser.getUserType() == 'S'){
-                StudentGUI stuGUI = new StudentGUI(this);
-                stuGUI.setVisible(true);
-                
-            }
-        
-           
-        
-
-
         }
+    }
 
         public User getAuthenticatedUser() {
             return authenticatedUser;
