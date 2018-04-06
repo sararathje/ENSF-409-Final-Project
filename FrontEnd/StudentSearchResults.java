@@ -28,14 +28,21 @@ public class StudentSearchResults extends javax.swing.JDialog {
      */
     private ArrayList<User> students;
 
+    /**
+     * Course name
+     */
+    private String courseName;
+
 
     /**
      * Creates new form StudentSearchResults
      */
-    public StudentSearchResults(java.awt.Frame parent, boolean modal, Client client, ArrayList<User> students) {
+    public StudentSearchResults(java.awt.Frame parent, boolean modal, Client client, ArrayList<User> students,
+                                String courseName) {
         super(parent, modal);
         this.client = client;
         this.students = students;
+        this.courseName = courseName;
         initComponents();
         resultArea.setText("");
         showResultsInTextArea();
@@ -172,9 +179,14 @@ public class StudentSearchResults extends javax.swing.JDialog {
     private void addListener(){
         enrollButton.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent event) {
-            //doi stuff
-            
+            Iterator<User> iterator = students.iterator();
+
             dispose();
+
+            while(iterator.hasNext()) {
+                User student = iterator.next();
+                client.enrollStudent(student, courseName);
+            }
         }
     });
 }

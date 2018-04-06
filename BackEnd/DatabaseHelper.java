@@ -66,6 +66,7 @@ public class DatabaseHelper implements DatabaseInformation
                     userResult.getString("FIRSTNAME"),
                     userResult.getString("LASTNAME"),
                     userResult.getString("CLIENTTYPE").charAt(0));
+                    System.out.println("got up init");
                }
 
             } catch (SQLException e) {
@@ -319,11 +320,14 @@ public class DatabaseHelper implements DatabaseInformation
 	
 	/**
 	 * Enrolls student in a course.
-	 * @param studentID
-	 * @param courseID
+	 * @param studentID student ID
+	 * @param courseName course name
 	 */
-	public void enrollStudent(int studentID, int courseID)
+	public void enrollStudent(int studentID, String courseName)
 	{
+        String[] splitString = courseName.split(" ");
+        int courseID = Integer.parseInt(splitString[1]);
+
 		String sql = "INSERT INTO " + studentEnrollment +
 				" VALUES ( " + studentID + ", " + courseID + ");";
 		try{
@@ -334,14 +338,21 @@ public class DatabaseHelper implements DatabaseInformation
 		{
 			e.printStackTrace();
 		}
+
+		//TODO: Implement enrolling student in GUI
+		System.out.println("Enrolled student");
 	}
 	
 	/**
 	 * Unenroll student in a course.
-	 * @param studentID
+	 * @param studentID student ID
+     * @param courseName course name
 	 */
-	public void unenrollStudent(int studentID, int courseID)
+	public void unenrollStudent(int studentID, String courseName)
 	{
+	    String[] splitString = courseName.split(" ");
+	    int courseID = Integer.parseInt(splitString[1]);
+
 		String sql = "delete from " + studentEnrollment + " where STUDENTID=" 
 					+ studentID + " and COURSEID=" + courseID;
 		try{
@@ -373,8 +384,9 @@ public class DatabaseHelper implements DatabaseInformation
         try {
             // Create query string
             if (!id.equals("")) {
-                String query = " WHERE USERID = ?" +
-                        " AND LASTNAME = IFNULL(?, LASTNAME)";
+                String query = " WHERE ID = ?" +
+                        " AND LASTNAME = IFNULL(?, LASTNAME) + " +
+						" AND CLIENTTYPE = ?";
                 sql += query;
             } else {
                 String query = " WHERE LASTNAME = IFNULL(?, FIRSTNAME)" +

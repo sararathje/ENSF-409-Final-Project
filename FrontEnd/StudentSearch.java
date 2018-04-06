@@ -20,11 +20,13 @@ import Constants.*;
  */
 public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
     private Client client;
+    private String courseName;
 
     /** Creates new form StudentSearch */
-    public StudentSearch(java.awt.Frame parent, boolean modal, Client client) {
+    public StudentSearch(java.awt.Frame parent, boolean modal, Client client, String courseName) {
         super(parent, modal);
         this.client = client;
+        this.courseName = courseName;
         initComponents();
         addListeners();
     }
@@ -128,7 +130,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true, new Client());
+                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true, new Client(), "Blah");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -164,7 +166,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
                 } else {
                     clearInputFields();
                     dispose();
-                    client.searchForStudent(lastName, id);
+                    client.searchForStudent(lastName, id, courseName);
                 }
             }
         });
@@ -183,5 +185,13 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
     private void clearInputFields() {
         lastNameField.setText("");
         IDField.setText("");
+    }
+
+    /**
+     * Gets the course name.
+     * @return course name
+     */
+    public String getCourseName() {
+        return courseName;
     }
 }

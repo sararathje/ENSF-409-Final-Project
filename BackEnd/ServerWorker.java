@@ -83,11 +83,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						objOut.writeObject(dbHelper.getCourseList());
 						objOut.flush();
 					}
-					else if(input.equals(ADD_ASSIGNMENT))
-					{
-						input = objIn.readObject();
-						dbHelper.addAssignment((Assignment) input);
-					}
 					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
 						input = objIn.readObject();
@@ -102,13 +97,13 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						Object userTemp = objIn.readObject();
 						input = objIn.readObject();
-						dbHelper.unenrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+						dbHelper.unenrollStudent(((User)userTemp).getID(), ((String)input));
 					}
 					else if(input.equals(ENROLL_STUDENT))
 					{
 						Object userTemp = objIn.readObject();
 						input = objIn.readObject();
-						dbHelper.enrollStudent(((User)userTemp).getID(), ((Course)input).getCourseNumber());
+						dbHelper.enrollStudent(((User)userTemp).getID(), ((String)input));
 					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
 						System.out.println("Made it here!");
