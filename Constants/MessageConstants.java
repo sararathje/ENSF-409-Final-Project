@@ -9,5 +9,5 @@ package Constants;
  */
 public interface MessageConstants {
     String EMPTY_LOGIN = "Whoops! Either username or password has not been filled in.";
-    String NO_USER_FOUND = "No user is registered under this username and password.";
+    String NO_USER_FOUND = "No account was found for this username and password";
 }

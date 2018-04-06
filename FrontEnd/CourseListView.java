@@ -41,8 +41,6 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
         courseList = new ArrayList<>();
     }
     
-    
-    
     /**
      * Adds courses to the displayPanel.
      * @param courseName 
@@ -52,15 +50,13 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
         CoursePanel newCourse = new CoursePanel(courseName, client);
        
         courseList.add(newCourse);
-        
-       
+
         //clears and adds all the new courses to displayPanel
         displayPanel.removeAll();
         for(int i = 0; i < courseList.size(); i++){
             displayPanel.add(courseList.get(i));
         }
     }
-
     
     /**
      * Gets course list ArrayList.

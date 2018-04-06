@@ -34,25 +34,13 @@ public class Client implements ConnectionConstants, MessageConstants {
     private ObjectInputStream socketIn;
 
     /**
-     * Message stream that sends strings to the client
-     */
-    BufferedReader stringIn;
-
-    /**
-     * Message stream that receives strings from the client
-     */
-    PrintWriter stringOut;
-
-    /**
-     * Indicates whether user session is in progress
-     */
-    boolean sessionInProgress;
-
-    /**
-     * User to log in
+     * Authenticated user to log in
      */
     private User authenticatedUser;
-    
+
+    /**
+     * Login window
+     */
     LoginWindow loginWindow;
     
 
@@ -66,9 +54,6 @@ public class Client implements ConnectionConstants, MessageConstants {
             socket = new Socket(HOSTNAME, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
-//            stringIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            stringOut = new PrintWriter((socket.getOutputStream()), true);
-           
             
         } catch (IOException e) {
             System.out.println("Error establishing socket connection on " + HOSTNAME + ": " + PORT);
@@ -100,9 +85,7 @@ public class Client implements ConnectionConstants, MessageConstants {
                         stuGUI.setVisible(true);
                     }
                 } else {
-                    System.out.println("Not Authentic");
-                    String error = "No account was found for this username and password";
-                    JOptionPane.showMessageDialog(loginWindow, error, "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(loginWindow, NO_USER_FOUND, "", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -128,8 +111,6 @@ public class Client implements ConnectionConstants, MessageConstants {
                         ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
                         this.authenticatedUser.setCourses(list);
                     }
-                
-                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -138,38 +119,6 @@ public class Client implements ConnectionConstants, MessageConstants {
               
                 }
         }
-
-    /**
-     * Processes the server otuput.
-     * @param serverOutput server output string
-     */
-    //private void processServerOutput(String serverOutput) {
-        // If authentication has been performed
-        // if (!serverOutput.equals(null) && serverOutput.equals(AUTHENTICATE)) {
-            // try {
-                // authenticatedUser = (User)socketIn.readObject();
-            // } catch(IOException e) {
-                // e.printStackTrace();
-           //  } catch(ClassNotFoundException e) {
-                // e.printStackTrace();
-            // }
-        // }
-    //}
-
-    /**
-     * Sends authentication information to the server.
-     * @param login login information to be sent (username and password)
-     */
-//    void sendAuthenticationInformation(Login login) {
-//        try {
-//            //stringOut.println(AUTHENTICATE);
-//            socketOut.writeObject(login);
-//            socketOut.flush();
-//        } catch(IOException e) {
-//            System.out.println("Error sending login information to server...");
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * Sends new course to server.

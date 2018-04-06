@@ -42,14 +42,10 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      * the panel on the South area of the frame
      */
     protected JPanel bottom;
-   
-   
 
     public UserGUI(Client client) {
-        
         this.client = client;
-       
-        
+
         //Set frame format
         setPreferredSize(new Dimension(1500, 1000));
         setLayout(new BorderLayout());
@@ -66,14 +62,11 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
 
         //add 'My Courses' title to top
         addTitle();
-        
-       
+
         //add blank space to the left and the right
         addBorders();
         pack();
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        
-       
     }
     
     /**
@@ -91,11 +84,9 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         
         refresh.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(e.getSource()== refresh){
-                    ArrayList<CoursePanel> newList = new ArrayList<>();
-                    UserGUI.this.getCourseList().setCourseList(newList);
-                    initializeCourseListView();
-                }
+                ArrayList<CoursePanel> newList = new ArrayList<>();
+                UserGUI.this.getCourseList().setCourseList(newList);
+                initializeCourseListView();
             }
         });
     }

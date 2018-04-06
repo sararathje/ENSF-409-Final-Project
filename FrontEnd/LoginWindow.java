@@ -20,7 +20,9 @@ import java.io.ObjectOutputStream;
  * @verison 1.0
  * @since April 2, 2018
  */
-public class LoginWindow extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants {
+public class LoginWindow extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants,
+    MessageConstants
+{
     /**
      * Login panel
      */
@@ -202,18 +204,18 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
             public void actionPerformed(ActionEvent e) {
                 String username = getUsername();
                 String password = getPassword();
-                login = new Login(username, password);
-                
-                sendAuthenticationInformation(login);
+
+                if (!username.equals("") && !password.equals("")) {
+                    login = new Login(username, password);
+
+                    sendAuthenticationInformation(login);
+                } else {
+                    JOptionPane.showMessageDialog(loginPanel, EMPTY_LOGIN, "", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
-        
-      
+
         loginPanel.add(signInButton, constraints);
-        
-        
-        
-        
     }
     
     public Login getLogin() {
@@ -248,47 +250,26 @@ public class LoginWindow extends JFrame implements ColourSchemeConstants, FontCo
     }
 
     /**
-     * Adds listener to sign-in button.
+     * Gets username from username text field.
+     * @return username text
      */
-    public void addSignInButtonListener(ActionListener listener) {
-        signInButton.addActionListener(listener);
-    }
-
-    // Placeholder for now just to test what it looks like
-//    public static void main(String[] args) {
-//        LoginWindow login = new LoginWindow();
-//        login.setVisible(true);
-//    }
-    
     private String getUsername() {
         return usernameField.getText();
     }
 
+    /**
+     * Sets login
+     * @param login login to be set
+     */
     public void setLogin(Login login) {
         this.login = login;
     }
 
-    
-
-    
-    
-    
-    
-    
+    /**
+     * Gets password from password field.
+     * @return password text
+     */
     private String getPassword() {
         return String.valueOf(passwordField.getPassword());
     }
-
-    /**
-     * Gets login credentials.
-     * @return login credentials (username and password)
-     */
-//    public ArrayList<String> getLoginCredentials() {
-//        ArrayList<String> credentials = new ArrayList<String> ();
-//
-//        credentials.add(usernameField.getText());
-//        credentials.add(String.valueOf(passwordField.getPassword()));
-//
-//        return credentials;
-//    }
 }
