@@ -68,10 +68,7 @@ public class ProfCoursePage extends CoursePage {
 
         searchStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // SARA
-                // Show search GUI.
-                // StudentSearch studentSearch = new StudentSearch();
-                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true);
+                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client);
                 studentSearch.setVisible(true);
             }
         });

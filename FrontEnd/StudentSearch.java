@@ -19,10 +19,12 @@ import Constants.*;
  * @since April 5, 2018
  */
 public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
+    private Client client;
 
     /** Creates new form StudentSearch */
-    public StudentSearch(java.awt.Frame parent, boolean modal) {
+    public StudentSearch(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
         addListeners();
     }
@@ -126,7 +128,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true);
+                StudentSearch dialog = new StudentSearch(new javax.swing.JFrame(), true, new Client());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -160,9 +162,26 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
                     JOptionPane.showMessageDialog(null, EMPTY_SEARCH, "",
                             JOptionPane.WARNING_MESSAGE);
                 } else {
-                    // TODO: Send request for student search. Not sure how to do this without passing in client?
+                    clearInputFields();
+                    dispose();
+                    client.searchForStudent(lastName, id);
                 }
             }
         });
+
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                clearInputFields();
+                dispose();
+            }
+        });
+    }
+
+    /**
+     * Clears input fields on submit and close.
+     */
+    private void clearInputFields() {
+        lastNameField.setText("");
+        IDField.setText("");
     }
 }
