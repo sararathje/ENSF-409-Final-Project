@@ -5,17 +5,23 @@
  */
 package FrontEnd;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author Rylan
  */
 public class StudentSearchResults extends javax.swing.JDialog {
+    
+    private Client client;
 
     /**
      * Creates new form StudentSearchResults
      */
-    public StudentSearchResults(java.awt.Frame parent, boolean modal) {
+    public StudentSearchResults(java.awt.Frame parent, boolean modal, Client client) {
         super(parent, modal);
+        this.client = client;
         initComponents();
     }
 
@@ -105,18 +111,18 @@ public class StudentSearchResults extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                StudentSearchResults dialog = new StudentSearchResults(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                StudentSearchResults dialog = new StudentSearchResults(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -124,4 +130,16 @@ public class StudentSearchResults extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea resultArea;
     // End of variables declaration//GEN-END:variables
+
+
+    private void addListener(){
+        enrollButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent event) {
+            //doi stuff
+            
+            dispose();
+        }
+    });
 }
+    }
+
