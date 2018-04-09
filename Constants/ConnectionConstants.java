@@ -38,6 +38,8 @@ public interface ConnectionConstants {
     
     String UPLOAD_FILE = "UPLOAD FILE";
     String DOWNLOAD_FILE = "DOWNLOAD FILE";
+    String TXT = ".txt";
+    String PDF = ".pdf";
     
     String SEND_EMAIL = "send email";
 }

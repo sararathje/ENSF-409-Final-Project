@@ -133,18 +133,29 @@ public class Client implements ConnectionConstants, MessageConstants {
     void getCourseList()
     {
 		ArrayList<Course> courses = new ArrayList<Course>();
+		Object input;
     	try
     	{
 	    	if(authenticatedUser.getUserType() == 'P')
 	    	{
 	    		sendObject(COURSE_LIST_PROF);
-	    		courses = (ArrayList<Course>)socketIn.readObject();
+	    		input = socketIn.readObject();
+	    		
+	    		if(input instanceof ArrayList<?>)
+		    	{
+		    		courses = (ArrayList<Course>)input;
+		    	}
 	    		
 	    	}
 	    	else if(authenticatedUser.getUserType() == 'S')
 	    	{
 	    		sendObject(COURSE_LIST_STUDENT);
-	    		courses = (ArrayList<Course>)socketIn.readObject();
+	    		input = socketIn.readObject();
+	    		
+	    		if(input instanceof ArrayList<?>)
+		    	{
+		    		courses = (ArrayList<Course>)input;
+		    	}
 	    	}
     	}
     	catch(IOException e)
@@ -209,7 +220,8 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param id student ID
      * @param courseName course name
      */
-    void searchForStudent(String lastName, String id, String courseName) {
+    @SuppressWarnings("unchecked")
+	void searchForStudent(String lastName, String id, String courseName) {
         try {
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
@@ -219,14 +231,19 @@ public class Client implements ConnectionConstants, MessageConstants {
 
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
-                ArrayList<User> matchedStudents = (ArrayList<User>) socketIn.readObject();
-                if (!matchedStudents.isEmpty()) {
-                    StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
-                    studentResults.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No matches found", "",
-                            JOptionPane.WARNING_MESSAGE);
-                }
+            	input = socketIn.readObject();
+            	ArrayList<User> matchedStudents;
+            	if(input instanceof ArrayList<?>)
+            	{
+            		matchedStudents = (ArrayList<User>)input;
+            		if (!matchedStudents.isEmpty()) {
+                        StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
+                        studentResults.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No matches found", "",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+            	}
             }
         } catch(IOException e) {
             System.out.println("Error sending student search to server.");
@@ -301,7 +318,8 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Gets assignment list for a course
      */
-    void getAssignmentList(String course)
+    @SuppressWarnings("unchecked")
+	void getAssignmentList(String course)
     {
     	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     	try
@@ -310,13 +328,22 @@ public class Client implements ConnectionConstants, MessageConstants {
 	    	{
 	    		sendObject(ASSIGNMENT_LIST_PROF);
 	    		sendObject(course);
-	    		assignments = (ArrayList<Assignment>)socketIn.readObject();
+	    		Object input = socketIn.readObject();
+	    		if(input instanceof ArrayList<?>)
+	    		{
+	    			assignments = (ArrayList<Assignment>)input;
+	    		}
 	    		
 	    	}
 	    	else if(authenticatedUser.getUserType() == 'S')
 	    	{
 	    		sendObject(ASSIGNMENT_LIST_STUDENT);
-	    		assignments = (ArrayList<Assignment>)socketIn.readObject();
+	    		sendObject(course);
+	    		Object input = socketIn.readObject();
+	    		if(input instanceof ArrayList<?>)
+	    		{
+	    			assignments = (ArrayList<Assignment>)input;
+	    		}
 	    	}
     	}
     	catch(IOException e)
@@ -349,9 +376,34 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Uploads a file to the server
      */
-    void uploadFile()
+    void uploadFile(String path, String name, String ext)
     {
-    	//TODO
+    	if(ext != TXT || ext != PDF)
+    	{
+    		System.err.println("Invalid extension");
+    		return;
+    	}
+    	File selectedFile = new File(path);
+    	long length = selectedFile.length();
+    	byte[] content = new byte[(int) length]; // Converting Long to Int
+    	try {
+    	FileInputStream fis = new FileInputStream(selectedFile);
+    	BufferedInputStream bos = new BufferedInputStream(fis);
+    	bos.read(content, 0, (int)length);
+    	sendObject(UPLOAD_FILE);
+    	sendObject(name);
+    	sendObject(content);
+    	sendObject(ext);
+    	bos.close();
+    	} 
+    	catch (FileNotFoundException e) 
+    	{
+    	e.printStackTrace();
+    	} 
+    	catch(IOException e)
+    	{
+    	e.printStackTrace();
+    	}
     }
     
     /**

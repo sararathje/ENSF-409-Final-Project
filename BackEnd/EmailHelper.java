@@ -13,7 +13,7 @@ public class EmailHelper
 	 * Sends the email to the recipients on 
 	 * the email's recipient list
 	 */
-	public void sendEmail()
+	public void sendEmail(Email email)
 	{
 		//TODO figure out how this shit works
 	}

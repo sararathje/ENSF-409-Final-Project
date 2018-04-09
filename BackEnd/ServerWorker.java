@@ -145,6 +145,18 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						sendObject(matchedStudents);
 						System.out.println("Sent matched students back to client");
 					}
+					else if (input.equals(SEND_EMAIL))
+					{
+						Email email = (Email)objIn.readObject();
+						eHelper.sendEmail(email);
+					}
+					else if (input.equals(UPLOAD_FILE))
+					{
+						String name = (String) objIn.readObject();
+						byte[] content = (byte[])objIn.readObject();
+						String extension = (String) objIn.readObject();
+						fHelper.getFile(name, content, extension);
+					}
 					else if(input.equals(QUIT))
 					{
 						break;
