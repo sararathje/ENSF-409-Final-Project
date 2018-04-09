@@ -10,18 +10,34 @@ public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
     
+    //List of commands that the client can send to the server
     String QUIT = "QUIT";
     String AUTHENTICATE = "AUTHENTICATE";
+    
     String NEW_COURSE = "NEW_COURSE";
-    String UPDATE_COURSE_ACTIVE = "UPDATE_COURSE_ACTIVE";
+    String GET_COURSE_INFO = "Get Course Info";
+    String COURSE_LIST_STUDENT = "GET COURSE LIST STUDENT";
+    String COURSE_LIST_PROF = "GET COURSE LIST PROF";
+    String SET_COURSE_ACTIVE = "UPDATE_COURSE_ACTIVE";
+    String SET_COURSE_INACTIVE = "SET_COURSE_INACTIVE";
+    
     String SEARCH_FOR_STUDENT = "STUDENT_SEARCH";
-    String REMOVE_STUDENT = "REMOVE_STUDENT";
     String ENROLL_STUDENT = "ENROLL_STUDENT";
     String UNENROLL_STUDENT = "UNENROLL_STUDENT";
-    String UPLOAD_ASSIGNMENT = "UPLOAD_ASSIGNMENT";
+    String SEND_STUDENT_RESULT = "SEND_STUDENT_RESULT";
+    
     String SET_ASSIGNMENT_ACTIVE = "SET_ASSIGNMENT_ACTIVE";
     String SET_ASSIGNMENT_INACTIVE = "SET_A_INACTIVE";
-    String GET_COURSE_INFO = "Get Course Info";
-    String SEND_STUDENT_RESULT = "SEND_STUDENT_RESULT";
-    String ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
+    String NEW_ASSIGNMENT = "NEW_ASSIGNMENT";
+    String ASSIGNMENT_LIST_STUDENT = "GET ASSIGNMENT LIST STUDENT";
+    String ASSIGNMENT_LIST_PROF = "Get assignment list prof";
+    
+    String SUBMIT_ASSIGNMENT = "SUBMIT ASSIGNMENT";
+    String DOWNLOAD_SUBMISSION = "download submission";
+    String GRADE_SUBMISSION = "GRADE SUBMISSION";
+    
+    String UPLOAD_FILE = "UPLOAD FILE";
+    String DOWNLOAD_FILE = "DOWNLOAD FILE";
+    
+    String SEND_EMAIL = "send email";
 }

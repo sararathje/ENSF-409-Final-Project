@@ -2,5 +2,12 @@ package BackEnd;
 
 public class FileHelper 
 {
-	//TODO this entire class
-}
+	void getFile()
+	{
+		//TODO
+	}
+	
+	void sendFile()
+	{
+		//TODO
+	}}

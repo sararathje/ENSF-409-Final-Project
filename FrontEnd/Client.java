@@ -37,12 +37,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Authenticated user to log in
      */
     private User authenticatedUser;
-
-    /**
-     * Login window
-     */
-    LoginWindow loginWindow;
-
+    
     /**
      * Professor GUI
      */
@@ -76,7 +71,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     public void runClient() {
         while (true) {
-        	loginWindow = new LoginWindow(socketIn, socketOut);
+        	LoginWindow loginWindow = new LoginWindow(socketIn, socketOut);
             loginWindow.setVisible(true);
             try {
                 if (socketIn.readObject().equals(AUTHENTICATE)) {
@@ -107,62 +102,105 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
 
-        public User getAuthenticatedUser() {
-            return authenticatedUser;
+     public User getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+    
+    /**
+     * Gets the Courses from the Database
+     */
+    void getCourseInfo(){
+        try {
+            sendObject(GET_COURSE_INFO);
+            Object input = socketIn.readObject();
+
+            if(input instanceof String && input.equals("Sending Course List")) {
+                    ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
+                    this.authenticatedUser.setCourses(list);
+                }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        
-        /**
-         * Gets the Courses from the Database
-         */
-        public void getCourseInfo(){
-            try {
-                String instruction = "Get Course Info";
-                sendObject(instruction);
-
-                Object input = socketIn.readObject();
-
-                if(input instanceof String && input.equals("Sending Course List")) {
-                        ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
-                        this.authenticatedUser.setCourses(list);
-                    }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            catch(ClassNotFoundException e){
-                e.printStackTrace();
-            }
+        catch(ClassNotFoundException e){
+            e.printStackTrace();
         }
+    }
 
+    /**
+     * Gets course list for the user from database
+     * @return
+     */
+    void getCourseList()
+    {
+		ArrayList<Course> courses = new ArrayList<Course>();
+    	try
+    	{
+	    	if(authenticatedUser.getUserType() == 'P')
+	    	{
+	    		sendObject(COURSE_LIST_PROF);
+	    		courses = (ArrayList<Course>)socketIn.readObject();
+	    		
+	    	}
+	    	else if(authenticatedUser.getUserType() == 'S')
+	    	{
+	    		sendObject(COURSE_LIST_STUDENT);
+	    		courses = (ArrayList<Course>)socketIn.readObject();
+	    	}
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error in getting course list");
+    	}
+    	catch(ClassNotFoundException f)
+    	{
+    		System.err.println("Error in getting course list");
+    	}
+		this.authenticatedUser.setCourses(courses);
+    }
+    
     /**
      * Sends new course to server.
      * @param course course to send to server
      */
     void createNewCourse(Course course) {
-        // TODO: This should be attached to the listener to create course in GUI.
         try {
+        	sendObject(NEW_COURSE);
             sendObject(course);
         } catch(IOException e) {
             System.out.println("Error sending new course to server");
             e.printStackTrace();
         }
     }
-    //}
 
     /**
-     * Sends course to server to update active status.
+     * Sends course to server to update active status to true.
      * @param course course to update active status
      */
-//    void setCourseActive(Course course) {
-//        // TODO: This should be attached to listener to set course active.
-//        try {
-//            //stringOut.println(UPDATE_COURSE_ACTIVE);
-//            sendObject(course);
-//            
-//        } catch(IOException e) {
-//            System.out.println("Error sending new course to server");
-//            e.printStackTrace();
-//        }
-//    }
+    void setCourseActive(Course course) {
+        try {
+            sendObject(SET_COURSE_ACTIVE);
+            sendObject(course);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Sends course to server to update active status to false.
+     * @param course course to update active status
+     */
+    void setCourseInactive(Course course) {
+        try {
+            sendObject(SET_COURSE_INACTIVE);
+            sendObject(course);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending new course to server");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Sends search request to server by for student by last name and ID.
@@ -172,7 +210,6 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param courseName course name
      */
     void searchForStudent(String lastName, String id, String courseName) {
-        // TODO: This should be attached to listener to search for student by last name.
         try {
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
@@ -238,6 +275,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     void uploadAssignment(Assignment assignment) {
         try {
+        	sendObject(NEW_ASSIGNMENT);
             sendObject(assignment);
         } catch(IOException e) {
             System.out.println("Error sending server request to un-enroll student");
@@ -260,6 +298,41 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
     
+    /**
+     * Gets assignment list for a course
+     */
+    void getAssignmentList(String course)
+    {
+    	ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    	try
+    	{
+	    	if(authenticatedUser.getUserType() == 'P')
+	    	{
+	    		sendObject(ASSIGNMENT_LIST_PROF);
+	    		sendObject(course);
+	    		assignments = (ArrayList<Assignment>)socketIn.readObject();
+	    		
+	    	}
+	    	else if(authenticatedUser.getUserType() == 'S')
+	    	{
+	    		sendObject(ASSIGNMENT_LIST_STUDENT);
+	    		assignments = (ArrayList<Assignment>)socketIn.readObject();
+	    	}
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error in getting course list");
+    	}
+    	catch(ClassNotFoundException f)
+    	{
+    		System.err.println("Error in getting course list");
+    	}
+		//TODO make the assignment list visible on the GUI
+    }
+    
+    /**
+     * Sends a message to server to stop session
+     */
     void quit()
     {
     	try
@@ -272,7 +345,47 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     	
     }
+    
+    /**
+     * Uploads a file to the server
+     */
+    void uploadFile()
+    {
+    	//TODO
+    }
+    
+    /**
+     * Downloads a file from the server
+     */
+    void downloadFile()
+    {
+    	//TODO
+    }
+    
+    /**
+     * Sends an email object to the server which will be sent to all recipients in the email list
+     * @param email
+     */
+    void sendEmail(Email email)
+    {
+    	try
+    	{
+    		sendObject(SEND_EMAIL);
+    		sendObject(email);
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error sending the email");
+    	}
+    }
+    
+    
 
+    /**
+     * Helper function that sends objects to the server and flushes the output stream
+     * @param obj
+     * @throws IOException
+     */
     private void sendObject(Object obj) throws IOException
     {
         socketOut.writeObject(obj);
@@ -280,3 +393,4 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
  }
+

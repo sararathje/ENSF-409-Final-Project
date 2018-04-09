@@ -25,11 +25,17 @@ public class ServerWorker implements Runnable, ConnectionConstants
 	 */
 	ObjectOutputStream objOut;
         
-        private DatabaseHelper dbHelper;
+    private DatabaseHelper dbHelper;
+    
+    private FileHelper fHelper;
+    
+    private EmailHelper eHelper;
 	
 	public ServerWorker(Socket socket)
 	{
             dbHelper = new DatabaseHelper();
+            fHelper = new FileHelper();
+            eHelper = new EmailHelper();
             try {
                this.aSocket = socket;
                 objOut = new ObjectOutputStream(aSocket.getOutputStream()); 
@@ -69,19 +75,32 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					User user = dbHelper.authenticate((Login)input);
 					sendAuthenticatedUser(user);
 				}
-
-				else if(input instanceof Course){
-					System.out.println("trying to make new course");
-					dbHelper.addCourse((Course)input);
-				}
-
 				else if(input instanceof String)
 				{
 					if(input.equals(GET_COURSE_INFO)){
-						objOut.writeObject("Sending Course List");
-						objOut.flush();
-						objOut.writeObject(dbHelper.getCourseList());
-						objOut.flush();
+						sendObject("Sending Course List");
+						sendObject(dbHelper.getCourseList());
+					}
+					else if (input.equals(NEW_COURSE))
+					{
+						System.out.println("trying to make new course");
+						dbHelper.addCourse((Course)input);
+					}
+					else if (input.equals(SET_COURSE_ACTIVE))
+					{
+						//TODO update the database on the course's activeness
+					}
+					else if (input.equals(SET_COURSE_INACTIVE))
+					{
+						//TODO update the database on the course's activeness
+					}
+					else if (input.equals(COURSE_LIST_STUDENT))
+					{
+						//TODO gets the course list for a specific student and send it to the client
+					}
+					else if (input.equals(COURSE_LIST_PROF))
+					{
+						//TODO gets the course list for a specific student and send it to the client
 					}
 					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
@@ -92,6 +111,18 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						input = objIn.readObject();
 						dbHelper.setAssignmentInactive(((Assignment) input).getID());
+					}
+					else if(input.equals(NEW_ASSIGNMENT))
+					{
+						//TODO adds a new assignment to the database
+					}
+					else if (input.equals(ASSIGNMENT_LIST_PROF))
+					{
+						//TODO gets the assignment list for a specific course and send it to the client
+					}
+					else if (input.equals(ASSIGNMENT_LIST_STUDENT))
+					{
+						//TODO gets the assignment list for a specific course and send it to the client
 					}
 					else if (input.equals(UNENROLL_STUDENT))
 					{
@@ -106,15 +137,12 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						dbHelper.enrollStudent(((User)userTemp).getID(), ((String)input));
 					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
-						System.out.println("Made it here!");
 						String lastName = (String)objIn.readObject();
 						String id = (String)objIn.readObject();
 
 						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
-						objOut.writeObject(SEND_STUDENT_RESULT);
-						objOut.flush();
-						objOut.writeObject(matchedStudents);
-						objOut.flush();
+						sendObject(SEND_STUDENT_RESULT);
+						sendObject(matchedStudents);
 						System.out.println("Sent matched students back to client");
 					}
 					else if(input.equals(QUIT))
@@ -142,4 +170,12 @@ public class ServerWorker implements Runnable, ConnectionConstants
 			System.err.println("error closing streams");
 		}
 	}
+	
+	private void sendObject(Object obj) throws IOException
+	{
+		objOut.writeObject(obj);
+		objOut.flush();
+	}
 }
+
+

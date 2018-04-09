@@ -10,15 +10,6 @@ public class EmailHelper
 	private Email email;
 	
 	/**
-	 * Constructor for the emailHelper
-	 * @param email
-	 */
-	public EmailHelper(Email email)
-	{
-		this.email = email;
-	}
-	
-	/**
 	 * Sends the email to the recipients on 
 	 * the email's recipient list
 	 */
