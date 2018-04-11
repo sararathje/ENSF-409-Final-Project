@@ -6,6 +6,7 @@ import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import static Constants.FontConstants.BUTTON_FONT;
 import Constants.LabelConstants;
+import Models.Assignment;
 import Models.Course;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -106,19 +107,19 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         refresh.setFont(BUTTON_FONT);
         refresh.setMinimumSize(new Dimension(0, 50));
         bottom.add(refresh);
-        
-        refresh.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                ArrayList<AssignmentPanel> newList = new ArrayList<>();
-                // empty out the current course list.
-                assignmentList.setAssignmentList(newList);
-                CoursePage.this.getAssignmentList();
-                initializeAssignListView(panelName);
-            }
-        });
-        
-        
     }
+
+    /**
+     * Updates the Assignment List in the course view.
+     */
+    protected void updateAssignmentList() {
+        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+        // empty out the current course list.
+        assignmentList.setAssignmentList(newList);
+        CoursePage.this.getAssignmentList();
+        initializeAssignListView(panelName);
+    }
+
     
     /**
      * Creates the email button at the bottom of the GUI.
@@ -187,8 +188,8 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * Adds an assignment to the assignment list.
     * @param AssignmentName the panelName of the assignment to be added.
     */
-   public void addAssignment(String AssignmentName){
-       assignmentList.addAssignmentTOView(AssignmentName);
+   public void addAssignment(Assignment assignment){
+       assignmentList.addAssignmentTOView(assignment);
        validate();
     }  
    
@@ -220,9 +221,9 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
             }
         }
        for(int i = 0; i < c.getAssignmentList().size(); i++){
-           CoursePage.this.addAssignment(c.getAssignmentList().get(i).getName());
+           CoursePage.this.addAssignment(c.getAssignmentList().get(i));
        }
 
-       
+
    }
 }

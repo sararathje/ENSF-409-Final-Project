@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 import Constants.*;
 import Models.User;
-import com.sun.codemodel.internal.JOp;
-
 /**
  * Creates a Student Search form.
  * @author Rylan Kettles, Sara Rathje

@@ -316,6 +316,29 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
 
     /**
+     * Gets list of students enrolled in course
+     * @param courseName name of course to get list of enrolled students in
+     * @return list of enrolled students
+     */
+    ArrayList<User> getEnrolledStudents(String courseName) {
+        ArrayList<User> enrolledStudents = new ArrayList<>();
+        try {
+            sendObject(GET_ENROLLED_STUDENTS);
+            sendObject(courseName);
+
+            // Get list of enrolled students
+            enrolledStudents = (ArrayList<User>)socketIn.readObject();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to get enrolled students");
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return enrolledStudents;
+    }
+
+    /**
      * Sends request to server to upload assignment to course.
      * @param assignment assignment to upload
      */
@@ -475,8 +498,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     		System.err.println("Error sending the email");
     	}
     }
-    
-    
 
     /**
      * Helper function that sends objects to the server and flushes the output stream

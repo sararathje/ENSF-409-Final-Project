@@ -149,6 +149,9 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						// Next line gets list of all students enrolled in the course with ID courseID
 						// ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
 					}
+					else if(input.equals(GET_ENROLLED_STUDENTS)) {
+						 sendObject(dbHelper.getEnrolledStudents(getCourseIDFromName()));
+					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
 						String lastName = (String)objIn.readObject();
 						String id = (String)objIn.readObject();

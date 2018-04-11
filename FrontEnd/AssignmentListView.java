@@ -5,6 +5,7 @@ import Constants.ColourSchemeConstants;
 import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
 import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
+import Models.Assignment;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -44,11 +45,11 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
     
     /**
      * Adds panels that represent assignments to the display panel.
-     * @param assignmentName 
+     * @param assignment 
      */
-    public void addAssignmentTOView(String assignmentName){
+    public void addAssignmentTOView(Assignment assignment){
         //creates a new JPanel for an assignment
-        AssignmentPanel newAssignment = new AssignmentPanel(assignmentName, client);
+        AssignmentPanel newAssignment = new AssignmentPanel(assignment, client);
         
         assignmentList.add(newAssignment);
         
