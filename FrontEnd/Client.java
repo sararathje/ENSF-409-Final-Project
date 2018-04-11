@@ -109,12 +109,17 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Gets the Courses from the Database
      */
-    void getCourseInfo(){
+    void getCourseInfo() {
         try {
+            // Get courses that have the professor ID
+            // NOTE: This only works for professors right now
             sendObject(GET_COURSE_INFO);
+            sendObject(authenticatedUser.getID());
+
             Object input = socketIn.readObject();
 
-            if(input instanceof String && input.equals("Sending Course List")) {
+            // This gets a list of all courses instead of just courses the user has
+            if(input instanceof String && input.equals(SEND_COURSE_LIST)) {
                     ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
                     this.authenticatedUser.setCourses(list);
                 }
@@ -177,6 +182,9 @@ public class Client implements ConnectionConstants, MessageConstants {
         try {
         	sendObject(NEW_COURSE);
             sendObject(course);
+
+            // Add course to professor course list
+            authenticatedUser.addCourse(course);
         } catch(IOException e) {
             System.out.println("Error sending new course to server");
             e.printStackTrace();

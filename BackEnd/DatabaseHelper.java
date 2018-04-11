@@ -156,18 +156,27 @@ public class DatabaseHelper implements DatabaseInformation
 
     /**
      * Gets course list from the database.
+     * @param profID Professor ID
      * @return courselist
      */
-	public ArrayList<Course> getCourseList() {
+	public ArrayList<Course> getCourseList(int profID) {
 	   ArrayList<Course> list = new ArrayList<>();
-	   String sql = "SELECT * FROM " + courseTable;
+
+	   // NOTE: This will only work for professors right now, and will not work for students
+	   String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
+	   ResultSet rs;
 
 	   try {
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
+           statement = jdbc_connection.prepareStatement(sql);
+
+           // Specify update parameters
+           statement.setInt(1, profID);
+
+           rs = statement.executeQuery();
+           while(rs.next()){
+               list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
                         rs.getBoolean(4)));
-			}
+           }
 	   }
 	   catch(SQLException ex){
 		   ex.printStackTrace();

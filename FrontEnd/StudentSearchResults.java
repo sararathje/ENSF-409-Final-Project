@@ -97,7 +97,7 @@ public class StudentSearchResults extends javax.swing.JDialog {
 
         enrollButton.setText("Enrolled");
         enrollButton.setForeground(FOREGROUND_COLOUR);
-        
+
         addListener();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

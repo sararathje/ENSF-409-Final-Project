@@ -20,6 +20,7 @@ public interface ConnectionConstants {
     String COURSE_LIST_PROF = "GET COURSE LIST PROF";
     String SET_COURSE_ACTIVE = "UPDATE_COURSE_ACTIVE";
     String SET_COURSE_INACTIVE = "SET_COURSE_INACTIVE";
+    String SEND_COURSE_LIST = "Sending Course List";
     
     String SEARCH_FOR_STUDENT = "STUDENT_SEARCH";
     String ENROLL_STUDENT = "ENROLL_STUDENT";
