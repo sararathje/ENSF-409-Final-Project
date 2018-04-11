@@ -77,17 +77,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 				}
 				else if(input instanceof String)
 				{
-<<<<<<< HEAD
-					if(input.equals(GET_COURSE_INFO)){
-						sendObject("Sending Course List");
-						sendObject(dbHelper.getCourseList());
-					}
-					else if (input.equals(NEW_COURSE))
-					{
-						System.out.println("trying to make new course");
-                                                input = objIn.readObject();
-						dbHelper.addCourse((Course)input);
-=======
 					if(input.equals(GET_COURSE_INFO)) {
 					    int profID = (int)objIn.readObject();
 
@@ -98,7 +87,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if (input.equals(NEW_COURSE))
 					{
 						dbHelper.addCourse((Course)objIn.readObject());
->>>>>>> b1dd6745650f7c4fd43a3da47d6e8a575f4de951
 					}
 					else if (input.equals(SET_COURSE_ACTIVE))
 					{
