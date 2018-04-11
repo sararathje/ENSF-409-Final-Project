@@ -1,11 +1,15 @@
 package BackEnd;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import Constants.ConnectionConstants;
 
-public class FileHelper 
+public class FileHelper implements ConnectionConstants
 {
 	public static final String serverDirPath = "";
 	
@@ -15,7 +19,7 @@ public class FileHelper
 	 * @param content
 	 * @param extension
 	 */
-	void getFile(String name, byte[] content, String extension)
+	void saveFile(String name, byte[] content, String extension)
 	{
 		File newFile = new File(serverDirPath + name + extension);
 		try{
@@ -32,7 +36,31 @@ public class FileHelper
 		//TODO add file name to a database table if we need to
 	}
 	
-	void sendFile()
+	byte[]  getFile(String name, String extension)
 	{
-		//TODO
+		byte[] content;
+		if(extension != TXT || extension != PDF)
+    	{
+    		System.err.println("Invalid extension");
+    		return null;
+    	}
+    	File selectedFile = new File(serverDirPath + name + extension);
+    	long length = selectedFile.length();
+    	content = new byte[(int) length];
+    	try {
+    	FileInputStream fis = new FileInputStream(selectedFile);
+    	BufferedInputStream bos = new BufferedInputStream(fis);
+    	bos.read(content, 0, (int)length);
+    	bos.close();
+    	fis.close();
+    	} 
+    	catch (FileNotFoundException e) 
+    	{
+    	e.printStackTrace();
+    	} 
+    	catch(IOException e)
+    	{
+    	e.printStackTrace();
+    	}
+    	return content;
 	}}

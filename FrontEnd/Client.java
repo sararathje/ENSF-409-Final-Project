@@ -441,8 +441,24 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Downloads a file from the server
      */
-    void downloadFile()
+    void downloadFile(String name, String ext)
     {
+    	try
+    	{
+    	sendObject(DOWNLOAD_FILE);
+    	sendObject(name);
+    	sendObject(ext);
+    	
+    	byte[] content = (byte[])socketIn.readObject();
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error downloading file.");
+    	}
+    	catch(ClassNotFoundException f)
+    	{
+    		System.err.println("Class not found");
+    	}
     	//TODO
     }
     
