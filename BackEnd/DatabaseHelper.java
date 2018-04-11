@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 
 import Models.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DatabaseHelper implements DatabaseInformation
 {
@@ -214,7 +215,7 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(1, prof.getID());
 
             rs = statement.executeQuery();
-            while(rs.next()){
+            while(rs.next()) {
                 list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
                         rs.getBoolean(4)));
             }
@@ -232,10 +233,49 @@ public class DatabaseHelper implements DatabaseInformation
      * @return list of courses a student is enrolled in
      */
     private ArrayList<Course> getStudentCourses(User student) {
-        // TODO: Fill me in
         ArrayList<Course> list = new ArrayList<>();
 
+        String sql = "SELECT * FROM " + studentEnrollment + " WHERE STUDENTID = ?";
+        ResultSet courseIDList;
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+
+            // Specify update parameters
+            statement.setInt(1, student.getID());
+
+            courseIDList = statement.executeQuery();
+            while(courseIDList.next()) {
+                list.add(getCourseById(courseIDList.getInt("COURSEID")));
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
         return list;
+    }
+
+    /**
+     * Gets the course by ID
+     * @param courseID course ID
+     * @return course with corresponding ID
+     */
+    private Course getCourseById(int courseID) throws SQLException {
+        // Note that this only works for a course with unique ID.
+        String sql = "SELECT * FROM " + courseTable + " WHERE COURSEID = ?";
+        ResultSet courseIDList;
+
+        statement = jdbc_connection.prepareStatement(sql);
+
+        // Specify update parameters
+        statement.setInt(1, courseID);
+
+        courseIDList = statement.executeQuery();
+        courseIDList.next();
+
+        return new Course(courseIDList.getString(3), courseIDList.getInt(1),
+                courseIDList.getInt(2), courseIDList.getBoolean(4));
     }
 	
 	/**
