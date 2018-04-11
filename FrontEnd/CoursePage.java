@@ -6,6 +6,7 @@ import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import static Constants.FontConstants.BUTTON_FONT;
 import Constants.LabelConstants;
+import Models.Assignment;
 import Models.Course;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -187,8 +188,8 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * Adds an assignment to the assignment list.
     * @param AssignmentName the panelName of the assignment to be added.
     */
-   public void addAssignment(String AssignmentName){
-       assignmentList.addAssignmentTOView(AssignmentName);
+   public void addAssignment(Assignment assignment){
+       assignmentList.addAssignmentTOView(assignment);
        validate();
     }  
    
@@ -220,7 +221,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
             }
         }
        for(int i = 0; i < c.getAssignmentList().size(); i++){
-           CoursePage.this.addAssignment(c.getAssignmentList().get(i).getName());
+           CoursePage.this.addAssignment(c.getAssignmentList().get(i));
        }
 
        
