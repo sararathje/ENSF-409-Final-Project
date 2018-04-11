@@ -189,34 +189,54 @@ public class DatabaseHelper implements DatabaseInformation
 
     /**
      * Gets course list from the database.
-     * @param profID Professor ID
+     * @param user user to get courses for
      * @return courselist
      */
-	public ArrayList<Course> getCourseList(int profID) {
-	   ArrayList<Course> list = new ArrayList<>();
-
-	   // NOTE: This will only work for professors right now, and will not work for students
-	   String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
-	   ResultSet rs;
-
-	   try {
-           statement = jdbc_connection.prepareStatement(sql);
-
-           // Specify update parameters
-           statement.setInt(1, profID);
-
-           rs = statement.executeQuery();
-           while(rs.next()){
-               list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
-                        rs.getBoolean(4)));
-           }
-	   }
-	   catch(SQLException ex){
-		   ex.printStackTrace();
-	   }
-
-	   return list;
+	public ArrayList<Course> getCourseList(User user) {
+	    return user.getUserType() == 'P' ? getProfessorCourses(user) : getStudentCourses(user);
 	}
+
+    /**
+     * Gets list of courses professor has created.
+     * @param prof professor
+     * @return list of courses professor has created
+     */
+	private ArrayList<Course> getProfessorCourses(User prof) {
+        ArrayList<Course> list = new ArrayList<>();
+        // NOTE: This will only work for professors right now, and will not work for students
+        String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
+        ResultSet rs;
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+
+            // Specify update parameters
+            statement.setInt(1, prof.getID());
+
+            rs = statement.executeQuery();
+            while(rs.next()){
+                list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
+                        rs.getBoolean(4)));
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    /**
+     * Gets list of courses a student is enrolled in.
+     * @param student student
+     * @return list of courses a student is enrolled in
+     */
+    private ArrayList<Course> getStudentCourses(User student) {
+        // TODO: Fill me in
+        ArrayList<Course> list = new ArrayList<>();
+
+        return list;
+    }
 	
 	/**
 	 * Removes course from the database
