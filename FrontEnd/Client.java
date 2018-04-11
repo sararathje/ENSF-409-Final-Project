@@ -107,14 +107,14 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
-     * Gets the Courses from the Database
+     * Gets the Courses from the Database.
      */
     void getCourseInfo() {
         try {
             // Get courses that have the professor ID
             // NOTE: This only works for professors right now
             sendObject(GET_COURSE_INFO);
-            sendObject(authenticatedUser.getID());
+            sendObject(authenticatedUser);
 
             Object input = socketIn.readObject();
 

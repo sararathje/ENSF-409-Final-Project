@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 
 import Models.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DatabaseHelper implements DatabaseInformation
 {
@@ -189,34 +190,93 @@ public class DatabaseHelper implements DatabaseInformation
 
     /**
      * Gets course list from the database.
-     * @param profID Professor ID
+     * @param user user to get courses for
      * @return courselist
      */
-	public ArrayList<Course> getCourseList(int profID) {
-	   ArrayList<Course> list = new ArrayList<>();
-
-	   // NOTE: This will only work for professors right now, and will not work for students
-	   String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
-	   ResultSet rs;
-
-	   try {
-           statement = jdbc_connection.prepareStatement(sql);
-
-           // Specify update parameters
-           statement.setInt(1, profID);
-
-           rs = statement.executeQuery();
-           while(rs.next()){
-               list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
-                        rs.getBoolean(4)));
-           }
-	   }
-	   catch(SQLException ex){
-		   ex.printStackTrace();
-	   }
-
-	   return list;
+	public ArrayList<Course> getCourseList(User user) {
+	    return user.getUserType() == 'P' ? getProfessorCourses(user) : getStudentCourses(user);
 	}
+
+    /**
+     * Gets list of courses professor has created.
+     * @param prof professor
+     * @return list of courses professor has created
+     */
+	private ArrayList<Course> getProfessorCourses(User prof) {
+        ArrayList<Course> list = new ArrayList<>();
+        // NOTE: This will only work for professors right now, and will not work for students
+        String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
+        ResultSet rs;
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+
+            // Specify update parameters
+            statement.setInt(1, prof.getID());
+
+            rs = statement.executeQuery();
+            while(rs.next()) {
+                list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
+                        rs.getBoolean(4)));
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    /**
+     * Gets list of courses a student is enrolled in.
+     * @param student student
+     * @return list of courses a student is enrolled in
+     */
+    private ArrayList<Course> getStudentCourses(User student) {
+        ArrayList<Course> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + studentEnrollment + " WHERE STUDENTID = ?";
+        ResultSet courseIDList;
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+
+            // Specify update parameters
+            statement.setInt(1, student.getID());
+
+            courseIDList = statement.executeQuery();
+            while(courseIDList.next()) {
+                list.add(getCourseById(courseIDList.getInt("COURSEID")));
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    /**
+     * Gets the course by ID
+     * @param courseID course ID
+     * @return course with corresponding ID
+     */
+    private Course getCourseById(int courseID) throws SQLException {
+        // Note that this only works for a course with unique ID.
+        String sql = "SELECT * FROM " + courseTable + " WHERE COURSEID = ?";
+        ResultSet courseIDList;
+
+        statement = jdbc_connection.prepareStatement(sql);
+
+        // Specify update parameters
+        statement.setInt(1, courseID);
+
+        courseIDList = statement.executeQuery();
+        courseIDList.next();
+
+        return new Course(courseIDList.getString(3), courseIDList.getInt(1),
+                courseIDList.getInt(2), courseIDList.getBoolean(4));
+    }
 	
 	/**
 	 * Removes course from the database
