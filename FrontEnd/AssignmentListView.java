@@ -14,12 +14,11 @@ import javax.swing.*;
  * @author Rylan
  */
 public class AssignmentListView extends JScrollPane implements ColourSchemeConstants, FontConstants{
-    // TODO: Make panels their own class
     
     /**
      * List of assignment panels
      */
-    private ArrayList<JPanel> assignmentList;
+    private ArrayList<AssignmentPanel> assignmentList;
     
     
     /**
@@ -27,11 +26,14 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
      */
     private JPanel displayPanel;
     
+    private Client client;
+    
     
     /**
      * Creates an object of type AssignmentList View.
      */
-    public AssignmentListView(){
+    public AssignmentListView(Client client){
+        this.client = client;
         displayPanel = new JPanel();
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.PAGE_AXIS));
         displayPanel.setBackground(LOGIN_BACKGROUND_COLOUR);
@@ -45,23 +47,9 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
      * @param assignmentName 
      */
     public void addAssignmentTOView(String assignmentName){
-        JPanel newAssignment = new JPanel();
-        newAssignment.setLayout(new BoxLayout(newAssignment, BoxLayout.LINE_AXIS));
-        newAssignment.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        newAssignment.setMinimumSize(new Dimension(0, 50));
-        newAssignment.setBackground(LOGIN_BACKGROUND_COLOUR);
-        newAssignment.setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
+        //creates a new JPanel for an assignment
+        AssignmentPanel newAssignment = new AssignmentPanel(assignmentName, client);
         
-        JLabel label = new JLabel(" " + assignmentName + " ");
-        label.setFont(PANEL_TITLE_FONT);
-        label.setForeground(FOREGROUND_COLOUR);
-        newAssignment.add(label);
-        newAssignment.add(Box.createHorizontalGlue());
-        
-        JButton view = new JButton("View");
-        view.setFont(BUTTON_FONT);
-        newAssignment.add(view);
-        newAssignment.add(Box.createRigidArea(new Dimension(20,0)));
         assignmentList.add(newAssignment);
         
         displayPanel.removeAll();
@@ -72,10 +60,17 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
     }
     
     /**
-     * Gets the 
+     * Gets the assignmentList.
      * @return 
      */
-     public ArrayList<JPanel> getAssignmentList() {
+     public ArrayList<AssignmentPanel> getAssignmentList() {
         return assignmentList;
     }
+
+    public void setAssignmentList(ArrayList<AssignmentPanel> assignmentList) {
+        this.assignmentList = assignmentList;
+    }
+     
+     
+     
 }

@@ -6,8 +6,12 @@ import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import static Constants.FontConstants.BUTTON_FONT;
 import Constants.LabelConstants;
+import Models.Course;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -17,17 +21,46 @@ import javax.swing.*;
  * @since April 4, 2018
  */
 public class CoursePage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants {
-    protected String name;
+    /**
+     * The name of the course and the number in the following format:
+     * "course 123"
+     */
+    protected String panelName;
     protected AssignmentListView assignmentList;
+    
+    /**
+     * The refresh button on the bottom of the page
+     */
     protected JButton refresh;
+    
+    /**
+     * The email button on the bottom of the page
+     */
     protected JButton email;
+    
+    /**
+     * The panel in the middle of the page
+     */
     protected JPanel middle;
+    
+    /**
+     * The panel at the bottom of the page
+     */
     protected JPanel bottom;
+    
+    /**
+     * The client using this page
+     */
     protected Client client;
     
+    /**
+     * Creates an object of type CoursePage.
+     * @param courseName
+     * @param client 
+     */
     public CoursePage(String courseName, Client client){
        this.client = client;
-        name = courseName;
+        panelName = courseName;
         //Set frame format
         setPreferredSize(new Dimension(1500, 1000));
         setLayout(new BorderLayout());
@@ -36,9 +69,9 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         addMiddle();
         
         //create assignment list
-        assignmentList = new AssignmentListView();
+        assignmentList = new AssignmentListView(client);
+        initializeAssignListView(courseName);
         middle.add(assignmentList);
-        
         
         //add 'Course Home' title to top
         addTitle(courseName);
@@ -73,6 +106,18 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         refresh.setFont(BUTTON_FONT);
         refresh.setMinimumSize(new Dimension(0, 50));
         bottom.add(refresh);
+        
+        refresh.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                ArrayList<AssignmentPanel> newList = new ArrayList<>();
+                // empty out the current course list.
+                assignmentList.setAssignmentList(newList);
+                CoursePage.this.getAssignmentList();
+                initializeAssignListView(panelName);
+            }
+        });
+        
+        
     }
     
     /**
@@ -140,7 +185,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     
    /**
     * Adds an assignment to the assignment list.
-    * @param AssignmentName the name of the assignment to be added.
+    * @param AssignmentName the panelName of the assignment to be added.
     */
    public void addAssignment(String AssignmentName){
        assignmentList.addAssignmentTOView(AssignmentName);
@@ -159,4 +204,25 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
        
    }
    
+   
+   /**
+    * Initializes the AssignmentListView on the page.
+    * @param courseName 
+    */
+   private void initializeAssignListView(String courseName){
+       CoursePage.this.client.getAssignmentInfo(courseName);
+       Course c = null;
+       ArrayList<Course> courses = CoursePage.this.client.getAuthenticatedUser().getCourses();
+       for(int i = 0; i< courses.size(); i++){
+            String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
+            if(courseName.equals(info)){
+                c = courses.get(i);
+            }
+        }
+       for(int i = 0; i < c.getAssignmentList().size(); i++){
+           CoursePage.this.addAssignment(c.getAssignmentList().get(i).getName());
+       }
+
+       
+   }
 }

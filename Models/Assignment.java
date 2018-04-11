@@ -51,14 +51,14 @@ public class Assignment implements Serializable{
 	 * @param name
 	 * @param dueDate
 	 */
-	public Assignment(String name, Date dueDate, int assignmentID, int courseId)
+	public Assignment(String name, Date dueDate, int assignmentID, int courseId, boolean isActive)
 	{
 		dropbox = new Dropbox();
 		this.name = name;
 		this.dueDate = dueDate;
 		this.assignmentID = assignmentID;
 		this.courseID = courseID;
-		isActive = false;
+		this.isActive = isActive;
 	}
 	
 	//Getters and setters

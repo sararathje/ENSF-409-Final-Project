@@ -12,5 +12,4 @@ public interface LabelConstants {
     String USERNAME = "Username";
     String PASSWORD = "Password";
     String SIGNIN = "Sign In";
-    String CREATE_NEW_COURSE = "Create New Course";
 }

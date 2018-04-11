@@ -54,7 +54,6 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
         
         // Create the courseList
         courseList = new CourseListView(client);
-        this.client.getCourseInfo();
         initializeCourseListView();
         add("Center", courseList);
        
@@ -166,10 +165,16 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      */
     private void initializeCourseListView(){
         UserGUI.this.client.getCourseInfo();
-                    for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++){
-                        UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName() 
-                                +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
-                    }
+<<<<<<< HEAD
+        for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++){
+            UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName() 
+=======
+
+        for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++) {
+            UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName()
+>>>>>>> b1dd6745650f7c4fd43a3da47d6e8a575f4de951
+                    +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
+        }
     }
     
 //    public JButton getCourseViewButton(int index){
@@ -178,15 +183,7 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
 //       return (JButton)temp.getComponent(2);
 //    }
 
-    /**
-     * Gets the courseListView
-     * @return courseListView
-     */
-    public CourseListView getCourseListView() {
-        return courseList;
-    }
-
     public static void main(String[] args) {
-        //UserGUI userGUI = new UserGUI();
+        
     }
 }

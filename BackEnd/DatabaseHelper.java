@@ -10,18 +10,14 @@ import java.sql.ResultSet;
 import Models.*;
 import java.util.ArrayList;
 
-/**
- * Retrieves, sends, and modifies information in a database for a learning tool.
- *
- * @author Sara Rathje, Jack Glass, Rylan Kettles
- * @version 1.0
- * @since April 4, 2018
- */
 public class DatabaseHelper implements DatabaseInformation
 {
 	public Connection jdbc_connection;
 	public PreparedStatement statement;
 
+    /**
+     * Connection info, login and password for database connection.
+     */
 	/**
 	 * Constructor for the database controller
 	 */
@@ -43,7 +39,6 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public User authenticate(Login login)
 	{
-	    // TODO: Sara, you come clean this up. This is dirty.
             User user = null;
             ResultSet userResult;
             
@@ -60,23 +55,27 @@ public class DatabaseHelper implements DatabaseInformation
                 userResult = statement.executeQuery();
                 
                while(userResult.next()){
-                    Login userLogin = new Login(userResult.getString("USERNAME"),
-                            userResult.getString("PASSWORD"));
+                    Login userLogin = new Login(userResult.getString("USERNAME"), 
+                     userResult.getString("PASSWORD")); 
+                    
+                    userLogin.setAuthenticated(true);
                         
                     user = new User(userResult.getInt("USERID"), 
-                                userLogin,
-                                userResult.getString("EMAIL"),
-                                userResult.getString("FIRSTNAME"),
-                                userResult.getString("LASTNAME"),
-                                userResult.getString("CLIENTTYPE").charAt(0)
-                    );
+                    userLogin,
+                    userResult.getString("EMAIL"),
+                    userResult.getString("FIRSTNAME"),
+                    userResult.getString("LASTNAME"),
+                    userResult.getString("CLIENTTYPE").charAt(0));
                }
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            if (user != null){
+                
+            }
           
-            return user;
+             return user;
 	}
 	
 	/**
@@ -93,7 +92,7 @@ public class DatabaseHelper implements DatabaseInformation
 				user.getFirstName() + "', '" +
 				user.getLastName() + "', '" +
 				user.getUserType() + "');";
-		try {
+		try{
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -153,21 +152,62 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
-
-    /**
-     * Gets course list from the database.
-     * @return courselist
-     */
-	public ArrayList<Course> getCourseList() {
-	   ArrayList<Course> list = new ArrayList<>();
-	   String sql = "SELECT * FROM " + courseTable;
+        
+        public ArrayList<Assignment> getAssignmentList() {
+	   ArrayList<Assignment> list = new ArrayList<>();
+	   String sql = "SELECT * FROM " + assignmentTable;
 
 	   try {
 			ResultSet rs = statement.executeQuery(sql);
+                        //rs.next();
+                       //Date newDate = parseDate(rs.getString(5));// issue here
 			while(rs.next()){
-				list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
-                        rs.getBoolean(4)));
+                                Date newDate = parseDate(rs.getString(5));
+				list.add(new Assignment(rs.getString(3), newDate, rs.getInt(1), rs.getInt(2),rs.getBoolean(4)));
 			}
+	   }
+	   catch(SQLException ex){
+		   ex.printStackTrace();
+	   }
+
+	   return list;
+	}
+        
+        private Date parseDate(String input){
+            String[] ints = input.split(",");
+            int day = Integer.parseInt(ints[0]);
+            int month = Integer.parseInt(ints[1]);
+            int year = Integer.parseInt(ints[2]);
+            int hour = Integer.parseInt(ints[3]);
+            int minute = Integer.parseInt(ints[4]);
+            
+            Date date = new Date(day, month, year, hour, minute);
+            return date;
+        }
+
+    /**
+     * Gets course list from the database.
+     * @param profID Professor ID
+     * @return courselist
+     */
+	public ArrayList<Course> getCourseList(int profID) {
+	   ArrayList<Course> list = new ArrayList<>();
+
+	   // NOTE: This will only work for professors right now, and will not work for students
+	   String sql = "SELECT * FROM " + courseTable + " WHERE PROFID = ?";
+	   ResultSet rs;
+
+	   try {
+           statement = jdbc_connection.prepareStatement(sql);
+
+           // Specify update parameters
+           statement.setInt(1, profID);
+
+           rs = statement.executeQuery();
+           while(rs.next()){
+               list.add(new Course(rs.getString(3), rs.getInt(1), rs.getInt(2),
+                        rs.getBoolean(4)));
+           }
 	   }
 	   catch(SQLException ex){
 		   ex.printStackTrace();
@@ -273,7 +313,7 @@ public class DatabaseHelper implements DatabaseInformation
 				submission.getStudentID() + ", " +
 				submission.getCourseID() + ", " +
 				grade + ");";
-		try {
+		try{
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -302,7 +342,7 @@ public class DatabaseHelper implements DatabaseInformation
 	
 	/**
 	 * Removes submission from the database
-	 * @param submissionID submission ID
+	 * @param submissionID
 	 */
 	public void removeSubmission(int submissionID)
 	{
@@ -321,18 +361,17 @@ public class DatabaseHelper implements DatabaseInformation
 	/**
 	 * Enrolls student in a course.
 	 * @param studentID student ID
-	 * @param courseID course ID
+	 * @param courseName course name
 	 */
-	public void enrollStudent(int studentID, int courseID)
+	public void enrollStudent(int studentID, String courseName)
 	{
-		String sql = "INSERT INTO " + studentEnrollment + " VALUES(?,?)";
-		try {
+        String[] splitString = courseName.split(" ");
+        int courseID = Integer.parseInt(splitString[1]);
+
+		String sql = "INSERT INTO " + studentEnrollment +
+				" VALUES ( " + studentID + ", " + courseID + ");";
+		try{
 			statement = jdbc_connection.prepareStatement(sql);
-
-			// Specify update parameters
-            statement.setInt(1, studentID);
-            statement.setInt(2, courseID);
-
 			statement.executeUpdate();
 		}
 		catch(SQLException e)
@@ -347,49 +386,24 @@ public class DatabaseHelper implements DatabaseInformation
 	/**
 	 * Unenroll student in a course.
 	 * @param studentID student ID
-     * @param courseID course name
+     * @param courseName course name
 	 */
-	public void unenrollStudent(int studentID, int courseID)
+	public void unenrollStudent(int studentID, String courseName)
 	{
-		String sql = "delete from " + studentEnrollment + " where STUDENTID = ? AND COURSEID = ?";
-		try {
+	    String[] splitString = courseName.split(" ");
+	    int courseID = Integer.parseInt(splitString[1]);
+
+		String sql = "delete from " + studentEnrollment + " where STUDENTID=" 
+					+ studentID + " and COURSEID=" + courseID;
+		try{
 			statement = jdbc_connection.prepareStatement(sql);
-
-			// Specify update parameters
-            statement.setInt(1, studentID);
-            statement.setInt(2, courseID);
-
 			statement.executeUpdate();
-		} catch(SQLException e)
+		}
+		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
 	}
-
-    /**
-     * Gets a list of students in a course specified by the given parameters.
-     * @param courseID course ID
-     * @return list of user IDs of students enrolled in the course
-     */
-	public ArrayList<Integer> getEnrolledStudents(int courseID) {
-        ArrayList<Integer> enrolledStudentList = new ArrayList<>();
-        String sql = "SELECT * FROM " + studentEnrollment + " WHERE COURSEID = ?";
-
-        try {
-            statement = jdbc_connection.prepareStatement(sql);
-
-            statement.setInt(1, courseID);
-
-            ResultSet enrolledStudents = statement.executeQuery();
-            while(enrolledStudents.next()){
-                enrolledStudentList.add(enrolledStudents.getInt("STUDENTID"));
-            }
-        } catch(SQLException ex){
-            ex.printStackTrace();
-        }
-
-        return enrolledStudentList;
-    }
 
     /**
      * Searches for student in user list.
@@ -398,20 +412,19 @@ public class DatabaseHelper implements DatabaseInformation
      * @return students found in database that match the given last name or ID or both. Otherwise, return null.
      */
 	public ArrayList<User> searchForStudent(String lastName, String id) {
-	    // TODO: Sara: you come clean this shit up
 	    ArrayList<User> matchedStudents = new ArrayList<> ();
-        User user;
+        User user = null;
         ResultSet studentResults;
 
-        Integer idParam = !id.equals("") ? Integer.parseInt(id) : null;
-        String lastNameParam = !lastName.equals("") ? lastName : null;
+        Integer idParam = null;
+        String lastNameParam = null;
 
         String sql = "SELECT * FROM " + userTable;
 
         try {
             // Create query string
             if (!id.equals("")) {
-                String query = " WHERE USERID = ?" +
+                String query = " WHERE ID = ?" +
                         " AND LASTNAME = IFNULL(?, LASTNAME) " +
 						" AND CLIENTTYPE = ?";
                 sql += query;
@@ -419,6 +432,17 @@ public class DatabaseHelper implements DatabaseInformation
                 String query = " WHERE LASTNAME = IFNULL(?, FIRSTNAME)" +
 						" AND CLIENTTYPE = ?";
                 sql += query;
+            }
+
+
+            // Set the parameters
+            if (!id.equals("")) {
+                idParam = Integer.parseInt(id);
+            }
+
+
+            if (!lastName.equals("")) {
+                lastNameParam = lastName;
             }
 
             // statement
@@ -435,6 +459,8 @@ public class DatabaseHelper implements DatabaseInformation
 
             // execute query
             studentResults = statement.executeQuery();
+
+            // int userID, Login login, String emailAddress, String firstName, String lastName, char userType
 
             while(studentResults.next()){
                 Login userLogin = new Login(studentResults.getString("USERNAME"),
@@ -465,7 +491,7 @@ public class DatabaseHelper implements DatabaseInformation
 		Login deez = new Login("test", "password");
 		Course banana = new Course("Banana", 2345, 4, true);
 		
-		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber());
+		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 
 		DatabaseHelper rock = new DatabaseHelper();
 		//rock.addCourse(banana);

@@ -9,10 +9,8 @@ package FrontEnd;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import Constants.*;
-import Models.User;
 
 /**
  * Creates a Student Search form.
@@ -20,17 +18,15 @@ import Models.User;
  * @version 1.0
  * @since April 5, 2018
  */
-public class StudentSearch extends javax.swing.JDialog implements MessageConstants, ColourSchemeConstants {
+public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
     private Client client;
     private String courseName;
-    private java.awt.Frame parent;
 
     /** Creates new form StudentSearch */
     public StudentSearch(java.awt.Frame parent, boolean modal, Client client, String courseName) {
         super(parent, modal);
         this.client = client;
         this.courseName = courseName;
-        this.parent = parent;
         initComponents();
         addListeners();
     }
@@ -43,6 +39,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         lastNameSearch = new javax.swing.JLabel();
         IDSearch = new javax.swing.JLabel();
         IDField = new javax.swing.JTextField();
@@ -54,10 +51,8 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
         setTitle("Student Search");
 
         lastNameSearch.setText("Student Last Name:");
-        lastNameSearch.setForeground(FOREGROUND_COLOUR);
 
         IDSearch.setText("Student ID:");
-        IDSearch.setForeground(FOREGROUND_COLOUR);
 
         searchButton.setText("Search");
 
@@ -102,7 +97,6 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
                 .addContainerGap())
         );
 
-        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -172,8 +166,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
                 } else {
                     clearInputFields();
                     dispose();
-                    ArrayList<User> matchedStudents = client.searchForStudent(lastName, id, courseName);
-                    showResults(matchedStudents);
+                    client.searchForStudent(lastName, id, courseName);
                 }
             }
         });
@@ -200,20 +193,5 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
      */
     public String getCourseName() {
         return courseName;
-    }
-
-    /**
-     * Shows the results panel
-     * @param matchedStudents results
-     */
-    private void showResults(ArrayList<User> matchedStudents) {
-        if (!matchedStudents.isEmpty()) {
-            StudentSearchResults studentResults = new StudentSearchResults(parent, true,
-                    client, matchedStudents, courseName);
-            studentResults.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, NO_MATCHES_FOUND, "",
-                    JOptionPane.WARNING_MESSAGE);
-        }
     }
 }

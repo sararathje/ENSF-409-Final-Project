@@ -69,7 +69,7 @@ public class ProfCoursePage extends CoursePage {
 
         searchStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client, ProfCoursePage.this.name);
+                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client, ProfCoursePage.this.panelName);
                 studentSearch.setVisible(true);
             }
         });
@@ -86,26 +86,27 @@ public class ProfCoursePage extends CoursePage {
         addAssignment.setMinimumSize(new Dimension(0, 50));
         
         addAssignment.addActionListener(new ActionListener()
-        		{
-        			public void actionPerformed(ActionEvent event)
-        			{
-        				if(event.getSource() == ProfCoursePage.this.addAssignment)
-        				{
-        					String [] course = ProfCoursePage.this.name.split(" ");
-        					
-        					NewAssignment newView = new NewAssignment(ProfCoursePage.this, true, ProfCoursePage.this.client,
-        							Integer.parseInt(course[1]));
-        					newView.setVisible(true);
-        				}
-        			}
-        		});
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    if(event.getSource() == ProfCoursePage.this.addAssignment)
+                    {
+                        String [] course = ProfCoursePage.this.panelName.split(" ");
+
+                        NewAssignment newView = new NewAssignment(ProfCoursePage.this, true, ProfCoursePage.this.client,
+                                        Integer.parseInt(course[1]));
+                        newView.setVisible(true);
+                    }
+                }
+            });
         bottom.add(addAssignment);
+        //TODO incorporate the courseID in the assignment instructor
     }
     
     /**
      * Adds a panel representing a student to the JScrollPane.
-     * @param firstName student first name
-     * @param lastName student last name
+     * @param firstName student first panelName
+     * @param lastName student last panelName
      * @param ID student ID
      */
     public void addStudent(String firstName, String lastName, int ID){

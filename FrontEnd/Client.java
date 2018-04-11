@@ -70,7 +70,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Runs the client.
      */
     public void runClient() {
-        while(true) {
+        while (true) {
         	LoginWindow loginWindow = new LoginWindow(socketIn, socketOut);
             loginWindow.setVisible(true);
             try {
@@ -109,12 +109,17 @@ public class Client implements ConnectionConstants, MessageConstants {
     /**
      * Gets the Courses from the Database
      */
-    void getCourseInfo(){
+    void getCourseInfo() {
         try {
+            // Get courses that have the professor ID
+            // NOTE: This only works for professors right now
             sendObject(GET_COURSE_INFO);
+            sendObject(authenticatedUser.getID());
+
             Object input = socketIn.readObject();
 
-            if(input instanceof String && input.equals("Sending Course List")) {
+            // This gets a list of all courses instead of just courses the user has
+            if(input instanceof String && input.equals(SEND_COURSE_LIST)) {
                     ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
                     this.authenticatedUser.setCourses(list);
                 }
@@ -125,6 +130,30 @@ public class Client implements ConnectionConstants, MessageConstants {
             e.printStackTrace();
         }
     }
+    
+    void getAssignmentInfo(String courseName){
+        try {
+            sendObject(GET_ASSIGNMENT_INFO);
+            Object input = socketIn.readObject();
+            if(input instanceof String && input.equals("Sending Assignment List")) {
+                ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
+                ArrayList<Course> courses = this.authenticatedUser.getCourses();
+                for(int i = 0; i< courses.size(); i++){
+                    String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
+                    if(courseName.equals(info)){
+                        this.authenticatedUser.getCourses().get(i).setAssignments(list);
+                    }
+                }
+                    
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    
 
     /**
      * Gets course list for the user from database
@@ -177,6 +206,9 @@ public class Client implements ConnectionConstants, MessageConstants {
         try {
         	sendObject(NEW_COURSE);
             sendObject(course);
+
+            // Add course to professor course list
+            authenticatedUser.addCourse(course);
         } catch(IOException e) {
             System.out.println("Error sending new course to server");
             e.printStackTrace();
@@ -219,12 +251,9 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param lastName student last name
      * @param id student ID
      * @param courseName course name
-     * @return student search result
      */
     @SuppressWarnings("unchecked")
-	ArrayList<User> searchForStudent(String lastName, String id, String courseName) {
-        ArrayList<User> matchedStudents = new ArrayList();
-
+	void searchForStudent(String lastName, String id, String courseName) {
         try {
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
@@ -235,7 +264,18 @@ public class Client implements ConnectionConstants, MessageConstants {
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
             	input = socketIn.readObject();
-            	matchedStudents = (ArrayList<User>)input;
+            	ArrayList<User> matchedStudents;
+            	if(input instanceof ArrayList<?>)
+            	{
+            		matchedStudents = (ArrayList<User>)input;
+            		if (!matchedStudents.isEmpty()) {
+                        StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
+                        studentResults.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No matches found", "",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+            	}
             }
         } catch(IOException e) {
             System.out.println("Error sending student search to server.");
@@ -243,8 +283,6 @@ public class Client implements ConnectionConstants, MessageConstants {
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        return matchedStudents;
     }
 
     /**

@@ -1,8 +1,9 @@
 
-
 package FrontEnd;
 
 import Constants.ColourSchemeConstants;
+import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
+import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import static Constants.FontConstants.BUTTON_FONT;
 import java.awt.Dimension;
@@ -11,19 +12,19 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- *
+ * Provides data fields and methods to create and use an assignment panel.
  * @author Rylan
  */
-public class CoursePanel extends JPanel implements ColourSchemeConstants, FontConstants{
+public class AssignmentPanel extends JPanel implements ColourSchemeConstants, FontConstants {
     
-   private String courseName;
+    private String assignmentName;
     
-   private Client client;
+    private Client client;
     
     private JButton view;
-
-    public CoursePanel(String courseName, Client client) {
-        this.courseName = courseName;
+    
+    public AssignmentPanel(String assignmentName, Client client){
+        this.assignmentName = assignmentName;
         this.client = client;
         
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -32,13 +33,10 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         setBackground(LOGIN_BACKGROUND_COLOUR);
         setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         
-        addLabel(courseName);
+        addLabel(assignmentName);
         addViewButton(client);
         add(Box.createRigidArea(new Dimension(20,0)));
-
-        
     }
-    
     
     private void addViewButton(Client client){
         view = new JButton("View");
@@ -46,12 +44,12 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         view.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(client.getAuthenticatedUser().getUserType() == 'P' && e.getSource() == view){
-                    ProfCoursePage profCoursePage = new ProfCoursePage(CoursePanel.this.getCourseName(), client);
-                    profCoursePage.setVisible(true);
+                    //todo:  create an assignment page displaying assignment info.
+                    System.out.println("Finish this");
                 }
                 else if(client.getAuthenticatedUser().getUserType() == 'S' && e.getSource() == view){
-                    StudentCoursePage studCoursePage = new StudentCoursePage(CoursePanel.this.getCourseName(), client);
-                    studCoursePage.setVisible(true);
+                     //todo:  create an assignment page displaying assignment info.
+                    System.out.println("Finish this");
                 }
             }
     
@@ -60,17 +58,16 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         add(view);
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getAssignmentName() {
+        return assignmentName;
     }
-
     
-    
-    private void addLabel(String courseName){
-        JLabel label = new JLabel(" " + courseName + " ");
+    private void addLabel(String assignmentName){
+        JLabel label = new JLabel(" " + assignmentName + " ");
         label.setFont(PANEL_TITLE_FONT);
         label.setForeground(FOREGROUND_COLOUR);
         add(label);
         add(Box.createHorizontalGlue());
     }
+    
 }

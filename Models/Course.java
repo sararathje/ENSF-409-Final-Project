@@ -38,14 +38,12 @@ public class Course implements Serializable
                 this.isActive = isActive;
 		//TODO construct the rest of the fields in this class
 	}
+
+    public void setAssignments(ArrayList<Assignment> assignments) {
+        this.assignments = assignments;
+    }
 	
-	/**
-	 * Populates the assignment list
-	 */
-	public  void setAssignments()
-	{
-		//TODO add assignments to the array list
-	}
+	
 	
 	/**
 	 * Adds assignment to the assignment list
