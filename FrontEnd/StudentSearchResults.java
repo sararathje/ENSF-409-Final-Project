@@ -12,12 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import Constants.ColourSchemeConstants;
 
 /**
  *
  * @author Rylan
  */
-public class StudentSearchResults extends javax.swing.JDialog {
+public class StudentSearchResults extends javax.swing.JDialog implements  ColourSchemeConstants{
     /**
      * Client
      */
@@ -90,17 +91,15 @@ public class StudentSearchResults extends javax.swing.JDialog {
         jScrollPane1.setViewportView(resultArea);
 
         enrollButton.setText("Enrolled");
-<<<<<<< HEAD
         enrollButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enrollButtonActionPerformed(evt);
             }
         });
-=======
+
         enrollButton.setForeground(FOREGROUND_COLOUR);
 
         addListener();
->>>>>>> b1dd6745650f7c4fd43a3da47d6e8a575f4de951
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

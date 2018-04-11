@@ -459,7 +459,7 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Class not found");
     	}
-    	//TODO
+    	//TODO something with the file. Perhaps display it
     }
     
     /**
