@@ -72,13 +72,14 @@ public class ServerWorker implements Runnable, ConnectionConstants
 		while(true){
 			try {
 				Object input = objIn.readObject();
+
 				if (input instanceof Login) {
 					User user = dbHelper.authenticate((Login)input);
 					sendAuthenticatedUser(user);
 				}
 				else if(input instanceof String)
 				{
-					if(input.equals(GET_COURSE_INFO)){
+					if(input.equals(GET_COURSE_INFO)) {
 						sendObject("Sending Course List");
 						sendObject(dbHelper.getCourseList());
 					}
@@ -139,16 +140,8 @@ public class ServerWorker implements Runnable, ConnectionConstants
 
 						dbHelper.enrollStudent(((User)userTemp).getID(), courseID);
 
-						// Now we need to split it and get the course ID
-
-						// SARA: TEST --> Need to put in ID
-						ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
-                        Iterator<Integer> iterator = studID.iterator();
-
-                        while (iterator.hasNext()) {
-                            System.out.println(iterator.next());
-                        }
-
+						// Next line gets list of all students enrolled in the course with ID courseID
+                        // ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
 					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
 						String lastName = (String)objIn.readObject();

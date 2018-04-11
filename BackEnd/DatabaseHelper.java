@@ -273,7 +273,7 @@ public class DatabaseHelper implements DatabaseInformation
 				submission.getStudentID() + ", " +
 				submission.getCourseID() + ", " +
 				grade + ");";
-		try{
+		try {
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -302,7 +302,7 @@ public class DatabaseHelper implements DatabaseInformation
 	
 	/**
 	 * Removes submission from the database
-	 * @param submissionID
+	 * @param submissionID submission ID
 	 */
 	public void removeSubmission(int submissionID)
 	{
@@ -334,7 +334,6 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(2, courseID);
 
 			statement.executeUpdate();
-			System.out.println("Added student to student enrollment table!");
 		}
 		catch(SQLException e)
 		{
@@ -361,8 +360,7 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(2, courseID);
 
 			statement.executeUpdate();
-		}
-		catch(SQLException e)
+		} catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
@@ -374,12 +372,8 @@ public class DatabaseHelper implements DatabaseInformation
      * @return list of user IDs of students enrolled in the course
      */
 	public ArrayList<Integer> getEnrolledStudents(int courseID) {
-	    // SARA: I think what would be better is actually modifying the DB so that enrolled students
-        // is a list of students enrolled in a course rather than a list of IDs
-        // Maybe not though
         ArrayList<Integer> enrolledStudentList = new ArrayList<>();
         String sql = "SELECT * FROM " + studentEnrollment + " WHERE COURSEID = ?";
-
 
         try {
             statement = jdbc_connection.prepareStatement(sql);
@@ -390,8 +384,7 @@ public class DatabaseHelper implements DatabaseInformation
             while(enrolledStudents.next()){
                 enrolledStudentList.add(enrolledStudents.getInt("STUDENTID"));
             }
-        }
-        catch(SQLException ex){
+        } catch(SQLException ex){
             ex.printStackTrace();
         }
 
