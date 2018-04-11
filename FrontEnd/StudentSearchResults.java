@@ -44,7 +44,6 @@ public class StudentSearchResults extends javax.swing.JDialog {
         this.students = students;
         this.courseName = courseName;
         initComponents();
-        resultArea.setText("");
         showResultsInTextArea();
     }
 
@@ -87,6 +86,9 @@ public class StudentSearchResults extends javax.swing.JDialog {
 
         resultArea.setColumns(20);
         resultArea.setRows(5);
+        resultArea.setText("");
+        resultArea.setEditable(false);
+
         jScrollPane1.setViewportView(resultArea);
 
         enrollButton.setText("Enrolled");
