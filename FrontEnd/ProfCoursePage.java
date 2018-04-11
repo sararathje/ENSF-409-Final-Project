@@ -158,49 +158,49 @@ public class ProfCoursePage extends CoursePage {
         }
     }
     
-    public static void main(String[] args) {
-        ProfCoursePage coursePage = new ProfCoursePage("someString", new Client());
-        coursePage.setVisible(true);
-        coursePage.addAssignment("TEST_ASSIGNMENT 1");
-        coursePage.addAssignment("TEST_ASSIGNMENT 2");
-        coursePage.addAssignment("TEST_ASSIGNMENT 3");
-        coursePage.addAssignment("TEST_ASSIGNMENT 4");
-        coursePage.addAssignment("TEST_ASSIGNMENT 5");
-        coursePage.addAssignment("TEST_ASSIGNMENT 6");
-        coursePage.addAssignment("TEST_ASSIGNMENT 7");
-        coursePage.addAssignment("TEST_ASSIGNMENT 8");
-        coursePage.addAssignment("TEST_ASSIGNMENT 9");
-        coursePage.addAssignment("TEST_ASSIGNMENT 10");
-        coursePage.addAssignment("TEST_ASSIGNMENT 11");
-        coursePage.addAssignment("TEST_ASSIGNMENT 12");
-        coursePage.addAssignment("TEST_ASSIGNMENT 13");
-        
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        coursePage.addStudent("Jane", "Doe", 69696969);
-        
-        
-        
-        System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
-        
-        
-        JButton b = coursePage.getUnenrollButton(2);
-    }
+//    public static void main(String[] args) {
+//        ProfCoursePage coursePage = new ProfCoursePage("someString", new Client());
+//        coursePage.setVisible(true);
+//        coursePage.addAssignment("TEST_ASSIGNMENT 1");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 2");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 3");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 4");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 5");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 6");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 7");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 8");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 9");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 10");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 11");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 12");
+//        coursePage.addAssignment("TEST_ASSIGNMENT 13");
+//        
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        coursePage.addStudent("Jane", "Doe", 69696969);
+//        
+//        
+//        
+//        System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
+//        
+//        
+//        JButton b = coursePage.getUnenrollButton(2);
+//    }
 
     
 }

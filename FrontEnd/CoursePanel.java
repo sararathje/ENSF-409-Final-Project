@@ -34,7 +34,7 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         
         addLabel(courseName);
         addViewButton(client);
-        add(Box.createRigidArea(new Dimension(20,0)));
+        add(Box.createRigidArea(new Dimension(20,50)));
 
         
     }

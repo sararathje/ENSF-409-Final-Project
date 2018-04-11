@@ -6,6 +6,7 @@ import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
 import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import static Constants.FontConstants.BUTTON_FONT;
+import Models.Assignment;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,14 +18,17 @@ import javax.swing.*;
  */
 public class AssignmentPanel extends JPanel implements ColourSchemeConstants, FontConstants {
     
+    private Assignment assignment;
+    
     private String assignmentName;
     
     private Client client;
     
     private JButton view;
     
-    public AssignmentPanel(String assignmentName, Client client){
-        this.assignmentName = assignmentName;
+    public AssignmentPanel(Assignment assignment, Client client){
+        this.assignment = assignment;
+        assignmentName = assignment.getName();
         this.client = client;
         
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -35,7 +39,7 @@ public class AssignmentPanel extends JPanel implements ColourSchemeConstants, Fo
         
         addLabel(assignmentName);
         addViewButton(client);
-        add(Box.createRigidArea(new Dimension(20,0)));
+        add(Box.createRigidArea(new Dimension(20,50)));
     }
     
     private void addViewButton(Client client){
@@ -44,12 +48,12 @@ public class AssignmentPanel extends JPanel implements ColourSchemeConstants, Fo
         view.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(client.getAuthenticatedUser().getUserType() == 'P' && e.getSource() == view){
-                    //todo:  create an assignment page displaying assignment info.
-                    System.out.println("Finish this");
+                    ProfAssignmentPage profAssignPage = new ProfAssignmentPage(AssignmentPanel.this.assignment, AssignmentPanel.this.client);
+                    profAssignPage.setVisible(true);
                 }
                 else if(client.getAuthenticatedUser().getUserType() == 'S' && e.getSource() == view){
-                     //todo:  create an assignment page displaying assignment info.
-                    System.out.println("Finish this");
+                    StudentAssignmentPage studentAssignPage = new StudentAssignmentPage(AssignmentPanel.this.assignment, AssignmentPanel.this.client);
+                    studentAssignPage.setVisible(true);
                 }
             }
     
