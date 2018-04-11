@@ -2,6 +2,15 @@ package BackEnd;
 
 import Models.Email;
 
+// email: theonebooty@gmail.com
+// PW: BigBooty
+// Johnny Booty
+
+/**
+ * Sends emails to the recipients on the email list
+ * @author Jack
+ *
+ */
 public class EmailHelper 
 {
 	/**
