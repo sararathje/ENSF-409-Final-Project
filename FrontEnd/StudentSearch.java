@@ -18,7 +18,7 @@ import Constants.*;
  * @version 1.0
  * @since April 5, 2018
  */
-public class StudentSearch extends javax.swing.JDialog implements MessageConstants {
+public class StudentSearch extends javax.swing.JDialog implements MessageConstants, ColourSchemeConstants {
     private Client client;
     private String courseName;
 
@@ -50,8 +50,10 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
         setTitle("Student Search");
 
         lastNameSearch.setText("Student Last Name:");
+        lastNameSearch.setForeground(FOREGROUND_COLOUR);
 
         IDSearch.setText("Student ID:");
+        IDSearch.setForeground(FOREGROUND_COLOUR);
 
         searchButton.setText("Search");
 
@@ -96,6 +98,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
                 .addContainerGap())
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

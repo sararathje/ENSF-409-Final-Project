@@ -16,9 +16,9 @@ import javax.swing.*;
  */
 public class CoursePanel extends JPanel implements ColourSchemeConstants, FontConstants{
     
-   private String CourseName;
+    private String CourseName;
     
-   private Client client;
+    private Client client;
     
     private JButton view;
 
@@ -35,8 +35,6 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
         addLabel(CourseName);
         addViewButton(client);
         add(Box.createRigidArea(new Dimension(20,0)));
-
-        
     }
     
     

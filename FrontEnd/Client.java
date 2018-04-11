@@ -237,10 +237,11 @@ public class Client implements ConnectionConstants, MessageConstants {
             	{
             		matchedStudents = (ArrayList<User>)input;
             		if (!matchedStudents.isEmpty()) {
-                        StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
+                        StudentSearchResults studentResults = new StudentSearchResults(profGUI, true,
+                                this, matchedStudents, courseName);
                         studentResults.setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(null, "No matches found", "",
+                        JOptionPane.showMessageDialog(null, NO_MATCHES_FOUND, "",
                                 JOptionPane.WARNING_MESSAGE);
                     }
             	}

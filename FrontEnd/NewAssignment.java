@@ -7,6 +7,9 @@ import Models.Date;
 import Models.Assignment;
 import java.util.Random;
 
+import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
+import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
+
 /**
  * Provides methods to create the NewAssignment JDiologue Box
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -71,12 +74,14 @@ public class NewAssignment extends javax.swing.JDialog {
         });
 
         name.setText("Name:");
+        name.setForeground(FOREGROUND_COLOUR);
 
         add.setText("Add");
 
         cancel.setText("Cancel");
 
         dueDate.setText("Due Date:");
+        dueDate.setForeground(FOREGROUND_COLOUR);
 
         monthComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
 
@@ -85,17 +90,23 @@ public class NewAssignment extends javax.swing.JDialog {
         dayComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
 
         yesButton.setText("Yes");
+        yesButton.setForeground(FOREGROUND_COLOUR);
 
         setActive.add(noButton);
         noButton.setText("No");
+        noButton.setForeground(FOREGROUND_COLOUR);
 
         active.setText("Active:");
+        active.setForeground(FOREGROUND_COLOUR);
 
         jLabel1.setText("Due Time:");
+        jLabel1.setForeground(FOREGROUND_COLOUR);
 
         jLabel2.setText(":");
+        jLabel2.setForeground(FOREGROUND_COLOUR);
 
         pmbutton.setText("pm");
+        pmbutton.setForeground(FOREGROUND_COLOUR);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,6 +188,7 @@ public class NewAssignment extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

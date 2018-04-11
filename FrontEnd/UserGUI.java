@@ -178,6 +178,14 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
 //       return (JButton)temp.getComponent(2);
 //    }
 
+    /**
+     * Gets the courseListView
+     * @return courseListView
+     */
+    public CourseListView getCourseListView() {
+        return courseList;
+    }
+
     public static void main(String[] args) {
         //UserGUI userGUI = new UserGUI();
     }
