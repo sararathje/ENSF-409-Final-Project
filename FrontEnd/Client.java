@@ -251,9 +251,10 @@ public class Client implements ConnectionConstants, MessageConstants {
      * @param lastName student last name
      * @param id student ID
      * @param courseName course name
+     * @return student search result
      */
-    @SuppressWarnings("unchecked")
-	void searchForStudent(String lastName, String id, String courseName) {
+	 ArrayList<User> searchForStudent(String lastName, String id, String courseName) {
+	     ArrayList<User> matchedStudents = new ArrayList();
         try {
             sendObject(SEARCH_FOR_STUDENT);
             sendObject(lastName);
@@ -264,17 +265,11 @@ public class Client implements ConnectionConstants, MessageConstants {
             if (input instanceof String && input.equals(SEND_STUDENT_RESULT)) {
                 // Read in matching student object and then show the Student GUI?
             	input = socketIn.readObject();
-            	ArrayList<User> matchedStudents;
+            	matchedStudents = (ArrayList<User>)input;
+
             	if(input instanceof ArrayList<?>)
             	{
             		matchedStudents = (ArrayList<User>)input;
-            		if (!matchedStudents.isEmpty()) {
-                        StudentSearchResults studentResults = new StudentSearchResults(profGUI, true, this, matchedStudents, courseName);
-                        studentResults.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No matches found", "",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
             	}
             }
         } catch(IOException e) {
@@ -283,6 +278,8 @@ public class Client implements ConnectionConstants, MessageConstants {
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        return matchedStudents;
     }
 
     /**

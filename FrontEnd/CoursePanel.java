@@ -16,9 +16,9 @@ import javax.swing.*;
  */
 public class CoursePanel extends JPanel implements ColourSchemeConstants, FontConstants{
     
-   private String courseName;
+    private String courseName;
     
-   private Client client;
+    private Client client;
     
     private JButton view;
 

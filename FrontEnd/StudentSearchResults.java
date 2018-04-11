@@ -45,7 +45,6 @@ public class StudentSearchResults extends javax.swing.JDialog implements  Colour
         this.students = students;
         this.courseName = courseName;
         initComponents();
-        resultArea.setText("");
         showResultsInTextArea();
     }
 
@@ -80,6 +79,7 @@ public class StudentSearchResults extends javax.swing.JDialog implements  Colour
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
+        // This should probably be changed to a JListArea so they can be selected
         resultArea = new javax.swing.JTextArea();
         enrollButton = new javax.swing.JRadioButton();
 
@@ -88,17 +88,12 @@ public class StudentSearchResults extends javax.swing.JDialog implements  Colour
 
         resultArea.setColumns(20);
         resultArea.setRows(5);
+        resultArea.setText("");
+        resultArea.setEditable(false);
         jScrollPane1.setViewportView(resultArea);
 
         enrollButton.setText("Enrolled");
-        enrollButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrollButtonActionPerformed(evt);
-            }
-        });
-
         enrollButton.setForeground(FOREGROUND_COLOUR);
-
         addListener();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -125,6 +120,7 @@ public class StudentSearchResults extends javax.swing.JDialog implements  Colour
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
