@@ -84,7 +84,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if (input.equals(NEW_COURSE))
 					{
 						System.out.println("trying to make new course");
-						dbHelper.addCourse((Course)input);
+						dbHelper.addCourse((Course)objIn.readObject());
 					}
 					else if (input.equals(SET_COURSE_ACTIVE))
 					{
