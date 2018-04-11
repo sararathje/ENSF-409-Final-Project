@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
+import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
+
 /**
  *
  * @author Rylan
@@ -78,6 +81,7 @@ public class StudentSearchResults extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
+        // This should probably be changed to a JListArea so they can be selected
         resultArea = new javax.swing.JTextArea();
         enrollButton = new javax.swing.JRadioButton();
 
@@ -92,6 +96,8 @@ public class StudentSearchResults extends javax.swing.JDialog {
         jScrollPane1.setViewportView(resultArea);
 
         enrollButton.setText("Enrolled");
+        enrollButton.setForeground(FOREGROUND_COLOUR);
+        
         addListener();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -118,6 +124,7 @@ public class StudentSearchResults extends javax.swing.JDialog {
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
