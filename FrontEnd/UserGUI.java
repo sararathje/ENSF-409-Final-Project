@@ -165,14 +165,9 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      */
     private void initializeCourseListView(){
         UserGUI.this.client.getCourseInfo();
-<<<<<<< HEAD
-        for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++){
-            UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName() 
-=======
 
         for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++) {
             UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName()
->>>>>>> b1dd6745650f7c4fd43a3da47d6e8a575f4de951
                     +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
         }
     }
