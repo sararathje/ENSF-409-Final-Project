@@ -106,19 +106,19 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         refresh.setFont(BUTTON_FONT);
         refresh.setMinimumSize(new Dimension(0, 50));
         bottom.add(refresh);
-        
-        refresh.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                ArrayList<AssignmentPanel> newList = new ArrayList<>();
-                // empty out the current course list.
-                assignmentList.setAssignmentList(newList);
-                CoursePage.this.getAssignmentList();
-                initializeAssignListView(panelName);
-            }
-        });
-        
-        
     }
+
+    /**
+     * Updates the Assignment List in the course view.
+     */
+    protected void updateAssignmentList() {
+        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+        // empty out the current course list.
+        assignmentList.setAssignmentList(newList);
+        CoursePage.this.getAssignmentList();
+        initializeAssignListView(panelName);
+    }
+
     
     /**
      * Creates the email button at the bottom of the GUI.
@@ -223,6 +223,6 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
            CoursePage.this.addAssignment(c.getAssignmentList().get(i).getName());
        }
 
-       
+
    }
 }

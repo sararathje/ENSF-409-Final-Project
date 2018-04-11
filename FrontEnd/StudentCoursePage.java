@@ -1,6 +1,9 @@
 
 package FrontEnd;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *The Student Course home page.
  * @author Jack Glass, Rylan Kettles, Sara Rathje
@@ -17,6 +20,18 @@ public class StudentCoursePage extends CoursePage {
         super(courseName, client);
         
         setTitle("Student Course Page");
+        addRefreshListener();
+    }
+
+    /**
+     * Adds refresh listener
+     */
+    private void addRefreshListener() {
+        refresh.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                updateAssignmentList();
+            }
+        });
     }
     
      public static void main(String[] args) {

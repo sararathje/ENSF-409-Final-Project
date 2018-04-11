@@ -469,6 +469,70 @@ public class DatabaseHelper implements DatabaseInformation
     }
 
     /**
+     * Gets list of enrolled students in course from database
+     * @param courseID course ID
+     * @return list of students in course
+     */
+    public ArrayList<User> getEnrolledStudents(int courseID) {
+        ArrayList<Integer> studentIDs = getStudentIDInCourse(courseID);
+        ArrayList<User> studentList = new ArrayList<>();
+
+        // Get students matching the IDs
+        Iterator<Integer> iterator = studentIDs.iterator();
+
+        try {
+            while(iterator.hasNext()) {
+                ResultSet students;
+                Integer studentID = iterator.next();
+
+                String sql = "SELECT * FROM " + userTable + " WHERE USERID = ?";
+
+                statement = jdbc_connection.prepareStatement(sql);
+                statement.setInt(1, studentID);
+                students = statement.executeQuery();
+
+                while(students.next()) {
+                    Login userLogin = new Login(students.getString("USERNAME"),
+                            students.getString("PASSWORD"));
+
+                    userLogin.setAuthenticated(true);
+
+                    studentList.add(new User(students.getInt("USERID"),
+                            userLogin,
+                            students.getString("EMAIL"),
+                            students.getString("FIRSTNAME"),
+                            students.getString("LASTNAME"),
+                            students.getString("CLIENTTYPE").charAt(0)));
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    private ArrayList<Integer> getStudentIDInCourse(int courseID) {
+        ArrayList<Integer> studentIDList = new ArrayList<>();
+        ResultSet studentIDs;
+        String sql = "SELECT * FROM " + studentEnrollment + " WHERE COURSEID = ?";
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.setInt(1, courseID);
+            studentIDs = statement.executeQuery();
+
+            while(studentIDs.next()) {
+                studentIDList.add(studentIDs.getInt("STUDENTID"));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return studentIDList;
+    }
+
+    /**
      * Searches for student in user list.
      * @param lastName student last name
      * @param id student ID

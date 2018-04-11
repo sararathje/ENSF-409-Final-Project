@@ -57,7 +57,14 @@ public class StudentListView extends JScrollPane implements ColourSchemeConstant
     public ArrayList<JPanel> getStudentList() {
         return studentList;
     }
-    
-    
+
+    /**
+     * Sets the student list
+     * @param studentPanelList array of panels to set the list to
+     */
+    public void setStudentList(ArrayList<JPanel> studentPanelList) {
+        studentList = studentPanelList;
+    }
+
     
 }
