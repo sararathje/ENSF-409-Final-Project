@@ -29,18 +29,29 @@ public class Email implements Serializable
 	private String sender;
 	
 	/**
+	 * Password for the sender's email provider
+	 */
+	private String senderPassword;
+	
+	/**
+	 * Subject line of the email
+	 */
+	private String subject;
+	
+	/**
 	 * The contents of the message of the email
 	 */
-	private Message message;
+	private String message;
 	
 	
-	public Email(String senderEmail)
+	public Email(String senderEmail, String senderPassword)
 	{
 		receivers = new ArrayList<String>();
 		this.sender = senderEmail;
+		this.senderPassword = senderPassword;
 	}
 	
-	public void compose()
+	public void compose(String subject, String message)
 	{
 		//TODO figure how to compose an email. Probably will be done once the email GUI is implemented
 	}
@@ -61,5 +72,9 @@ public class Email implements Serializable
 	
 	public String getSender() { return sender; }
 	
-	public Message getMessage() { return message; }
+	public String getMessage() { return message; }
+	
+	public String getSubject() { return subject; } 
+	
+	public String getSenderPW() { return senderPassword; }
 }
