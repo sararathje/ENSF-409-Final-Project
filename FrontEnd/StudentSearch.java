@@ -39,7 +39,6 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         lastNameSearch = new javax.swing.JLabel();
         IDSearch = new javax.swing.JLabel();
         IDField = new javax.swing.JTextField();

@@ -70,7 +70,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Runs the client.
      */
     public void runClient() {
-        while (true) {
+        while(true) {
         	LoginWindow loginWindow = new LoginWindow(socketIn, socketOut);
             loginWindow.setVisible(true);
             try {

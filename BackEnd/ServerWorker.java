@@ -4,6 +4,7 @@ import Constants.ConnectionConstants;
 import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Models.*;
 
@@ -126,15 +127,28 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(UNENROLL_STUDENT))
 					{
-						Object userTemp = objIn.readObject();
-						input = objIn.readObject();
-						dbHelper.unenrollStudent(((User)userTemp).getID(), ((String)input));
+                        Object userTemp = objIn.readObject();
+						int courseID = getCourseIDFromName();
+
+						dbHelper.unenrollStudent(((User)userTemp).getID(), courseID);
 					}
 					else if(input.equals(ENROLL_STUDENT))
 					{
 						Object userTemp = objIn.readObject();
-						input = objIn.readObject();
-						dbHelper.enrollStudent(((User)userTemp).getID(), ((String)input));
+                        int courseID = getCourseIDFromName();
+
+						dbHelper.enrollStudent(((User)userTemp).getID(), courseID);
+
+						// Now we need to split it and get the course ID
+
+						// SARA: TEST --> Need to put in ID
+						ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
+                        Iterator<Integer> iterator = studID.iterator();
+
+                        while (iterator.hasNext()) {
+                            System.out.println(iterator.next());
+                        }
+
 					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
 						String lastName = (String)objIn.readObject();
@@ -143,7 +157,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
 						sendObject(SEND_STUDENT_RESULT);
 						sendObject(matchedStudents);
-						System.out.println("Sent matched students back to client");
 					}
 					else if (input.equals(SEND_EMAIL))
 					{
@@ -173,21 +186,39 @@ public class ServerWorker implements Runnable, ConnectionConstants
 		}
 		try
 		{
-		objIn.close();
-		objOut.close();
-		aSocket.close();
+            objIn.close();
+            objOut.close();
+            aSocket.close();
 		}
 		catch(IOException e)
 		{
 			System.err.println("error closing streams");
 		}
 	}
-	
+
+    /**
+     * Writes object to the object output stream
+     * @param obj object to write to the stream
+     * @throws IOException when writing the object to the stream
+     */
 	private void sendObject(Object obj) throws IOException
 	{
 		objOut.writeObject(obj);
 		objOut.flush();
 	}
+
+    /**
+     * Gets the Course ID from the name, which is made up of course name + " " + courseID
+     * @return course ID
+     * @throws IOException when reading from object input stream
+     * @throws ClassNotFoundException when reading from object input stream
+     */
+	private int getCourseIDFromName() throws IOException, ClassNotFoundException {
+        String courseName = (String)objIn.readObject();
+        String[] splitString = courseName.split(" ");
+
+        return Integer.parseInt(splitString[1]);
+    }
 }
 
 

@@ -92,11 +92,7 @@ public class StudentSearchResults extends javax.swing.JDialog {
         jScrollPane1.setViewportView(resultArea);
 
         enrollButton.setText("Enrolled");
-        enrollButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrollButtonActionPerformed(evt);
-            }
-        });
+        addListener();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,10 +120,6 @@ public class StudentSearchResults extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void enrollButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_enrollButtonActionPerformed
 
     /**
      * @param args the command line arguments
