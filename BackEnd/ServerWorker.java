@@ -78,11 +78,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 				else if(input instanceof String)
 				{
 					if(input.equals(GET_COURSE_INFO)) {
-					    int profID = (int)objIn.readObject();
+					    User user = (User)objIn.readObject();
 
 						sendObject(SEND_COURSE_LIST);
 						// Pass in courses
-						sendObject(dbHelper.getCourseList(profID));
+						sendObject(dbHelper.getCourseList(user));
 					}
 					else if (input.equals(NEW_COURSE))
 					{
