@@ -53,7 +53,8 @@ public class Email implements Serializable
 	
 	public void compose(String subject, String message)
 	{
-		//TODO figure how to compose an email. Probably will be done once the email GUI is implemented
+		this.subject = subject;
+		this.message = message;
 	}
 	
 	/**
