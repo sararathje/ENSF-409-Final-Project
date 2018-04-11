@@ -52,6 +52,7 @@ public class ProfCoursePage extends CoursePage {
         addSearchlStudentButton();
         addAssignmentButton();
         addRefreshListener();
+        updateEnrolledStudentList();
     }
     
     /**
