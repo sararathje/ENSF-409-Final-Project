@@ -166,10 +166,11 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      */
     private void initializeCourseListView(){
         UserGUI.this.client.getCourseInfo();
-                    for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++){
-                        UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName() 
-                                +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
-                    }
+
+        for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++) {
+            UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName()
+                    +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
+        }
     }
     
 //    public JButton getCourseViewButton(int index){
@@ -177,6 +178,14 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
 //        System.out.println(temp.getComponentCount());
 //       return (JButton)temp.getComponent(2);
 //    }
+
+    /**
+     * Gets the courseListView
+     * @return courseListView
+     */
+    public CourseListView getCourseListView() {
+        return courseList;
+    }
 
     public static void main(String[] args) {
         //UserGUI userGUI = new UserGUI();

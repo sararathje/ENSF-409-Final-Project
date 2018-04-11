@@ -2,8 +2,16 @@
 package FrontEnd;
 
 import Models.*;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static Constants.ColourSchemeConstants.*;
+import static Constants.LabelConstants.CREATE_NEW_COURSE;
+import static Constants.MessageConstants.EMPTY_LOGIN;
+import static Constants.MessageConstants.EMPTY_NEW_COURSE_FIELDS;
+import static Constants.MessageConstants.INVALID_COURSE_ID;
 
 /**
  * Provides methods to create the NewCourse JDiologue Box
@@ -31,7 +39,6 @@ public class NewCourse extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         activeGroup = new javax.swing.ButtonGroup();
         name = new javax.swing.JLabel();
         departmentField = new javax.swing.JTextField();
@@ -47,16 +54,21 @@ public class NewCourse extends javax.swing.JDialog {
         setTitle("New Course");
 
         name.setText("Depatment:");
+        name.setForeground(FOREGROUND_COLOUR);
 
         courseNumber.setText("Course Number:");
+        courseNumber.setForeground(FOREGROUND_COLOUR);
 
         active.setText("Active:");
+        active.setForeground(FOREGROUND_COLOUR);
 
         activeGroup.add(yesRButton);
         yesRButton.setText("Yes");
+        yesRButton.setForeground(FOREGROUND_COLOUR);
 
         activeGroup.add(noRBUtton);
         noRBUtton.setText("No");
+        noRBUtton.setForeground(FOREGROUND_COLOUR);
 
         addButton.setText("Add");
 
@@ -112,6 +124,7 @@ public class NewCourse extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -159,6 +172,7 @@ public class NewCourse extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel createCourseLabel;
     private javax.swing.JLabel active;
     private javax.swing.ButtonGroup activeGroup;
     private javax.swing.JButton addButton;
@@ -183,33 +197,45 @@ public class NewCourse extends javax.swing.JDialog {
     }
 
     
-private void addListener(){
-    addButton.addActionListener(new ActionListener(){
-        public void actionPerformed(ActionEvent event) {
+    private void addListener(){
+        addButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event) {
+                try {
+                    if (!departmentField.getText().equals("") && !courseNumberField.getText().equals("") &&
+                            (yesRButton.isSelected() || noRBUtton.isSelected())) {
+                        client.createNewCourse(createCourse());
+                        clearInputFields();
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(getContentPane(), EMPTY_NEW_COURSE_FIELDS, "",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(getContentPane(), INVALID_COURSE_ID, "",
+                            JOptionPane.WARNING_MESSAGE);
+                }
 
-            // TODO: Add handling for creating new course with empty fields
-            String courseName = departmentField.getText();
-            int courseNumber = Integer.parseInt(courseNumberField.getText());
-            int profID = client.getAuthenticatedUser().getID();
-            boolean active = false;
-            if(yesRButton.isSelected()){
-                active = true;
             }
+        });
 
-            Course newCourse = new Course(courseName, courseNumber, profID, active);
-            client.createNewCourse(newCourse);
-            clearInputFields();
-            dispose();
-        }   
-    });
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                clearInputFields();
+                dispose();
+            }
+        });
+    }
 
-    cancelButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent event) {
-            clearInputFields();
-            dispose();
-        }
-    });
-}
+    /**
+     * Creates a course based on the form input fields.
+     * @return course created from input fields
+     */
+    private Course createCourse() {
+        String courseName = departmentField.getText();
+        int courseNumber = Integer.parseInt(courseNumberField.getText());
+        int profID = client.getAuthenticatedUser().getID();
+        boolean active = yesRButton.isSelected() ? true : false;
 
-
+        return new Course(courseName, courseNumber, profID, active);
+    }
 }

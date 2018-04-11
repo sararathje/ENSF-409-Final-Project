@@ -4,6 +4,7 @@ import Constants.ConnectionConstants;
 import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Models.*;
 
@@ -71,20 +72,23 @@ public class ServerWorker implements Runnable, ConnectionConstants
 		while(true){
 			try {
 				Object input = objIn.readObject();
+
 				if (input instanceof Login) {
 					User user = dbHelper.authenticate((Login)input);
 					sendAuthenticatedUser(user);
 				}
 				else if(input instanceof String)
 				{
-					if(input.equals(GET_COURSE_INFO)){
-						sendObject("Sending Course List");
-						sendObject(dbHelper.getCourseList());
+					if(input.equals(GET_COURSE_INFO)) {
+					    int profID = (int)objIn.readObject();
+
+						sendObject(SEND_COURSE_LIST);
+						// Pass in courses
+						sendObject(dbHelper.getCourseList(profID));
 					}
 					else if (input.equals(NEW_COURSE))
 					{
-						System.out.println("trying to make new course");
-						dbHelper.addCourse((Course)input);
+						dbHelper.addCourse((Course)objIn.readObject());
 					}
 					else if (input.equals(SET_COURSE_ACTIVE))
 					{
@@ -126,15 +130,20 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(UNENROLL_STUDENT))
 					{
-						Object userTemp = objIn.readObject();
-						input = objIn.readObject();
-						dbHelper.unenrollStudent(((User)userTemp).getID(), ((String)input));
+                        Object userTemp = objIn.readObject();
+						int courseID = getCourseIDFromName();
+
+						dbHelper.unenrollStudent(((User)userTemp).getID(), courseID);
 					}
 					else if(input.equals(ENROLL_STUDENT))
 					{
 						Object userTemp = objIn.readObject();
-						input = objIn.readObject();
-						dbHelper.enrollStudent(((User)userTemp).getID(), ((String)input));
+                        int courseID = getCourseIDFromName();
+
+						dbHelper.enrollStudent(((User)userTemp).getID(), courseID);
+
+						// Next line gets list of all students enrolled in the course with ID courseID
+                        // ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
 					}
 					else if(input.equals(SEARCH_FOR_STUDENT)) {
 						String lastName = (String)objIn.readObject();
@@ -143,7 +152,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
 						sendObject(SEND_STUDENT_RESULT);
 						sendObject(matchedStudents);
-						System.out.println("Sent matched students back to client");
 					}
 					else if (input.equals(SEND_EMAIL))
 					{
@@ -180,21 +188,39 @@ public class ServerWorker implements Runnable, ConnectionConstants
 		}
 		try
 		{
-		objIn.close();
-		objOut.close();
-		aSocket.close();
+            objIn.close();
+            objOut.close();
+            aSocket.close();
 		}
 		catch(IOException e)
 		{
 			System.err.println("error closing streams");
 		}
 	}
-	
+
+    /**
+     * Writes object to the object output stream
+     * @param obj object to write to the stream
+     * @throws IOException when writing the object to the stream
+     */
 	private void sendObject(Object obj) throws IOException
 	{
 		objOut.writeObject(obj);
 		objOut.flush();
 	}
+
+    /**
+     * Gets the Course ID from the name, which is made up of course name + " " + courseID
+     * @return course ID
+     * @throws IOException when reading from object input stream
+     * @throws ClassNotFoundException when reading from object input stream
+     */
+	private int getCourseIDFromName() throws IOException, ClassNotFoundException {
+        String courseName = (String)objIn.readObject();
+        String[] splitString = courseName.split(" ");
+
+        return Integer.parseInt(splitString[1]);
+    }
 }
 
 
