@@ -18,8 +18,10 @@ public class StudentCoursePage extends CoursePage {
     public StudentCoursePage(String courseName, Client client){
         //Get set data fields from super
         super(courseName, client);
-        
-        setTitle("Student Course Page");
+
+        String userName = client.getAuthenticatedUser().getFirstName() + " "
+                + client.getAuthenticatedUser().getLastName();
+        setTitle(userName + " Course Page (Student)");
         addRefreshListener();
     }
 

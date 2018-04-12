@@ -454,14 +454,9 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(2, courseID);
 
             statement.executeUpdate();
-        }
-        catch(SQLException e)
-        {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
-
-        //TODO: Implement enrolling student in GUI
-        System.out.println("Enrolled student");
     }
 
     /**
@@ -471,7 +466,7 @@ public class DatabaseHelper implements DatabaseInformation
      */
     public void unenrollStudent(int studentID, int courseID)
     {
-        String sql = "delete from " + studentEnrollment + " where STUDENTID = ? AND COURSEID = ?";
+        String sql = "DELETE FROM " + studentEnrollment + " where STUDENTID = ? AND COURSEID = ?";
         try {
             statement = jdbc_connection.prepareStatement(sql);
 
@@ -512,8 +507,6 @@ public class DatabaseHelper implements DatabaseInformation
                 while(students.next()) {
                     Login userLogin = new Login(students.getString("USERNAME"),
                             students.getString("PASSWORD"));
-
-                    userLogin.setAuthenticated(true);
 
                     studentList.add(new User(students.getInt("USERID"),
                             userLogin,
@@ -646,6 +639,5 @@ public class DatabaseHelper implements DatabaseInformation
 //                rock.addUser(user4);
 //                rock.addUser(user5);
 //                rock.addUser(user6);
-//		System.out.println("woot");
 	}
 }

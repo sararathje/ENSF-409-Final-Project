@@ -37,17 +37,13 @@ public class StudentListView extends JScrollPane implements ColourSchemeConstant
     public void addStudentToView(User student, String courseName){
         StudentPanel newStudent = new StudentPanel(student, client, courseName, false);
         studentList.add(newStudent);
-        displayPanel.removeAll();
 
+        refreshView();
+
+        // Update current students
         for(int i = 0; i < studentList.size(); i++){
             displayPanel.add(studentList.get(i));
         }
-        
-        
-    }
-
-    public ArrayList<StudentPanel> getStudentList() {
-        return studentList;
     }
 
     /**
@@ -58,5 +54,28 @@ public class StudentListView extends JScrollPane implements ColourSchemeConstant
         studentList = studentPanelList;
     }
 
-    
+    /**
+     * Gets the student list
+     * @return student list
+     */
+    public ArrayList<StudentPanel> getStudentList() {
+        return studentList;
+    }
+
+    /**
+     * Gets the display panel.
+     * @return display panel
+     */
+    public JPanel getDisplayPanel() {
+        return displayPanel;
+    }
+
+    /**
+     * Remove all panels, revalidate and repaint view.
+     */
+    private void refreshView() {
+        displayPanel.removeAll();
+        displayPanel.revalidate();
+        displayPanel.repaint();
+    }
 }

@@ -74,8 +74,6 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         assignmentList = new AssignmentListView(client);
         initializeAssignListView(panelName);
 
-        // SARA
-        System.out.println(panelName);
         middle.add(assignmentList);
         
         //add 'Course Home' title to top

@@ -40,7 +40,7 @@ public class ProfCoursePage extends CoursePage {
     /**
      * Creates an object of ProfCoursePage.
      */
-    public ProfCoursePage(String courseName, Client client){
+    public ProfCoursePage(String courseName, Client client) {
         //Get set data fields from super
         super(courseName, client);
         enrolledStudents = client.getEnrolledStudents(panelName);
@@ -50,7 +50,9 @@ public class ProfCoursePage extends CoursePage {
         
         
         //Set the title of the GUI
-        setTitle("Professor Course Page");
+        String userName = client.getAuthenticatedUser().getFirstName() + " "
+                + client.getAuthenticatedUser().getLastName();
+        setTitle(userName + " Course Page (Professor)");
         addSearchlStudentButton();
         addAssignmentButton();
         addRefreshListener();
@@ -110,9 +112,8 @@ public class ProfCoursePage extends CoursePage {
     
     /**
      * Adds a panel representing a student to the JScrollPane.
-     * @param firstName student first panelName
-     * @param lastName student last panelName
-     * @param ID student ID
+     * @param student student to add to panel
+     * @param courseName course Name
      */
     public void addStudent(User student, String courseName){
        studentList.addStudentToView(student, courseName);
@@ -126,8 +127,8 @@ public class ProfCoursePage extends CoursePage {
     public JButton getUnenrollButton(int index){
        JPanel temp = studentList.getStudentList().get(index);
        System.out.println(temp.getComponentCount());
+
        return (JButton)temp.getComponent(2);
-       
    }
 
     /**
@@ -146,18 +147,30 @@ public class ProfCoursePage extends CoursePage {
      * Updates the student list.
      */
     private void updateEnrolledStudentList() {
-        // Empty the current student list
-        studentList.setStudentList(new ArrayList<StudentPanel>());
-
         // Get list of enrolled students
-        enrolledStudents = client.getEnrolledStudents(ProfCoursePage.this.panelName);
+        enrolledStudents = client.getEnrolledStudents(panelName);
+
+        if (enrolledStudents.isEmpty()) {
+            refreshView();
+        }
+
+        // Empty the current student list
+        studentList.getStudentList().clear();
 
         Iterator<User> iterator = enrolledStudents.iterator();
         while(iterator.hasNext()) {
             User student = iterator.next();
             addStudent(student, panelName);
         }
-        validate();
+    }
+
+    /**
+     * Refreshes the view
+     */
+    private void refreshView() {
+        studentList.getDisplayPanel().removeAll();
+        studentList.getDisplayPanel().revalidate();
+        studentList.getDisplayPanel().repaint();
     }
     
 //    public static void main(String[] args) {
@@ -197,8 +210,7 @@ public class ProfCoursePage extends CoursePage {
 //        coursePage.addStudent("Jane", "Doe", 69696969);
 //        
 //        
-//        
-//        System.out.println(coursePage.getAssignmentList().getAssignmentList().size());
+//
 //        
 //        
 //        JButton b = coursePage.getUnenrollButton(2);

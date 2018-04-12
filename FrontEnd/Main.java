@@ -6,7 +6,7 @@ package FrontEnd;
  *  @author Rylan
  */
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
     	Client client = new Client();
         client.runClient();
     }

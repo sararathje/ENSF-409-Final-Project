@@ -17,7 +17,9 @@ public class StudentGUI extends UserGUI {
         super(client);
         
         // Set title
-        setTitle("Student Home Page");
+        String userName = client.getAuthenticatedUser().getFirstName() + " "
+                + client.getAuthenticatedUser().getLastName();
+        setTitle(userName + " Home Page (Student)");
     }
    
     // Placeholder for now just to test what it looks like
