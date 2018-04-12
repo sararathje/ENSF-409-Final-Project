@@ -539,17 +539,31 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-		Login deez = new Login("test", "password");
-		Course banana = new Course("Banana", 2345, 4, true);
-		
-		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
-
-		DatabaseHelper rock = new DatabaseHelper();
-		//rock.addCourse(banana);
-		//rock.addAssignment(nuts);
-		
-		rock.setAssignmentActive(nuts.getID());
-
-		System.out.println("woot");
+//		Login deez = new Login("rylan", "1");
+//                User user1 = new User(1234, deez, "bob@jim.com", "bob", "smith", 'S');
+//                User user2 = new User(4567, deez, "nasty@jim.com", "sally", "smith", 'S');
+//                User user3 = new User(8912, deez, "dank@jim.com", "jane", "smith", 'S');
+//                User user4 = new User(3456, deez, "boi@jim.com", "jim", "smith", 'S');
+//                User user5 = new User(7890, deez, "yeet@jim.com", "ash", "smith", 'S');
+//                User user6 = new User(1245, deez, "420@jim.com", "bud", "smith", 'S');
+//                
+//                
+//		Course banana = new Course("Banana", 2345, 4, true);
+//		
+//		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
+//
+//		DatabaseHelper rock = new DatabaseHelper();
+//		//rock.addCourse(banana);
+//		//rock.addAssignment(nuts);
+//		
+//		//rock.setAssignmentActive(nuts.getID());
+//
+//                rock.addUser(user1);
+//                rock.addUser(user2);
+//                rock.addUser(user3);
+//                rock.addUser(user4);
+//                rock.addUser(user5);
+//                rock.addUser(user6);
+//		System.out.println("woot");
 	}
 }

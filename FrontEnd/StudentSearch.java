@@ -162,21 +162,7 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
      */
     private void addListeners() {
         searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String lastName = lastNameField.getText(),
-                        id = IDField.getText();
-
-                if (lastName.equals("") && id.equals("")) {
-                    JOptionPane.showMessageDialog(null, EMPTY_SEARCH, "",
-                            JOptionPane.WARNING_MESSAGE);
-                } else {
-                    clearInputFields();
-                    dispose();
-
-                    ArrayList<User> matchedStudents = client.searchForStudent(lastName, id, courseName);
-                    showResults(matchedStudents);
-                }
-            }
+            public void actionPerformed(ActionEvent e) 
         });
 
         cancelButton.addActionListener(new ActionListener() {
@@ -203,10 +189,11 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
         return courseName;
     }
 
+    
+    //NOTE: this function should
     private void showResults(ArrayList<User> matchedStudents) {
         if (!matchedStudents.isEmpty()) {
-            StudentSearchResults studentResults = new StudentSearchResults(parent, true, client,
-                    matchedStudents, courseName);
+            StudentSearchResults2 studentResults = new StudentSearchResults2(client, matchedStudents, courseName);
             studentResults.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, NO_MATCHES_FOUND, "",
