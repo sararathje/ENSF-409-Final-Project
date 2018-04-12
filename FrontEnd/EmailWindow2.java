@@ -9,6 +9,9 @@ import Models.Email;
 import Models.User;
 import java.util.ArrayList;
 
+import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
+import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
+
 /**
  *
  * @author Rylan
@@ -53,12 +56,14 @@ public class EmailWindow2 extends javax.swing.JDialog {
         });
 
         jLabel1.setText("Subject Line:");
+        jLabel1.setForeground(FOREGROUND_COLOUR);
 
         textTA.setColumns(20);
         textTA.setRows(5);
         jScrollPane1.setViewportView(textTA);
 
         jLabel2.setText("Your Email Password:");
+        jLabel2.setForeground(FOREGROUND_COLOUR);
 
         sendB.setText("Send");
         sendB.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +120,7 @@ public class EmailWindow2 extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

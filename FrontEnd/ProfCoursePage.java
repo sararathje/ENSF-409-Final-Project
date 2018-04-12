@@ -4,6 +4,8 @@ package FrontEnd;
 import Models.User;
 
 import static Constants.FontConstants.BUTTON_FONT;
+import static Constants.MessageConstants.NO_RECIPIENTS;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -159,8 +161,13 @@ public class ProfCoursePage extends CoursePage {
            public void actionPerformed(ActionEvent e) {
                ArrayList<User> students = client.getEnrolledStudents(panelName);
 
-               emailWindow = new EmailWindow(ProfCoursePage.this, false, client, students);
-               emailWindow.setVisible(true);
+               if (!students.isEmpty()) {
+                   emailWindow = new EmailWindow2(ProfCoursePage.this, false, client, students);
+                   emailWindow.setVisible(true);
+               } else {
+                   JOptionPane.showMessageDialog(getContentPane(), NO_RECIPIENTS, ""
+                           , JOptionPane.WARNING_MESSAGE);
+               }
            }
        });
    }

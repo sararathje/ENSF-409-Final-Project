@@ -97,7 +97,7 @@ public class StudentCoursePage extends CoursePage {
         ArrayList<User> userList = new ArrayList<>();
         userList.add(professor);
 
-        emailWindow = new EmailWindow(StudentCoursePage.this, false, client, userList);
+        emailWindow = new EmailWindow2(StudentCoursePage.this, false, client, userList);
         emailWindow.setVisible(true);
     }
 }
