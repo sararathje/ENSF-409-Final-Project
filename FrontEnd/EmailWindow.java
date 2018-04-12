@@ -5,6 +5,7 @@ import Constants.FontConstants;
 import Constants.LabelConstants;
 
 import static Constants.MessageConstants.INVALID_COURSE_ID;
+import static Constants.MessageConstants.MESSAGE_SENT;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,7 +150,10 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
             		}
                 	
                 	EmailWindow.this.client.sendEmail(EmailWindow.this.email);
-                	dispose();
+                    JOptionPane.showMessageDialog(getContentPane(), MESSAGE_SENT, "",
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    dispose();
                 }       
         }});
 
