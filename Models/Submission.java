@@ -31,7 +31,7 @@ public class Submission implements Serializable
 	private String path;
 	
 	/**
-	 * Letter grade between 0 and 100;
+	 * Grade between 0 and 100;
 	 */
 	private int grade;
 	
