@@ -11,7 +11,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
+//Rylan, this is a mess...make it its own class.
 public class StudentListView extends JScrollPane implements ColourSchemeConstants, FontConstants{
     private ArrayList<JPanel> studentList;
     

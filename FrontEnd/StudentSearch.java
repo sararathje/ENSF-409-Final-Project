@@ -162,9 +162,20 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
      */
     private void addListeners() {
         searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //Sara this somehow got messed up and idk how you had it.
-                //but if you implement this like before everything should work.....
+             public void actionPerformed(ActionEvent e) {
+                String lastName = lastNameField.getText(),
+                        id = IDField.getText();
+
+                if (lastName.equals("") && id.equals("")) {
+                    JOptionPane.showMessageDialog(null, EMPTY_SEARCH, "",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    clearInputFields();
+                    dispose();
+
+                    ArrayList<User> matchedStudents = client.searchForStudent(lastName, id, courseName);
+                    showResults(matchedStudents);
+                }
             }
                     
         });
