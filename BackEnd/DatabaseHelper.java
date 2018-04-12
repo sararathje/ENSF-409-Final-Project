@@ -684,21 +684,7 @@ public class DatabaseHelper implements DatabaseInformation
 //                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
 //                
 //                
-//		Course banana = new Course("Banana", 2345, 4, true);
-//		
-//		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
-//
-//		DatabaseHelper rock = new DatabaseHelper();
-//		//rock.addCourse(banana);
-//		//rock.addAssignment(nuts);
-//		
-//		//rock.setAssignmentActive(nuts.getID());
-//
-//                rock.addUser(user1);
-//                rock.addUser(user2);
-//                rock.addUser(user3);
-//                rock.addUser(user4);
-//                rock.addUser(user5);
-//                rock.addUser(user6);
+
+            Submission sub = new Submission();
 	}
 }
