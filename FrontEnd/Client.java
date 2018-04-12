@@ -102,7 +102,7 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
 
-     public User getAuthenticatedUser() {
+    public User getAuthenticatedUser() {
         return authenticatedUser;
     }
     
@@ -154,7 +154,6 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
     
-
     /**
      * Gets course list for the user from database
      * @return
@@ -521,6 +520,23 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     }
 
+    void submitAssignment(Submission submission, String extension)
+    {
+    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_" 
+    				+ String.valueOf(submission.getStudentID()), extension);
+    	submission.setPath(serverDirPath);
+    	
+    	try
+    	{
+    		sendObject(SUBMIT_ASSIGNMENT);
+    		sendObject(submission);
+    	}
+    	catch(IOException r)
+    	{
+    		System.err.println("Error sending the submission...");
+    	}
+    }
+    
     /**
      * Helper function that sends objects to the server and flushes the output stream
      * @param obj
@@ -530,16 +546,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     {
         socketOut.writeObject(obj);
         socketOut.flush();
-    }
-    
-    /**
-     * For testing
-     * @param args
-     */
-    public static void main(String[] args)
-    {
-    	Client c = new Client();
-    	c.runClient();
     }
  }
 
