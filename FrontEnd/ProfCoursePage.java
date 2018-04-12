@@ -131,13 +131,16 @@ public class ProfCoursePage extends CoursePage {
        return (JButton)temp.getComponent(2);
    }
 
+    /**
+     * Adds listeners to the professor course page.
+     */
    private void addListeners() {
         addRefreshListener();
         addEmailListener();
    }
 
     /**
-     * Adds refresh listener
+     * Adds refresh listener.
      */
    private void addRefreshListener() {
        refresh.addActionListener(new ActionListener(){
@@ -154,12 +157,8 @@ public class ProfCoursePage extends CoursePage {
    private void addEmailListener() {
        email.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-               // Sara
-               System.out.println("Got called!");
                ArrayList<User> students = client.getEnrolledStudents(panelName);
 
-               // TODO: Maybe should change to not null in the future
-               // Maybe it's failing because it's null
                emailWindow = new EmailWindow(ProfCoursePage.this, false, client, students);
                emailWindow.setVisible(true);
            }

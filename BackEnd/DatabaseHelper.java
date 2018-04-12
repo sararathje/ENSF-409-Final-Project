@@ -584,6 +584,11 @@ public class DatabaseHelper implements DatabaseInformation
         return studentList;
     }
 
+    /**
+     * Gets list of student IDs from course ID
+     * @param courseID course ID
+     * @return list of student IDs
+     */
     private ArrayList<Integer> getStudentIDInCourse(int courseID) {
         ArrayList<Integer> studentIDList = new ArrayList<>();
         ResultSet studentIDs;
@@ -667,6 +672,39 @@ public class DatabaseHelper implements DatabaseInformation
         } catch (SQLException e) { e.printStackTrace(); }
 
         return matchedStudents;
+    }
+
+    /**
+     * Searches user table for user with ID given by the parameter.
+     * @param profID professor ID
+     * @return User matching professor ID
+     */
+    public User searchForProfessor(int profID) {
+        System.out.println("About to search for professor...");
+        User user = null;
+        ResultSet professorResult;
+
+        String sql = "SELECT * FROM " + userTable + " WHERE USERID = ?";
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.setInt(1, profID);
+            professorResult = statement.executeQuery();
+
+           if (professorResult.next()) {
+               Login profLogin = new Login(professorResult.getString("USERNAME"),
+                       professorResult.getString("PASSWORD"));
+
+               user = new User(professorResult.getInt("USERID"),
+                       profLogin,
+                       professorResult.getString("EMAIL"),
+                       professorResult.getString("FIRSTNAME"),
+                       professorResult.getString("LASTNAME"),
+                       professorResult.getString("CLIENTTYPE").charAt(0));
+           }
+        } catch (SQLException e) { e.printStackTrace(); }
+
+        return user;
     }
 	
 	/**
