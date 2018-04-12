@@ -24,6 +24,8 @@ public class ProfCoursePage extends CoursePage {
      */
     private StudentListView studentList;
     
+    private ArrayList<User> enrolledStudents;
+    
     /**
      * The searchStudent button
      */
@@ -41,9 +43,9 @@ public class ProfCoursePage extends CoursePage {
     public ProfCoursePage(String courseName, Client client){
         //Get set data fields from super
         super(courseName, client);
-        
+        enrolledStudents = client.getEnrolledStudents(panelName);
         addStudentSubtitle();
-        studentList = new StudentListView();
+        studentList = new StudentListView(client, enrolledStudents, panelName);
         middle.add(studentList);
         
         
@@ -59,7 +61,7 @@ public class ProfCoursePage extends CoursePage {
      * adds 'Enrolled Students' to the assignments to the middle panel.
      */
    private void addStudentSubtitle(){
-       JLabel subTitle = new JLabel("Enrolled Students");
+       JLabel subTitle = new JLabel("Enrolled Students:");
        subTitle.setFont(PANEL_TITLE_FONT);
        subTitle.setForeground(FOREGROUND_COLOUR);
        middle.add(subTitle);
@@ -112,8 +114,8 @@ public class ProfCoursePage extends CoursePage {
      * @param lastName student last panelName
      * @param ID student ID
      */
-    public void addStudent(String firstName, String lastName, int ID){
-       studentList.addStudentToView(firstName, lastName, ID);
+    public void addStudent(User student, String courseName){
+       studentList.addStudentToView(student, courseName);
     }  
     
     /**
@@ -145,16 +147,17 @@ public class ProfCoursePage extends CoursePage {
      */
     private void updateEnrolledStudentList() {
         // Empty the current student list
-        studentList.setStudentList(new ArrayList<JPanel>());
+        studentList.setStudentList(new ArrayList<StudentPanel>());
 
         // Get list of enrolled students
-        ArrayList<User> enrolledStudents = client.getEnrolledStudents(ProfCoursePage.this.panelName);
+        enrolledStudents = client.getEnrolledStudents(ProfCoursePage.this.panelName);
 
         Iterator<User> iterator = enrolledStudents.iterator();
         while(iterator.hasNext()) {
             User student = iterator.next();
-            addStudent(student.getFirstName(), student.getLastName(), student.getID());
+            addStudent(student, panelName);
         }
+        validate();
     }
     
 //    public static void main(String[] args) {

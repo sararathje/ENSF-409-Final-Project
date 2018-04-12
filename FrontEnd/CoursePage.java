@@ -27,6 +27,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
      * "course 123"
      */
     protected String panelName;
+    
     protected AssignmentListView assignmentList;
     
     /**
@@ -192,7 +193,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * @param assignment the panelName of the assignment to be added.
     */
    public void addAssignment(Assignment assignment){
-       assignmentList.addAssignmentTOView(assignment);
+       assignmentList.addAssignmentToView(assignment);
        validate();
     }  
    

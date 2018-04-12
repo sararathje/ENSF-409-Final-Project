@@ -23,8 +23,10 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
     private String courseName;
     
     private JButton enrollButton;
+    
+    private JButton unenrollButton;
 
-    public StudentPanel(User student, Client client, String courseName) {
+    public StudentPanel(User student, Client client, String courseName, boolean enroll) {
         this.courseName = courseName;
         this.student = student;
         this.client = client;
@@ -37,7 +39,12 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
         setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         
         addStudentInfo();
+        if(enroll){
         addEnrollButton();
+        }
+        else{
+            addUnenrollButton();
+        }
         
     }
     
@@ -89,5 +96,19 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
             });
             add(enrollButton);
             
+        }
+        
+        private void addUnenrollButton(){
+            unenrollButton = new JButton("Unenroll");
+            unenrollButton.setFont(BUTTON_FONT);
+            unenrollButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    
+                    client.unenrollStudent(student, courseName);
+                    unenrollButton.setText("Unenrolled!");
+                    unenrollButton.setEnabled(false);
+                }
+            });
+            add(unenrollButton);
         }
 }

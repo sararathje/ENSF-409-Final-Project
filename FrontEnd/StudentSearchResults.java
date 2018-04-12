@@ -61,7 +61,7 @@ public class StudentSearchResults extends JFrame{
     
     private void showResults(){
         for(int i = 0; i < students.size(); i++){
-            displayPanel.add(new StudentPanel(students.get(i), client, courseName));
+            displayPanel.add(new StudentPanel(students.get(i), client, courseName, true));
         }
     }
     

@@ -622,12 +622,12 @@ public class DatabaseHelper implements DatabaseInformation
 	public static void main(String[] args)
 	{
 //		Login deez = new Login("rylan", "1");
-//                User user1 = new User(1234, deez, "bob@jim.com", "bob", "smith", 'S');
-//                User user2 = new User(4567, deez, "nasty@jim.com", "sally", "smith", 'S');
-//                User user3 = new User(8912, deez, "dank@jim.com", "jane", "smith", 'S');
-//                User user4 = new User(3456, deez, "boi@jim.com", "jim", "smith", 'S');
-//                User user5 = new User(7890, deez, "yeet@jim.com", "ash", "smith", 'S');
-//                User user6 = new User(1245, deez, "420@jim.com", "bud", "smith", 'S');
+//                User user1 = new User(1234, deez, "bob12@jim.com", "bob", "kettles", 'S');
+//                User user2 = new User(4567, deez, "nasty12@jim.com", "sally", "kettles", 'S');
+//                User user3 = new User(8912, deez, "dank12@jim.com", "jane", "kettles", 'S');
+//                User user4 = new User(3456, deez, "boi12@jim.com", "jim", "kettles", 'S');
+//                User user5 = new User(7890, deez, "yeet12@jim.com", "ash", "kettles", 'S');
+//                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
 //                
 //                
 //		Course banana = new Course("Banana", 2345, 4, true);

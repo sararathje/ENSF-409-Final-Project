@@ -48,7 +48,7 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
      * Adds panels that represent assignments to the display panel.
      * @param assignment 
      */
-    public void addAssignmentTOView(Assignment assignment){
+    public void addAssignmentToView(Assignment assignment){
         //creates a new JPanel for an assignment
         AssignmentPanel newAssignment = new AssignmentPanel(assignment, client);
         

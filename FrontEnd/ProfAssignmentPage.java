@@ -13,6 +13,7 @@ public class ProfAssignmentPage extends AssignmentPage{
     
     private JButton uploadFile;
     private JButton assignGrade;
+    private JButton activeButton;
     
     public ProfAssignmentPage(Assignment assignment, Client client) {
         super(assignment, client);
@@ -21,6 +22,8 @@ public class ProfAssignmentPage extends AssignmentPage{
         createUploadFileButton();
         
         createAssignGradeButton();
+        
+        createSetActiveButton(assignment);
         
         setTitle("Professor Assignment Page");
     }
@@ -44,6 +47,18 @@ public class ProfAssignmentPage extends AssignmentPage{
         
         //todo: add action listener
         
+    }
+    
+    private void createSetActiveButton(Assignment assign){
+        if (assign.isActive()){
+            activeButton = new JButton("Deacivate");
+        }
+        else{
+            activeButton = new JButton("Activate");
+        }
+        
+        //todo add listeners;
+        bottom.add(activeButton);
     }
             
     public static void main(String[] args) {
