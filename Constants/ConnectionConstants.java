@@ -8,6 +8,7 @@ package Constants;
  */
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
+    String HOSTNAMEREMOTE = "DESKTOP-A3JUSUB";
     int PORT = 9090;
     String ADDRESS = "136.159.49.116";
     String CLIENTTEMPPATH = "C:\\temp\\"; //Jack's path: C:\\temp\\

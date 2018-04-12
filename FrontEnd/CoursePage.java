@@ -8,6 +8,8 @@ import static Constants.FontConstants.BUTTON_FONT;
 import Constants.LabelConstants;
 import Models.Assignment;
 import Models.Course;
+import Models.User;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -54,6 +56,11 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
      * The client using this page
      */
     protected Client client;
+
+    /**
+     * Email window
+     */
+    protected EmailWindow emailWindow;
     
     /**
      * Creates an object of type CoursePage.
@@ -226,7 +233,5 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
        for(int i = 0; i < c.getAssignmentList().size(); i++){
            CoursePage.this.addAssignment(c.getAssignmentList().get(i));
        }
-
-
    }
 }
