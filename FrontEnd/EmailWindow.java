@@ -69,6 +69,8 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
 		
 		initializeComp();
 		setListener();
+		this.pack();
+        this.setVisible(true);
 	}
 	
 	/**
@@ -122,6 +124,8 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
 		getContentPane().add(pane2);
 		getContentPane().add(pane3);
 		getContentPane().add(pane4);
+
+		getContentPane().setBackground(LOGIN_BACKGROUND_COLOUR);
 	}
 	
 	/**

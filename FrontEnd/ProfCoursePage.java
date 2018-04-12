@@ -55,7 +55,7 @@ public class ProfCoursePage extends CoursePage {
         setTitle(userName + " Course Page (Professor)");
         addSearchlStudentButton();
         addAssignmentButton();
-        addRefreshListener();
+        addListeners();
         updateEnrolledStudentList();
     }
     
@@ -132,13 +132,35 @@ public class ProfCoursePage extends CoursePage {
    }
 
     /**
-     * Adds refresh listener
+     * Adds listeners to the professor course page.
+     */
+   private void addListeners() {
+        addRefreshListener();
+        addEmailListener();
+   }
+
+    /**
+     * Adds refresh listener.
      */
    private void addRefreshListener() {
        refresh.addActionListener(new ActionListener(){
            public void actionPerformed(ActionEvent e){
                updateAssignmentList();
                updateEnrolledStudentList();
+           }
+       });
+   }
+
+    /**
+     * Add email listener.
+     */
+   private void addEmailListener() {
+       email.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               ArrayList<User> students = client.getEnrolledStudents(panelName);
+
+               emailWindow = new EmailWindow(ProfCoursePage.this, false, client, students);
+               emailWindow.setVisible(true);
            }
        });
    }

@@ -52,4 +52,6 @@ public interface ConnectionConstants {
     String PDF = ".pdf";
     
     String SEND_EMAIL = "send email";
+
+    String SEARCH_FOR_PROF = "SEARCH_FOR_PROF";
 }

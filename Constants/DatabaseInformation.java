@@ -7,8 +7,18 @@ public interface DatabaseInformation
 	 * Connection information for the database
 	 */
 	public String connectionInfo = "jdbc:mysql://localhost:3306/D2L",  
-			  login          = "Jack_Glass",//root
-			  password       = "S16T25R6";//Rysql
+
+                
+                //uncomment the one you want.
+			  login          = "Jack_Glass",
+			  password       = "S16T25R6";
+
+//			  login          = "root",
+//			  password       = "Rysql";
+//                          
+//                          login          ="root", 
+//                          password       ="Greenbananas567";
+
 	
 	/**
 	 * All the table names listed here

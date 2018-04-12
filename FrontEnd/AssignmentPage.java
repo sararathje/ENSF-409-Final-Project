@@ -17,25 +17,56 @@ import javax.swing.*;
  */
 public class AssignmentPage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants{
     
+    /**
+     * The Assignment
+     */
     protected Assignment assignment;
     
+    /**
+     * The title
+     */
     protected String panelName;
     
+    /**
+     * The panel in the middle
+     */
     protected JPanel middle;
     
+    /**
+     * the inforBar at he top
+     */
     protected JPanel infoBar;
    
+    /**
+     * text area to show assignment file
+     */
     protected JTextArea assignmentFileArea;
     
+    /**
+     * Panel at the bottom
+     */
     protected JPanel bottom;
         
+    /**
+     * refresh button
+     */
     protected JButton refresh;
     
+    /**
+     * Client
+     */
     protected Client client;
     
+    /**
+     * label for the date
+     */
     private JLabel dueDate;
     
-    
+    /**
+     * Creates an object of type assignment page.
+     * @param assignment
+     * @param client 
+     */
     public AssignmentPage(Assignment assignment, Client client){
        this.assignment = assignment;
        this.client = client;
@@ -124,7 +155,7 @@ public class AssignmentPage extends JFrame implements ColourSchemeConstants, Fon
         infoBar.setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         middle.add(infoBar);
         
-        JLabel label1 = new JLabel("Due Date: ");
+        JLabel label1 = new JLabel(" Due Date: ");
         label1.setFont(PANEL_TITLE_FONT);
         label1.setForeground(FOREGROUND_COLOUR);
         infoBar.add(label1);

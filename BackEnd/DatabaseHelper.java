@@ -35,7 +35,6 @@ public class DatabaseHelper implements DatabaseInformation
 			jdbc_connection = DriverManager.getConnection(connectionInfo, login, password);
 			System.out.println("Connected to: " + connectionInfo + "\n");
 		}
-		catch(SQLException e) { e.printStackTrace(); }
 		catch(Exception e) { e.printStackTrace(); }
 	}
 	
@@ -428,14 +427,14 @@ public class DatabaseHelper implements DatabaseInformation
         }
 	}
         public int getGrade(int assignmentID, int studentID, int courseID){
-            String sql = "SELECT * FROM " + gradeTable + "WHERE ASSIGNMENTID = ?"
+            String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGNMENTID = ?"
                     + " AND STUDENTID = ? AND COURSEID = ?";
             
             try{
                 statement = jdbc_connection.prepareStatement(sql);
                 statement.setInt(1, assignmentID);
                 statement.setInt(2, studentID);
-                statement.setInt(2, courseID);
+                statement.setInt(3, courseID);
                 
                 
                 ResultSet result = statement.executeQuery();
@@ -452,7 +451,7 @@ public class DatabaseHelper implements DatabaseInformation
             catch(SQLException e){
                 e.printStackTrace();
             }
-            return -2;
+            return -3;
         }
 	
 	/**
@@ -584,6 +583,11 @@ public class DatabaseHelper implements DatabaseInformation
         return studentList;
     }
 
+    /**
+     * Gets list of student IDs from course ID
+     * @param courseID course ID
+     * @return list of student IDs
+     */
     private ArrayList<Integer> getStudentIDInCourse(int courseID) {
         ArrayList<Integer> studentIDList = new ArrayList<>();
         ResultSet studentIDs;
@@ -668,6 +672,39 @@ public class DatabaseHelper implements DatabaseInformation
 
         return matchedStudents;
     }
+
+    /**
+     * Searches user table for user with ID given by the parameter.
+     * @param profID professor ID
+     * @return User matching professor ID
+     */
+    public User searchForProfessor(int profID) {
+        System.out.println("About to search for professor...");
+        User user = null;
+        ResultSet professorResult;
+
+        String sql = "SELECT * FROM " + userTable + " WHERE USERID = ?";
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.setInt(1, profID);
+            professorResult = statement.executeQuery();
+
+           if (professorResult.next()) {
+               Login profLogin = new Login(professorResult.getString("USERNAME"),
+                       professorResult.getString("PASSWORD"));
+
+               user = new User(professorResult.getInt("USERID"),
+                       profLogin,
+                       professorResult.getString("EMAIL"),
+                       professorResult.getString("FIRSTNAME"),
+                       professorResult.getString("LASTNAME"),
+                       professorResult.getString("CLIENTTYPE").charAt(0));
+           }
+        } catch (SQLException e) { e.printStackTrace(); }
+
+        return user;
+    }
 	
 	/**
 	 * for testing
@@ -684,7 +721,16 @@ public class DatabaseHelper implements DatabaseInformation
 //                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
 //                
 //                
+//		Course banana = new Course("Banana", 2345, 4, true);
+//		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
+//		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
+//
+//
+//		DatabaseHelper rock = new DatabaseHelper();
+//		rock.addGrade(69, sub);
 
-            Submission sub = new Submission();
+               
+           // Submission sub = new Submission();
+
 	}
 }
