@@ -685,6 +685,6 @@ public class DatabaseHelper implements DatabaseInformation
 //                
 //                
 
-            Submission sub = new Submission();
+            // Submission sub = new Submission();
 	}
 }

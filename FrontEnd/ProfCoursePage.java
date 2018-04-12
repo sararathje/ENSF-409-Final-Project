@@ -55,7 +55,7 @@ public class ProfCoursePage extends CoursePage {
         setTitle(userName + " Course Page (Professor)");
         addSearchlStudentButton();
         addAssignmentButton();
-        addRefreshListener();
+        addListeners();
         updateEnrolledStudentList();
     }
     
@@ -131,6 +131,11 @@ public class ProfCoursePage extends CoursePage {
        return (JButton)temp.getComponent(2);
    }
 
+   private void addListeners() {
+        addRefreshListener();
+        addEmailListener();
+   }
+
     /**
      * Adds refresh listener
      */
@@ -139,6 +144,24 @@ public class ProfCoursePage extends CoursePage {
            public void actionPerformed(ActionEvent e){
                updateAssignmentList();
                updateEnrolledStudentList();
+           }
+       });
+   }
+
+    /**
+     * Add email listener.
+     */
+   private void addEmailListener() {
+       email.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               // Sara
+               System.out.println("Got called!");
+               ArrayList<User> students = client.getEnrolledStudents(panelName);
+
+               // TODO: Maybe should change to not null in the future
+               // Maybe it's failing because it's null
+               emailWindow = new EmailWindow(ProfCoursePage.this, false, client, students);
+               emailWindow.setVisible(true);
            }
        });
    }
