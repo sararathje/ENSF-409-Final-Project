@@ -162,7 +162,11 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
      */
     private void addListeners() {
         searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) 
+            public void actionPerformed(ActionEvent e) {
+                //Sara this somehow got messed up and idk how you had it.
+                //but if you implement this like before everything should work.....
+            }
+                    
         });
 
         cancelButton.addActionListener(new ActionListener() {
@@ -190,10 +194,10 @@ public class StudentSearch extends javax.swing.JDialog implements MessageConstan
     }
 
     
-    //NOTE: this function should
+   
     private void showResults(ArrayList<User> matchedStudents) {
         if (!matchedStudents.isEmpty()) {
-            StudentSearchResults2 studentResults = new StudentSearchResults2(client, matchedStudents, courseName);
+            StudentSearchResults studentResults = new StudentSearchResults(client, matchedStudents, courseName);
             studentResults.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, NO_MATCHES_FOUND, "",
