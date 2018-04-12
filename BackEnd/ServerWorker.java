@@ -51,7 +51,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 	 * @param user authenticated user
 	 */
     private void sendAuthenticatedUser(User user){
-        try{
+        try {
             objOut.writeObject(AUTHENTICATE);
             
             objOut.writeObject(user);
