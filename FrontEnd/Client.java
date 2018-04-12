@@ -57,8 +57,7 @@ public class Client implements ConnectionConstants, MessageConstants {
     public Client() {
         try {
             // Establish socket connection
-        	InetAddress address = InetAddress.getByName(ADDRESS);
-            socket = new Socket(address, PORT);
+            socket = new Socket(HOSTNAME, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
             
