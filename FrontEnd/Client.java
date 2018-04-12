@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import Models.*;
 import Constants.*;
@@ -56,7 +57,8 @@ public class Client implements ConnectionConstants, MessageConstants {
     public Client() {
         try {
             // Establish socket connection
-            socket = new Socket(HOSTNAME, PORT);
+        	InetAddress address = InetAddress.getByName(ADDRESS);
+            socket = new Socket(address, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
             
