@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -39,7 +40,8 @@ public class Server implements ConnectionConstants {
     public Server() {
         try {
             // Establish socket connection
-            serverSocket = new ServerSocket(PORT);
+        	InetAddress address = InetAddress.getByName(ADDRESS);
+            serverSocket = new ServerSocket(PORT, 12, address);
             pool = Executors.newCachedThreadPool();
         } catch(IOException e) {
             System.out.println("Error in creating new socket");

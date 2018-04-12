@@ -9,6 +9,7 @@ package Constants;
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
+    String ADDRESS = "136.159.49.116";
     String CLIENTTEMPPATH = "C:\\temp\\"; //Jack's path: C:\\temp\\
     String serverDirPath = "C:\\ENSF_409\\"; //Jack's path: C:\\ENSF_409\\
     
