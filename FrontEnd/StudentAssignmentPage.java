@@ -17,13 +17,17 @@ public class StudentAssignmentPage extends AssignmentPage {
     private JButton dropBox;
     private JLabel dueDate;
     private JLabel submissionNumber;
-    private JLabel grade;
+    private JLabel gradeLabel;
+    //private String grade;
     
     public StudentAssignmentPage(Assignment assignment, Client client) {
         //Get set data fields from super
         super(assignment, client);
         
+        
+        
         createDropBoxButton();
+        addGradeToInfoBar();
         setTitle("Student Assignment Page");
         
     }
@@ -36,7 +40,27 @@ public class StudentAssignmentPage extends AssignmentPage {
         bottom.add(dropBox);
     }
     
+    private void addGradeToInfoBar(){
+        
+        String gr;
+        int grade = getGradeFromServer();
+        if (grade != -1){
+            gr = Integer.toString(grade);
+        }
+        else{
+            gr = "Ungraded";
+        }
+        gradeLabel = new JLabel("Grade: " + grade);
+        infoBar.add(gradeLabel);
+    }
     
+    //todo add listener to refresh button that will add update grade
+    
+    
+    public int getGradeFromServer(){
+        int grade = client.getGrade(assignment.getID(), client.getAuthenticatedUser().getID(), assignment.getCourseID() );
+        return grade;
+    }
     
     public static void main(String[] args) {
         Client test = new Client();

@@ -43,6 +43,7 @@ public interface ConnectionConstants {
     String SUBMIT_ASSIGNMENT = "SUBMIT ASSIGNMENT";
     String DOWNLOAD_SUBMISSION = "download submission";
     String GRADE_SUBMISSION = "GRADE SUBMISSION";
+    String GET_GRADE = "GET GRADE";
     
     String UPLOAD_FILE = "UPLOAD FILE";
     String DOWNLOAD_FILE = "DOWNLOAD FILE";
