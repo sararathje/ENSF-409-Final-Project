@@ -186,13 +186,16 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						//TODO
 					}
-                                        else if(input.equals(GET_GRADE)){
-                                            int assignmentID = (int) objIn.readObject();
-                                            int studentID = (int) objIn.readObject();
-                                            int courseID = (int) objIn.readObject();
-                                            int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
-                                            sendObject(grade);
-                                        }
+                    else if(input.equals(GET_GRADE)){
+                        int assignmentID = (int) objIn.readObject();
+                        int studentID = (int) objIn.readObject();
+                        int courseID = (int) objIn.readObject();
+                        int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
+                        sendObject(grade);
+                    } else if(input.equals(SEARCH_FOR_PROF)) {
+					    User professor = dbHelper.searchForProfessor((int)objIn.readObject());
+					    sendObject(professor);
+                    }
 					else if(input.equals(QUIT))
 					{
 						break;
