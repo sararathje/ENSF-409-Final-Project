@@ -9,6 +9,7 @@ package Constants;
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
+    String CLIENTTEMPPATH = "C:\\temp\\";
     
     //List of commands that the client can send to the server
     String QUIT = "QUIT";

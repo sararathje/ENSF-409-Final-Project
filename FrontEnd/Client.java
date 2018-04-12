@@ -429,38 +429,41 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     void uploadFile(String path, String name, String ext)
     {
-    	if(ext != TXT || ext != PDF)
+    	if(ext.equals(TXT) || ext.equals(PDF))
+    	{
+    		File selectedFile = new File(path);
+        	long length = selectedFile.length();
+        	byte[] content = new byte[(int) length]; // Converting Long to Int
+        	try {
+        	FileInputStream fis = new FileInputStream(selectedFile);
+        	BufferedInputStream bos = new BufferedInputStream(fis);
+        	bos.read(content, 0, (int)length);
+        	sendObject(UPLOAD_FILE);
+        	sendObject(name);
+        	sendObject(content);
+        	sendObject(ext);
+        	bos.close();
+        	} 
+        	catch (FileNotFoundException e) 
+        	{
+        	e.printStackTrace();
+        	} 
+        	catch(IOException e)
+        	{
+        	e.printStackTrace();
+        	}
+    	} else
     	{
     		System.err.println("Invalid extension");
     		return;
     	}
-    	File selectedFile = new File(path);
-    	long length = selectedFile.length();
-    	byte[] content = new byte[(int) length]; // Converting Long to Int
-    	try {
-    	FileInputStream fis = new FileInputStream(selectedFile);
-    	BufferedInputStream bos = new BufferedInputStream(fis);
-    	bos.read(content, 0, (int)length);
-    	sendObject(UPLOAD_FILE);
-    	sendObject(name);
-    	sendObject(content);
-    	sendObject(ext);
-    	bos.close();
-    	} 
-    	catch (FileNotFoundException e) 
-    	{
-    	e.printStackTrace();
-    	} 
-    	catch(IOException e)
-    	{
-    	e.printStackTrace();
-    	}
+    	
     }
     
     /**
      * Downloads a file from the server
      */
-    void downloadFile(String name, String ext)
+    void viewFile(String name, String ext, JTextArea theArea)
     {
     	try
     	{
@@ -469,6 +472,26 @@ public class Client implements ConnectionConstants, MessageConstants {
     	sendObject(ext);
     	
     	byte[] content = (byte[])socketIn.readObject();
+    	
+    	File newFile = new File(CLIENTTEMPPATH + name + ext);
+		if(!newFile.exists())
+		newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
+		
+		FileReader fis = new FileReader(newFile);
+    	BufferedReader bis = new BufferedReader(fis);
+    	
+    	String line = bis.readLine();
+    	while(line != null)
+    	{
+    		theArea.append(line);
+    		line = bis.readLine();
+    	}
+    	bis.close();
+    	newFile.delete();
     	}
     	catch(IOException e)
     	{
@@ -478,7 +501,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Class not found");
     	}
-    	//TODO something with the file. Perhaps display it
     }
     
     /**
@@ -509,5 +531,14 @@ public class Client implements ConnectionConstants, MessageConstants {
         socketOut.flush();
     }
     
+    /**
+     * For testing
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+    	Client c = new Client();
+    	c.runClient();
+    }
  }
 

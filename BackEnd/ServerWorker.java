@@ -124,7 +124,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if(input.equals(NEW_ASSIGNMENT))
 					{
 						input = objIn.readObject();
-						dbHelper.addAssignment((Assignment)input);
+                        dbHelper.addAssignment((Assignment)input);
 					}
 					else if (input.equals(ASSIGNMENT_LIST_PROF))
 					{
@@ -172,7 +172,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						String name = (String) objIn.readObject();
 						byte[] content = (byte[])objIn.readObject();
 						String extension = (String) objIn.readObject();
-						fHelper.getFile(name, extension);
+						fHelper.saveFile(name, content, extension);
+					}
+					else if (input.equals(DOWNLOAD_FILE))
+					{
+						//TODO
 					}
 					else if(input.equals(QUIT))
 					{
