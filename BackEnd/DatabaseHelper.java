@@ -428,14 +428,14 @@ public class DatabaseHelper implements DatabaseInformation
         }
 	}
         public int getGrade(int assignmentID, int studentID, int courseID){
-            String sql = "SELECT * FROM " + gradeTable + "WHERE ASSIGNMENTID = ?"
+            String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGNMENTID = ?"
                     + " AND STUDENTID = ? AND COURSEID = ?";
             
             try{
                 statement = jdbc_connection.prepareStatement(sql);
                 statement.setInt(1, assignmentID);
                 statement.setInt(2, studentID);
-                statement.setInt(2, courseID);
+                statement.setInt(3, courseID);
                 
                 
                 ResultSet result = statement.executeQuery();
@@ -452,7 +452,7 @@ public class DatabaseHelper implements DatabaseInformation
             catch(SQLException e){
                 e.printStackTrace();
             }
-            return -2;
+            return -3;
         }
 	
 	/**
@@ -684,7 +684,13 @@ public class DatabaseHelper implements DatabaseInformation
 //                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
 //                
 //                
+		Course banana = new Course("Banana", 2345, 4, true);
+		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
+		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 
-            Submission sub = new Submission();
+		DatabaseHelper rock = new DatabaseHelper();
+		rock.addGrade(69, sub);
+
+               
 	}
 }

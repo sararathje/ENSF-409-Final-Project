@@ -124,7 +124,7 @@ public class AssignmentPage extends JFrame implements ColourSchemeConstants, Fon
         infoBar.setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         middle.add(infoBar);
         
-        JLabel label1 = new JLabel("Due Date: ");
+        JLabel label1 = new JLabel(" Due Date: ");
         label1.setFont(PANEL_TITLE_FONT);
         label1.setForeground(FOREGROUND_COLOUR);
         infoBar.add(label1);

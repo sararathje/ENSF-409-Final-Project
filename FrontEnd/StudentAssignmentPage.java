@@ -15,8 +15,6 @@ import javax.swing.*;
 public class StudentAssignmentPage extends AssignmentPage {
 
     private JButton dropBox;
-    private JLabel dueDate;
-    private JLabel submissionNumber;
     private JLabel gradeLabel;
     //private String grade;
     
@@ -45,12 +43,15 @@ public class StudentAssignmentPage extends AssignmentPage {
         String gr;
         int grade = getGradeFromServer();
         if (grade != -1){
-            gr = Integer.toString(grade);
+            gr = Integer.toString(grade) + "  ";
         }
         else{
-            gr = "Ungraded";
+            gr = "Ungraded  ";
         }
-        gradeLabel = new JLabel("Grade: " + grade);
+        gradeLabel = new JLabel("Grade: " + gr);
+        gradeLabel.setFont(PANEL_TITLE_FONT);
+        gradeLabel.setForeground(FOREGROUND_COLOUR);
+        infoBar.add(Box.createHorizontalGlue());
         infoBar.add(gradeLabel);
     }
     
