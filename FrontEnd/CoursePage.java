@@ -71,11 +71,14 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         
         //create assignment list
         assignmentList = new AssignmentListView(client);
-        initializeAssignListView(courseName);
+        initializeAssignListView(panelName);
+
+        // SARA
+        System.out.println(panelName);
         middle.add(assignmentList);
         
         //add 'Course Home' title to top
-        addTitle(courseName);
+        addTitle(panelName);
         
         //add buttons
         addBottomPanel();
@@ -107,19 +110,19 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         refresh.setFont(BUTTON_FONT);
         refresh.setMinimumSize(new Dimension(0, 50));
         bottom.add(refresh);
-        
-        refresh.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                ArrayList<AssignmentPanel> newList = new ArrayList<>();
-                // empty out the current course list.
-                assignmentList.setAssignmentList(newList);
-                CoursePage.this.getAssignmentList();
-                initializeAssignListView(panelName);
-            }
-        });
-        
-        
     }
+
+    /**
+     * Updates the Assignment List in the course view.
+     */
+    protected void updateAssignmentList() {
+        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+        // empty out the current course list.
+        assignmentList.setAssignmentList(newList);
+        CoursePage.this.getAssignmentList();
+        initializeAssignListView(panelName);
+    }
+
     
     /**
      * Creates the email button at the bottom of the GUI.
@@ -186,7 +189,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     
    /**
     * Adds an assignment to the assignment list.
-    * @param AssignmentName the panelName of the assignment to be added.
+    * @param assignment the panelName of the assignment to be added.
     */
    public void addAssignment(Assignment assignment){
        assignmentList.addAssignmentTOView(assignment);
@@ -210,20 +213,21 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * Initializes the AssignmentListView on the page.
     * @param courseName 
     */
-   private void initializeAssignListView(String courseName){
-       CoursePage.this.client.getAssignmentInfo(courseName);
+   private void initializeAssignListView(String courseName) {
+       CoursePage.this.client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
        Course c = null;
        ArrayList<Course> courses = CoursePage.this.client.getAuthenticatedUser().getCourses();
-       for(int i = 0; i< courses.size(); i++){
+       for(int i = 0; i < courses.size(); i++){
             String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
             if(courseName.equals(info)){
                 c = courses.get(i);
             }
         }
+
        for(int i = 0; i < c.getAssignmentList().size(); i++){
            CoursePage.this.addAssignment(c.getAssignmentList().get(i));
        }
 
-       
+
    }
 }

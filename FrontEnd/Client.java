@@ -102,7 +102,7 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
 
-     public User getAuthenticatedUser() {
+    public User getAuthenticatedUser() {
         return authenticatedUser;
     }
     
@@ -130,21 +130,26 @@ public class Client implements ConnectionConstants, MessageConstants {
             e.printStackTrace();
         }
     }
-    
-    void getAssignmentInfo(String courseName){
+
+    /**
+     * Gets list of assignments (assignment info) for a course based on userType
+     * @param courseName course name
+     * @param userType user type
+     */
+    void getAssignmentInfo(String courseName, char userType) {
         try {
             sendObject(GET_ASSIGNMENT_INFO);
-            Object input = socketIn.readObject();
-            if(input instanceof String && input.equals("Sending Assignment List")) {
-                ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
-                ArrayList<Course> courses = this.authenticatedUser.getCourses();
-                for(int i = 0; i< courses.size(); i++){
-                    String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
-                    if(courseName.equals(info)){
-                        this.authenticatedUser.getCourses().get(i).setAssignments(list);
-                    }
+            sendObject(courseName);
+            sendObject(userType);
+
+            ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
+            ArrayList<Course> courses = this.authenticatedUser.getCourses();
+
+            for(int i = 0; i < courses.size(); i++){
+                String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
+                if(courseName.equals(info)) {
+                    this.authenticatedUser.getCourses().get(i).setAssignments(list);
                 }
-                    
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -154,7 +159,6 @@ public class Client implements ConnectionConstants, MessageConstants {
         }
     }
     
-
     /**
      * Gets course list for the user from database
      * @return
@@ -316,6 +320,29 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
 
     /**
+     * Gets list of students enrolled in course
+     * @param courseName name of course to get list of enrolled students in
+     * @return list of enrolled students
+     */
+    ArrayList<User> getEnrolledStudents(String courseName) {
+        ArrayList<User> enrolledStudents = new ArrayList<>();
+        try {
+            sendObject(GET_ENROLLED_STUDENTS);
+            sendObject(courseName);
+
+            // Get list of enrolled students
+            enrolledStudents = (ArrayList<User>)socketIn.readObject();
+        } catch(IOException e) {
+            System.out.println("Error sending server request to get enrolled students");
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return enrolledStudents;
+    }
+
+    /**
      * Sends request to server to upload assignment to course.
      * @param assignment assignment to upload
      */
@@ -407,38 +434,41 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     void uploadFile(String path, String name, String ext)
     {
-    	if(ext != TXT || ext != PDF)
+    	if(ext.equals(TXT) || ext.equals(PDF))
+    	{
+    		File selectedFile = new File(path);
+        	long length = selectedFile.length();
+        	byte[] content = new byte[(int) length]; // Converting Long to Int
+        	try {
+        	FileInputStream fis = new FileInputStream(selectedFile);
+        	BufferedInputStream bos = new BufferedInputStream(fis);
+        	bos.read(content, 0, (int)length);
+        	sendObject(UPLOAD_FILE);
+        	sendObject(name);
+        	sendObject(content);
+        	sendObject(ext);
+        	bos.close();
+        	} 
+        	catch (FileNotFoundException e) 
+        	{
+        	e.printStackTrace();
+        	} 
+        	catch(IOException e)
+        	{
+        	e.printStackTrace();
+        	}
+    	} else
     	{
     		System.err.println("Invalid extension");
     		return;
     	}
-    	File selectedFile = new File(path);
-    	long length = selectedFile.length();
-    	byte[] content = new byte[(int) length]; // Converting Long to Int
-    	try {
-    	FileInputStream fis = new FileInputStream(selectedFile);
-    	BufferedInputStream bos = new BufferedInputStream(fis);
-    	bos.read(content, 0, (int)length);
-    	sendObject(UPLOAD_FILE);
-    	sendObject(name);
-    	sendObject(content);
-    	sendObject(ext);
-    	bos.close();
-    	} 
-    	catch (FileNotFoundException e) 
-    	{
-    	e.printStackTrace();
-    	} 
-    	catch(IOException e)
-    	{
-    	e.printStackTrace();
-    	}
+    	
     }
     
     /**
      * Downloads a file from the server
      */
-    void downloadFile(String name, String ext)
+    void viewFile(String name, String ext, JTextArea theArea)
     {
     	try
     	{
@@ -447,6 +477,26 @@ public class Client implements ConnectionConstants, MessageConstants {
     	sendObject(ext);
     	
     	byte[] content = (byte[])socketIn.readObject();
+    	
+    	File newFile = new File(CLIENTTEMPPATH + name + ext);
+		if(!newFile.exists())
+		newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
+		
+		FileReader fis = new FileReader(newFile);
+    	BufferedReader bis = new BufferedReader(fis);
+    	
+    	String line = bis.readLine();
+    	while(line != null)
+    	{
+    		theArea.append(line);
+    		line = bis.readLine();
+    	}
+    	bis.close();
+    	newFile.delete();
     	}
     	catch(IOException e)
     	{
@@ -456,7 +506,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Class not found");
     	}
-    	//TODO something with the file. Perhaps display it
     }
     
     /**
@@ -475,9 +524,24 @@ public class Client implements ConnectionConstants, MessageConstants {
     		System.err.println("Error sending the email");
     	}
     }
-    
-    
 
+    void submitAssignment(Submission submission, String extension)
+    {
+    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_" 
+    				+ String.valueOf(submission.getStudentID()), extension);
+    	submission.setPath(serverDirPath);
+    	
+    	try
+    	{
+    		sendObject(SUBMIT_ASSIGNMENT);
+    		sendObject(submission);
+    	}
+    	catch(IOException r)
+    	{
+    		System.err.println("Error sending the submission...");
+    	}
+    }
+    
     /**
      * Helper function that sends objects to the server and flushes the output stream
      * @param obj
@@ -488,6 +552,5 @@ public class Client implements ConnectionConstants, MessageConstants {
         socketOut.writeObject(obj);
         socketOut.flush();
     }
-    
  }
 

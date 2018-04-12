@@ -155,21 +155,37 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
-        
-        public ArrayList<Assignment> getAssignmentList() {
+
+    /**
+     * Gets assignment list for a course ID specified by the given parameter.
+     * @param courseID course ID
+     * @param userType user type
+     * @return assignment list
+     */
+	public ArrayList<Assignment> getAssignmentList(int courseID, char userType) {
 	   ArrayList<Assignment> list = new ArrayList<>();
-	   String sql = "SELECT * FROM " + assignmentTable;
+
+	   String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSEID = ?";
+	   if (userType == 'S') {
+	       sql += " AND ACTIVE = ?";
+       }
 
 	   try {
-			ResultSet rs = statement.executeQuery(sql);
-                        //rs.next();
-                       //Date newDate = parseDate(rs.getString(5));// issue here
-			while(rs.next()){
-                                Date newDate = parseDate(rs.getString(5));
-				list.add(new Assignment(rs.getString(3), newDate, rs.getInt(1), rs.getInt(2),rs.getBoolean(4)));
+	       statement = jdbc_connection.prepareStatement(sql);
+
+	       statement.setInt(1, courseID);
+	       if (userType == 'S') {
+	           statement.setBoolean(2, true);
+           }
+
+	       ResultSet rs = statement.executeQuery();
+
+           while(rs.next()) {
+               Date newDate = parseDate(rs.getString(5));
+               list.add(new Assignment(rs.getString(3), newDate, rs.getInt(1), rs.getInt(2),rs.getBoolean(4)));
 			}
 	   }
-	   catch(SQLException ex){
+	   catch(SQLException ex) {
 		   ex.printStackTrace();
 	   }
 
@@ -289,18 +305,20 @@ public class DatabaseHelper implements DatabaseInformation
 	
 	/**
 	 * Adds an assignment to the database in the assignment table
-	 * @param assignment
+	 * @param assignment assignment to add to the table
 	 */
 	public void addAssignment(Assignment assignment)
 	{
-		String sql = "INSERT INTO " + assignmentTable +
-				" VALUES ( " + assignment.getID() + ", " + 
-				assignment.getCourseID() + ", '" + 
-				assignment.getName() + "', " + 
-				assignment.isActive() + ", '" + 
-				assignment.getDueDate().toString() + "');";
-		try{
+	    String sql = "INSERT INTO " + assignmentTable + " VALUES(?,?,?,?,?)";
+
+		try {
 			statement = jdbc_connection.prepareStatement(sql);
+			statement.setInt(1, assignment.getID());
+			statement.setInt(2, assignment.getCourseID());
+			statement.setString(3, assignment.getName());
+			statement.setBoolean(4, assignment.isActive());
+			statement.setString(5, assignment.getDueDate().toString());
+
 			statement.executeUpdate();
 		}
 		catch(SQLException e)
@@ -466,6 +484,70 @@ public class DatabaseHelper implements DatabaseInformation
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets list of enrolled students in course from database
+     * @param courseID course ID
+     * @return list of students in course
+     */
+    public ArrayList<User> getEnrolledStudents(int courseID) {
+        ArrayList<Integer> studentIDs = getStudentIDInCourse(courseID);
+        ArrayList<User> studentList = new ArrayList<>();
+
+        // Get students matching the IDs
+        Iterator<Integer> iterator = studentIDs.iterator();
+
+        try {
+            while(iterator.hasNext()) {
+                ResultSet students;
+                Integer studentID = iterator.next();
+
+                String sql = "SELECT * FROM " + userTable + " WHERE USERID = ?";
+
+                statement = jdbc_connection.prepareStatement(sql);
+                statement.setInt(1, studentID);
+                students = statement.executeQuery();
+
+                while(students.next()) {
+                    Login userLogin = new Login(students.getString("USERNAME"),
+                            students.getString("PASSWORD"));
+
+                    userLogin.setAuthenticated(true);
+
+                    studentList.add(new User(students.getInt("USERID"),
+                            userLogin,
+                            students.getString("EMAIL"),
+                            students.getString("FIRSTNAME"),
+                            students.getString("LASTNAME"),
+                            students.getString("CLIENTTYPE").charAt(0)));
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    private ArrayList<Integer> getStudentIDInCourse(int courseID) {
+        ArrayList<Integer> studentIDList = new ArrayList<>();
+        ResultSet studentIDs;
+        String sql = "SELECT * FROM " + studentEnrollment + " WHERE COURSEID = ?";
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.setInt(1, courseID);
+            studentIDs = statement.executeQuery();
+
+            while(studentIDs.next()) {
+                studentIDList.add(studentIDs.getInt("STUDENTID"));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return studentIDList;
     }
 
     /**

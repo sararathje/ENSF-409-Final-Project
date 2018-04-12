@@ -9,6 +9,8 @@ package Constants;
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     int PORT = 9090;
+    String CLIENTTEMPPATH = "C:\\temp\\"; //Jack's path: C:\\temp\\
+    String serverDirPath = "C:\\ENSF_409\\"; //Jack's path: C:\\ENSF_409\\
     
     //List of commands that the client can send to the server
     String QUIT = "QUIT";
@@ -26,6 +28,7 @@ public interface ConnectionConstants {
     String SEARCH_FOR_STUDENT = "STUDENT_SEARCH";
     String ENROLL_STUDENT = "ENROLL_STUDENT";
     String UNENROLL_STUDENT = "UNENROLL_STUDENT";
+    String GET_ENROLLED_STUDENTS = "GET_ENROLLED_STUDENTS";
     String SEND_STUDENT_RESULT = "SEND_STUDENT_RESULT";
     
     String SET_ASSIGNMENT_ACTIVE = "SET_ASSIGNMENT_ACTIVE";
@@ -33,6 +36,7 @@ public interface ConnectionConstants {
     String NEW_ASSIGNMENT = "NEW_ASSIGNMENT";
     String ASSIGNMENT_LIST_STUDENT = "GET ASSIGNMENT LIST STUDENT";
     String ASSIGNMENT_LIST_PROF = "Get assignment list prof";
+    String SENDING_ASSIGNMENT_LIST = "Sending Assignment List";
     
     String SUBMIT_ASSIGNMENT = "SUBMIT ASSIGNMENT";
     String DOWNLOAD_SUBMISSION = "download submission";

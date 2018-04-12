@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+
 import Models.Email;
 
 // email: theonebooty@gmail.com
@@ -25,11 +26,11 @@ public class EmailHelper
 	public void sendEmail(Email email)
 	{
 		//Sets up the properties needed for the email
-		Properties properties = new Properties();
-		properties.put("mail.smtp.starttls.enable", "true"); // Using TLS
-		properties.put("mail.smtp.auth", "true"); // Authenticate
-		properties.put("mail.smtp.host", "smtp.gmail.com"); // Using Gmail Account
-		properties.put("mail.smtp.port", "587"); // TLS uses port 587
+		Properties properties = System.getProperties();
+		properties.setProperty("mail.smtp.starttls.enable", "true"); // Using TLS
+		properties.setProperty("mail.smtp.auth", "true"); // Authenticate
+		properties.setProperty("mail.smtp.host", "smtp.gmail.com"); // Using Gmail Account
+		properties.setProperty("mail.smtp.port", "587"); // TLS uses port 587
 
 		//Starts a session with the email
 		Session session = Session.getInstance(properties,

@@ -8,7 +8,7 @@ public interface DatabaseInformation
 	 */
 	public String connectionInfo = "jdbc:mysql://localhost:3306/D2L",  
 			  login          = "root",
-			  password       = "Rysql";
+			  password       = "";
 	
 	/**
 	 * All the table names listed here

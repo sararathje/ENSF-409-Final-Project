@@ -96,19 +96,14 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						//TODO update the database on the course's activeness
 					}
-					else if (input.equals(COURSE_LIST_STUDENT))
-					{
-						//TODO gets the course list for a specific student and send it to the client
-					}
-					else if (input.equals(COURSE_LIST_PROF))
-					{
-						//TODO gets the course list for a specific student and send it to the client
-					}
-                                        else if(input.equals(GET_ASSIGNMENT_INFO))
-                                        {
-                                                sendObject("Sending Assignment List");
-                                                sendObject(dbHelper.getAssignmentList());
-                                        }
+                    else if(input.equals(GET_ASSIGNMENT_INFO))
+                    {
+                        int courseID = getCourseIDFromName();
+                        char userType = (char) objIn.readObject();
+                        ArrayList<Assignment> assignments = dbHelper.getAssignmentList(courseID, userType);
+
+                        sendObject(assignments);
+                    }
 					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
 						input = objIn.readObject();
@@ -122,7 +117,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if(input.equals(NEW_ASSIGNMENT))
 					{
 						input = objIn.readObject();
-                                                dbHelper.addAssignment((Assignment)input);
+                        dbHelper.addAssignment((Assignment)input);
 					}
 					else if (input.equals(ASSIGNMENT_LIST_PROF))
 					{
@@ -149,14 +144,31 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						// Next line gets list of all students enrolled in the course with ID courseID
 						// ArrayList<Integer> studID = dbHelper.getEnrolledStudents(courseID);
 					}
-					else if(input.equals(SEARCH_FOR_STUDENT)) {
+					else if(input.equals(GET_ENROLLED_STUDENTS)) 
+					{
+						 sendObject(dbHelper.getEnrolledStudents(getCourseIDFromName()));
+					}
+					else if(input.equals(SEARCH_FOR_STUDENT)) 
+					{
 						String lastName = (String)objIn.readObject();
 						String id = (String)objIn.readObject();
 
 						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
 						sendObject(SEND_STUDENT_RESULT);
 						sendObject(matchedStudents);
-						System.out.println("Sent matched students back to client");
+					}
+					else if (input.equals(SUBMIT_ASSIGNMENT))
+					{
+						Submission s = (Submission) objIn.readObject();
+						//TODO
+					}
+					else if (input.equals(DOWNLOAD_SUBMISSION))
+					{
+						//TODO
+					}
+					else if (input.equals(GRADE_SUBMISSION))
+					{
+						//TODO
 					}
 					else if (input.equals(SEND_EMAIL))
 					{
@@ -168,7 +180,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						String name = (String) objIn.readObject();
 						byte[] content = (byte[])objIn.readObject();
 						String extension = (String) objIn.readObject();
-						fHelper.getFile(name, extension);
+						fHelper.saveFile(name, content, extension);
+					}
+					else if (input.equals(DOWNLOAD_FILE))
+					{
+						//TODO
 					}
 					else if(input.equals(QUIT))
 					{

@@ -65,7 +65,6 @@ public class Server implements ConnectionConstants {
         }
     }
 
-    // SARA: Placeholder for now
     public static void main(String[] args) throws IOException {
         Server server = new Server();
         server.runServer();

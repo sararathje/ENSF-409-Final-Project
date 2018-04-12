@@ -57,6 +57,7 @@ public class CoursePanel extends JPanel implements ColourSchemeConstants, FontCo
     
                 
         });
+
         add(view);
     }
 

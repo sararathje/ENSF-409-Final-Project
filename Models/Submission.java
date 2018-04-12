@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Model for the D2L project that contains information about the student's
- * submission for an assignment
+ * submission for an assignment. Note that the submission name is
+ * assignmentID_studentID
  * @author Jack Glass, Rylan Kettles, Sara Rathje
  * @since April 3, 2018
  * @version 1.0
@@ -98,5 +99,6 @@ public class Submission implements Serializable
 		}
 	}
 
+	public void setPath(String newPath) { this.path = newPath; }
 
 }

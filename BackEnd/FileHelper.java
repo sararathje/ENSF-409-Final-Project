@@ -10,9 +10,7 @@ import java.io.IOException;
 import Constants.ConnectionConstants;
 
 public class FileHelper implements ConnectionConstants
-{
-	public static final String serverDirPath = "";
-	
+{	
 	/**
 	 * Uploads a file to the server's memory and saves the file name to the database
 	 * @param name
