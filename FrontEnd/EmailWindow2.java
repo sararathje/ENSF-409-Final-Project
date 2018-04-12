@@ -5,6 +5,10 @@
  */
 package FrontEnd;
 
+import Models.Email;
+import Models.User;
+import java.util.ArrayList;
+
 /**
  *
  * @author Rylan
@@ -14,9 +18,11 @@ public class EmailWindow2 extends javax.swing.JDialog {
     /**
      * Creates new form EmailWindow2
      */
-    public EmailWindow2(java.awt.Frame parent, boolean modal) {
+    public EmailWindow2(java.awt.Frame parent, boolean modal, Client client, ArrayList<User> emailReceivers) {
         super(parent, modal);
         initComponents();
+        this.client = client;
+        email = new Email(client.getAuthenticatedUser().getEmail(), null);
     }
 
     /**
@@ -148,18 +154,18 @@ public class EmailWindow2 extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                EmailWindow2 dialog = new EmailWindow2(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                EmailWindow2 dialog = new EmailWindow2(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -172,4 +178,9 @@ public class EmailWindow2 extends javax.swing.JDialog {
     private javax.swing.JTextField subjectField;
     private javax.swing.JTextArea textTA;
     // End of variables declaration//GEN-END:variables
+    
+    private Client client;
+    private Email email;
+    ArrayList<User> emailReceivers;
+
 }
