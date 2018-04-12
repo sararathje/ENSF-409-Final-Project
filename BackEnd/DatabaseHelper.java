@@ -335,7 +335,7 @@ public class DatabaseHelper implements DatabaseInformation
 	{
 		String sql = "delete from " + assignmentTable + " where ASSIGNMENTID=" 
 					+ assignmentID;
-		try{
+		try {
 			statement = jdbc_connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -353,14 +353,14 @@ public class DatabaseHelper implements DatabaseInformation
 	{
 		String sql = "update " + assignmentTable + " set ACTIVE = 1 where ASSIGNMENTID=" 
 				+ assignmentID;
-	try{
-		statement = jdbc_connection.prepareStatement(sql);
-		statement.executeUpdate();
-	}
-	catch(SQLException e)
-	{
-		e.printStackTrace();
-	}
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
 	}
 	
 	/**
@@ -371,62 +371,96 @@ public class DatabaseHelper implements DatabaseInformation
 	{
 		String sql = "update " + assignmentTable + " set ACTIVE = 0 where ASSIGNMENTID=" 
 				+ assignmentID;
-	try{
-		statement = jdbc_connection.prepareStatement(sql);
-		statement.executeUpdate();
-	}
-	catch(SQLException e)
-	{
-		e.printStackTrace();
-	}
+        try{
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
 	}
 
 	/**
-	 * Grades a submission in the database
-	 * @param grade
-	 * @param submission
+	 * Grades a submission in the database.
+	 * @param grade grade to assign to submission
+	 * @param submission student submission
 	 */
 	public void addGrade(int grade, Submission submission)
 	{
-		String sql = "INSERT INTO " + gradeTable +
-				" VALUES ( " + submission.getAssignmentID() + ", " +
-				submission.getStudentID() + ", " +
-				submission.getCourseID() + ", " +
-				grade + ");";
-		try{
+	    String sql = "INSERT INTO " + gradeTable + " VALUES(?,?,?,?)";
+
+		try {
 			statement = jdbc_connection.prepareStatement(sql);
+
+			statement.setInt(1, submission.getAssignmentID());
+			statement.setInt(2, submission.getStudentID());
+			statement.setInt(3, submission.getCourseID());
+			statement.setInt(4, grade);
+
 			statement.executeUpdate();
-		}
-		catch(SQLException e)
-		{
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Removes a grade from the database
-	 */
-	public void removeGrade()
-	{
-		//TODO
+
+    /**
+     *
+     * Removes a grade from the database.
+     * @param grade grade to remove from submission
+     * @param submission student submission
+     */
+	public void removeGrade(int grade, Submission submission) {
+		String sql = "DELETE FROM " + gradeTable + " WHERE ASSIGNMENTID = ?" +
+                " AND STUDENTID = ? AND COURSEID = ? AND GRADE = ?";
+
+		try {
+		    statement = jdbc_connection.prepareStatement(sql);
+
+            statement.setInt(1, submission.getAssignmentID());
+            statement.setInt(2, submission.getStudentID());
+            statement.setInt(3, submission.getCourseID());
+            statement.setInt(4, grade);
+
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	/**
 	 * Adds a submission to the database
-	 * @param submission
+	 * @param submission submission to add to the database
 	 */
 	public void addSubmission(Submission submission)
 	{
-		//TODO
+		String sql = "INSERT INTO " + submissionTable + " VALUES(?,?,?,?,?,?,?)";
+
+		try {
+		    statement = jdbc_connection.prepareStatement(sql);
+
+		    // Figure out how to set all parameters
+            statement.setInt(1, submission.getSumbmissionID());
+            statement.setInt(2, submission.getAssignmentID());
+            statement.setInt(3, submission.getStudentID());
+            statement.setString(4, submission.getPath());
+            statement.setString(5, submission.getTitle());
+            statement.setInt(6, submission.getGrade());
+            statement.setString(7, submission.getTimeStamp());
+
+		    statement.executeQuery();
+        } catch(SQLException e) {
+		    e.printStackTrace();
+        }
 	}
 	
 	/**
 	 * Removes submission from the database
-	 * @param submissionID
+	 * @param submissionID submission ID of submission to remove from the table
 	 */
 	public void removeSubmission(int submissionID)
 	{
-		String sql = "delete from " + submissionTable + " where SUBMISSIONID="
+		String sql = "delete from " + submissionTable + " where SUBMISSIONID = "
 				+ submissionID;
 		try{
 			statement = jdbc_connection.prepareStatement(sql);
