@@ -325,6 +325,7 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     ArrayList<User> getEnrolledStudents(String courseName) {
         ArrayList<User> enrolledStudents = new ArrayList<>();
+
         try {
             sendObject(GET_ENROLLED_STUDENTS);
             sendObject(courseName);

@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.*;
 
 public class UserGUI extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants{
@@ -147,14 +148,6 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     public void addCourse(String courseName, Client client) {
         courseList.addCourse(courseName, client);
     }
-
-    /**
-     * Gets the courseList
-     * @return the courseList
-     */
-    public CourseListView getCourseList() {
-        return courseList;
-    }
     
     /**
      * Initializes the displayPanel with courses.
@@ -162,14 +155,17 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     private void initializeCourseListView() {
         client.getCourseInfo();
         ArrayList<Course> userCourseList = client.getAuthenticatedUser().getCourses();
-
-        // Clear the current course list
-        // Might be redundant
         courseList.getCourseList().clear();
 
-        for(int i = 0; i < userCourseList.size(); i++) {
-            Course course = userCourseList.get(i);
-            // Course description is: name + " " + ID
+        if (userCourseList.isEmpty()) {
+            refreshView();
+        }
+
+        Iterator<Course> iterator = userCourseList.iterator();
+
+        // Add courses to the list
+        while (iterator.hasNext()) {
+            Course course = iterator.next();
             String courseDescription = course.getCourseName() + " " + Integer.toString(course.getCourseNumber());
 
             // Add course to the view
@@ -179,9 +175,18 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
 
     /**
      * Gets the courseListView
-     * @return courseListView
+     * @return the courseList
      */
-    public CourseListView getCourseListView() {
+    public CourseListView getCourseList() {
         return courseList;
+    }
+
+    /**
+     * Refreshes the view
+     */
+    private void refreshView() {
+        courseList.getDisplayPanel().removeAll();
+        courseList.getDisplayPanel().revalidate();
+        courseList.getDisplayPanel().repaint();
     }
 }

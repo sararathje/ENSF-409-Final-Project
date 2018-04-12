@@ -73,6 +73,12 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
     public void setCourseList(ArrayList<CoursePanel> courseList) {
         this.courseList = courseList;
     }
-    
-    
+
+    /**
+     * Gets the display panel
+     * @return display panel
+     */
+    public JPanel getDisplayPanel() {
+        return displayPanel;
+    }
 }

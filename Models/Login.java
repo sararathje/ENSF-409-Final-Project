@@ -18,56 +18,52 @@ public class Login implements Serializable
 	 * String representing the user's password
 	 */
 	private String password;
-	
-         /**
-         * 
-         */
-        private volatile boolean authenticated;
+
+    /**
+     * Boolean describing whether a user has been authenticated on login
+     */
+	private volatile boolean authenticated;
 
 	/**
 	 * Constructor function for the class login
 	 * @param un string that will be the user's username
 	 * @param pw string that will be the user's password
 	 */
-	public Login(String un, String pw)
-	{
+	public Login(String un, String pw) {
 		this.username = un;
 		this.password = pw;
-                authenticated = false;
+		authenticated = false;
 	}
 	
 	/**
 	 * Getter function for username
-	 * @return
+	 * @return username
 	 */
 	public String getUN() { return username;}
 	
 	/**
 	 * Getter function for password
-	 * @return
+	 * @return password
 	 */
 	public String getPW() { return password;}
-        
-        public boolean getAuthenticated() {
-            System.out.println("was called");
-            return authenticated;
-            
-        }
 	
 	/**
 	 * Setter function for username
-	 * @param newUN
+	 * @param newUN new username
 	 */
 	public void setUN(String newUN) { username = newUN;}
 	
 	/**
 	 * Setter function for password
-	 * @param newPW
+	 * @param newPW new password
 	 */
 	public void setPW(String newPW) { password = newPW;}
-        
-        public void setAuthenticated(boolean authenticated) {
-        this.authenticated = authenticated;
-           // System.out.println("was called");
+
+    /**
+     * Sets authenticated
+     * @param authenticated value to be set
+     */
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
     }
 }

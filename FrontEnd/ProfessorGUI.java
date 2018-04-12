@@ -33,7 +33,9 @@ public class ProfessorGUI extends UserGUI {
         super(client);
         
         // Set title
-        setTitle("Professor Home Page");
+        String userName = client.getAuthenticatedUser().getFirstName() + " "
+                + client.getAuthenticatedUser().getLastName();
+        setTitle(userName + " Home Page (Professor)");
         
         //add create course button
         addCreateCourseButton();

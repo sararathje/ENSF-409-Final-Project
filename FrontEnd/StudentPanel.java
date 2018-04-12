@@ -83,10 +83,10 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
     private void addEnrollButton(){
         enrollButton = new JButton("Enroll");
         enrollButton.setFont(BUTTON_FONT);
+
+        // Action listener
         enrollButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-
-
                 client.enrollStudent(student, courseName);
                 enrollButton.setText("Enrolled!");
                 enrollButton.setEnabled(false);
@@ -99,9 +99,10 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
     private void addUnenrollButton(){
         unenrollButton = new JButton("Unenroll");
         unenrollButton.setFont(BUTTON_FONT);
+
+        // Action listener
         unenrollButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-
                 client.unenrollStudent(student, courseName);
                 unenrollButton.setText("Unenrolled!");
                 unenrollButton.setEnabled(false);
