@@ -21,14 +21,15 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
      */
     private ArrayList<AssignmentPanel> assignmentList;
     
-    
     /**
      * Panel to display the assignments
      */
     private JPanel displayPanel;
-    
+
+    /**
+     * Client
+     */
     private Client client;
-    
     
     /**
      * Creates an object of type AssignmentList View.
@@ -62,7 +63,7 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
     
     /**
      * Gets the assignmentList.
-     * @return 
+     * @return assignment list
      */
      public ArrayList<AssignmentPanel> getAssignmentList() {
         return assignmentList;
@@ -71,7 +72,4 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
     public void setAssignmentList(ArrayList<AssignmentPanel> assignmentList) {
         this.assignmentList = assignmentList;
     }
-     
-     
-     
 }

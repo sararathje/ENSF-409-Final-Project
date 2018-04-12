@@ -155,21 +155,29 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
-        
-        public ArrayList<Assignment> getAssignmentList() {
+
+    /**
+     * Gets assignment list for a course ID specified by the given parameter.
+     * @param courseID course ID
+     * @return assignment list
+     */
+	public ArrayList<Assignment> getAssignmentList(int courseID) {
 	   ArrayList<Assignment> list = new ArrayList<>();
-	   String sql = "SELECT * FROM " + assignmentTable;
+	   String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSEID = ?";
 
 	   try {
-			ResultSet rs = statement.executeQuery(sql);
-                        //rs.next();
-                       //Date newDate = parseDate(rs.getString(5));// issue here
-			while(rs.next()){
-                                Date newDate = parseDate(rs.getString(5));
-				list.add(new Assignment(rs.getString(3), newDate, rs.getInt(1), rs.getInt(2),rs.getBoolean(4)));
+	       statement = jdbc_connection.prepareStatement(sql);
+
+	       statement.setInt(1, courseID);
+
+	       ResultSet rs = statement.executeQuery();
+
+           while(rs.next()) {
+               Date newDate = parseDate(rs.getString(5));
+               list.add(new Assignment(rs.getString(3), newDate, rs.getInt(1), rs.getInt(2),rs.getBoolean(4)));
 			}
 	   }
-	   catch(SQLException ex){
+	   catch(SQLException ex) {
 		   ex.printStackTrace();
 	   }
 
@@ -289,18 +297,20 @@ public class DatabaseHelper implements DatabaseInformation
 	
 	/**
 	 * Adds an assignment to the database in the assignment table
-	 * @param assignment
+	 * @param assignment assignment to add to the table
 	 */
 	public void addAssignment(Assignment assignment)
 	{
-		String sql = "INSERT INTO " + assignmentTable +
-				" VALUES ( " + assignment.getID() + ", " + 
-				assignment.getCourseID() + ", '" + 
-				assignment.getName() + "', " + 
-				assignment.isActive() + ", '" + 
-				assignment.getDueDate().toString() + "');";
-		try{
+	    String sql = "INSERT INTO " + assignmentTable + " VALUES(?,?,?,?,?)";
+
+		try {
 			statement = jdbc_connection.prepareStatement(sql);
+			statement.setInt(1, assignment.getID());
+			statement.setInt(2, assignment.getCourseID());
+			statement.setString(3, assignment.getName());
+			statement.setBoolean(4, assignment.isActive());
+			statement.setString(5, assignment.getDueDate().toString());
+
 			statement.executeUpdate();
 		}
 		catch(SQLException e)

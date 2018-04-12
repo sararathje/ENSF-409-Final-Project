@@ -51,7 +51,7 @@ public class Assignment implements Serializable{
 	 * @param name
 	 * @param dueDate
 	 */
-	public Assignment(String name, Date dueDate, int assignmentID, int courseId, boolean isActive)
+	public Assignment(String name, Date dueDate, int assignmentID, int courseID, boolean isActive)
 	{
 		dropbox = new Dropbox();
 		this.name = name;

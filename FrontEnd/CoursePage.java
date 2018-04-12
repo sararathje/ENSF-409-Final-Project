@@ -71,11 +71,14 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         
         //create assignment list
         assignmentList = new AssignmentListView(client);
-        initializeAssignListView(courseName);
+        initializeAssignListView(panelName);
+
+        // SARA
+        System.out.println(panelName);
         middle.add(assignmentList);
         
         //add 'Course Home' title to top
-        addTitle(courseName);
+        addTitle(panelName);
         
         //add buttons
         addBottomPanel();
@@ -186,7 +189,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     
    /**
     * Adds an assignment to the assignment list.
-    * @param AssignmentName the panelName of the assignment to be added.
+    * @param assignment the panelName of the assignment to be added.
     */
    public void addAssignment(Assignment assignment){
        assignmentList.addAssignmentTOView(assignment);
@@ -214,12 +217,13 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
        CoursePage.this.client.getAssignmentInfo(courseName);
        Course c = null;
        ArrayList<Course> courses = CoursePage.this.client.getAuthenticatedUser().getCourses();
-       for(int i = 0; i< courses.size(); i++){
+       for(int i = 0; i < courses.size(); i++){
             String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
             if(courseName.equals(info)){
                 c = courses.get(i);
             }
         }
+
        for(int i = 0; i < c.getAssignmentList().size(); i++){
            CoursePage.this.addAssignment(c.getAssignmentList().get(i));
        }
