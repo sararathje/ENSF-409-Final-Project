@@ -36,6 +36,7 @@ public interface ConnectionConstants {
     String NEW_ASSIGNMENT = "NEW_ASSIGNMENT";
     String ASSIGNMENT_LIST_STUDENT = "GET ASSIGNMENT LIST STUDENT";
     String ASSIGNMENT_LIST_PROF = "Get assignment list prof";
+    String SENDING_ASSIGNMENT_LIST = "Sending Assignment List";
     
     String SUBMIT_ASSIGNMENT = "SUBMIT ASSIGNMENT";
     String DOWNLOAD_SUBMISSION = "download submission";

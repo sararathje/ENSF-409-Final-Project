@@ -75,7 +75,8 @@ public class ProfCoursePage extends CoursePage {
 
         searchStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client, ProfCoursePage.this.panelName);
+                StudentSearch studentSearch = new StudentSearch(ProfCoursePage.this, true, client,
+                        ProfCoursePage.this.panelName);
                 studentSearch.setVisible(true);
             }
         });
@@ -94,14 +95,11 @@ public class ProfCoursePage extends CoursePage {
         addAssignment.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event)
                 {
-                    if(event.getSource() == ProfCoursePage.this.addAssignment)
-                    {
-                        String [] course = ProfCoursePage.this.panelName.split(" ");
+                    String[] course = ProfCoursePage.this.panelName.split(" ");
 
-                        NewAssignment newView = new NewAssignment(ProfCoursePage.this, true, ProfCoursePage.this.client,
-                                        Integer.parseInt(course[1]));
-                        newView.setVisible(true);
-                    }
+                    NewAssignment newView = new NewAssignment(ProfCoursePage.this, true, ProfCoursePage.this.client,
+                                    Integer.parseInt(course[1]));
+                    newView.setVisible(true);
                 }
             });
         bottom.add(addAssignment);

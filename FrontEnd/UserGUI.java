@@ -19,10 +19,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
-// Sara: honestly not really sure how this will work right now, but we'll see how this goes
-// Rylan: i made this extend JFrame so that the student and proffessor gui's can inherit from it
-// ..... not exactly sure how it will work together with the login.
 public class UserGUI extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants{
     /**
      * Client

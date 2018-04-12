@@ -293,7 +293,7 @@ public class NewAssignment extends javax.swing.JDialog {
             		active = true;
             	}
                 Random r = new Random();
-            	Assignment newAss = new Assignment(name, date, r.nextInt(999999), NewAssignment.this.courseID, active);
+            	Assignment newAss = new Assignment(name, date, r.nextInt(999999), courseID, active);
             	NewAssignment.this.client.uploadAssignment(newAss);
             	dispose();
             	

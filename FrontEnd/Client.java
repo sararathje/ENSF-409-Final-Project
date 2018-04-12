@@ -134,17 +134,16 @@ public class Client implements ConnectionConstants, MessageConstants {
     void getAssignmentInfo(String courseName){
         try {
             sendObject(GET_ASSIGNMENT_INFO);
-            Object input = socketIn.readObject();
-            if(input instanceof String && input.equals("Sending Assignment List")) {
-                ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
-                ArrayList<Course> courses = this.authenticatedUser.getCourses();
-                for(int i = 0; i< courses.size(); i++){
-                    String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
-                    if(courseName.equals(info)){
-                        this.authenticatedUser.getCourses().get(i).setAssignments(list);
-                    }
+            sendObject(courseName);
+
+            ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
+            ArrayList<Course> courses = this.authenticatedUser.getCourses();
+
+            for(int i = 0; i < courses.size(); i++){
+                String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
+                if(courseName.equals(info)) {
+                    this.authenticatedUser.getCourses().get(i).setAssignments(list);
                 }
-                    
             }
         } catch (IOException ex) {
             ex.printStackTrace();

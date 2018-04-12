@@ -98,8 +98,10 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
                     else if(input.equals(GET_ASSIGNMENT_INFO))
                     {
-                            sendObject("Sending Assignment List");
-                            sendObject(dbHelper.getAssignmentList());
+                        int courseID = getCourseIDFromName();
+                        ArrayList<Assignment> assignments = dbHelper.getAssignmentList(courseID);
+
+                        sendObject(assignments);
                     }
 					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
@@ -153,7 +155,6 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						ArrayList<User> matchedStudents = dbHelper.searchForStudent(lastName, id);
 						sendObject(SEND_STUDENT_RESULT);
 						sendObject(matchedStudents);
-						System.out.println("Sent matched students back to client");
 					}
 					else if (input.equals(SUBMIT_ASSIGNMENT))
 					{
