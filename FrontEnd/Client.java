@@ -130,11 +130,17 @@ public class Client implements ConnectionConstants, MessageConstants {
             e.printStackTrace();
         }
     }
-    
-    void getAssignmentInfo(String courseName){
+
+    /**
+     * Gets list of assignments (assignment info) for a course based on userType
+     * @param courseName course name
+     * @param userType user type
+     */
+    void getAssignmentInfo(String courseName, char userType) {
         try {
             sendObject(GET_ASSIGNMENT_INFO);
             sendObject(courseName);
+            sendObject(userType);
 
             ArrayList<Assignment> list = (ArrayList<Assignment>)socketIn.readObject();
             ArrayList<Course> courses = this.authenticatedUser.getCourses();

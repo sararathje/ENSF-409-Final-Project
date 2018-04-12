@@ -99,7 +99,8 @@ public class ServerWorker implements Runnable, ConnectionConstants
                     else if(input.equals(GET_ASSIGNMENT_INFO))
                     {
                         int courseID = getCourseIDFromName();
-                        ArrayList<Assignment> assignments = dbHelper.getAssignmentList(courseID);
+                        char userType = (char) objIn.readObject();
+                        ArrayList<Assignment> assignments = dbHelper.getAssignmentList(courseID, userType);
 
                         sendObject(assignments);
                     }

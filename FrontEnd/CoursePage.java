@@ -213,8 +213,8 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     * Initializes the AssignmentListView on the page.
     * @param courseName 
     */
-   private void initializeAssignListView(String courseName){
-       CoursePage.this.client.getAssignmentInfo(courseName);
+   private void initializeAssignListView(String courseName) {
+       CoursePage.this.client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
        Course c = null;
        ArrayList<Course> courses = CoursePage.this.client.getAuthenticatedUser().getCourses();
        for(int i = 0; i < courses.size(); i++){

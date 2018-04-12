@@ -159,16 +159,24 @@ public class DatabaseHelper implements DatabaseInformation
     /**
      * Gets assignment list for a course ID specified by the given parameter.
      * @param courseID course ID
+     * @param userType user type
      * @return assignment list
      */
-	public ArrayList<Assignment> getAssignmentList(int courseID) {
+	public ArrayList<Assignment> getAssignmentList(int courseID, char userType) {
 	   ArrayList<Assignment> list = new ArrayList<>();
+
 	   String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSEID = ?";
+	   if (userType == 'S') {
+	       sql += " AND ACTIVE = ?";
+       }
 
 	   try {
 	       statement = jdbc_connection.prepareStatement(sql);
 
 	       statement.setInt(1, courseID);
+	       if (userType == 'S') {
+	           statement.setBoolean(2, true);
+           }
 
 	       ResultSet rs = statement.executeQuery();
 
