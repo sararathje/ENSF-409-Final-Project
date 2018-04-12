@@ -40,8 +40,7 @@ public class Server implements ConnectionConstants {
     public Server() {
         try {
             // Establish socket connection
-        	InetAddress address = InetAddress.getByName(ADDRESS);
-            serverSocket = new ServerSocket(PORT, 50, address);
+            serverSocket = new ServerSocket(PORT);
             pool = Executors.newCachedThreadPool();
         } catch(IOException e) {
             System.out.println("Error in creating new socket");
