@@ -120,9 +120,9 @@ public class Client implements ConnectionConstants, MessageConstants {
 
             // This gets a list of all courses instead of just courses the user has
             if(input instanceof String && input.equals(SEND_COURSE_LIST)) {
-                    ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
-                    this.authenticatedUser.setCourses(list);
-                }
+                ArrayList<Course> list = (ArrayList<Course>)socketIn.readObject();
+                authenticatedUser.setCourses(list);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -296,7 +296,6 @@ public class Client implements ConnectionConstants, MessageConstants {
             sendObject(UNENROLL_STUDENT);
             sendObject(student);
             sendObject(courseName);
-            
         } catch(IOException e) {
             System.out.println("Error sending server request to un-enroll student");
             e.printStackTrace();

@@ -46,14 +46,17 @@ public class CourseListView extends JScrollPane implements ColourSchemeConstants
      * Adds courses to the displayPanel.
      * @param courseName 
      */
-    public void addCourse(String courseName, Client client){
-        //creates a new JPanel for a course
+    public void addCourse(String courseName, Client client) {
+        // Creates a new JPanel for a course
         CoursePanel newCourse = new CoursePanel(courseName, client);
-       
         courseList.add(newCourse);
 
-        //clears and adds all the new courses to displayPanel
+        // Remove all previous courses from list
         displayPanel.removeAll();
+        displayPanel.revalidate();
+        displayPanel.repaint();
+
+        // Display updated course list
         for(int i = 0; i < courseList.size(); i++){
             displayPanel.add(courseList.get(i));
         }

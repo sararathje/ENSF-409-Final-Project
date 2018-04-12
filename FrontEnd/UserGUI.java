@@ -1,6 +1,8 @@
 package FrontEnd;
 
 import Constants.*;
+import Models.Course;
+
 import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
 import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import static Constants.FontConstants.BUTTON_FONT;
@@ -105,7 +107,6 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
                 ArrayList<CoursePanel> newList = new ArrayList<>();
                 // empty out the current course list.
                 courseList.setCourseList(newList);
-                UserGUI.this.getCourseList();
                 initializeCourseListView();
             }
         });
@@ -143,9 +144,8 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      * Adds a course to the courseList
      * @param courseName the name of the course
      */
-    public void addCourse(String courseName, Client client){
+    public void addCourse(String courseName, Client client) {
         courseList.addCourse(courseName, client);
-        this.validate();
     }
 
     /**
@@ -159,20 +159,23 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
     /**
      * Initializes the displayPanel with courses.
      */
-    private void initializeCourseListView(){
-        UserGUI.this.client.getCourseInfo();
+    private void initializeCourseListView() {
+        client.getCourseInfo();
+        ArrayList<Course> userCourseList = client.getAuthenticatedUser().getCourses();
 
-        for(int i = 0; i < UserGUI.this.client.getAuthenticatedUser().getCourses().size(); i++) {
-            UserGUI.this.addCourse(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseName()
-                    +" " + Integer.toString(UserGUI.this.client.getAuthenticatedUser().getCourses().get(i).getCourseNumber()), UserGUI.this.client);
+        // Clear the current course list
+        // Might be redundant
+        courseList.getCourseList().clear();
+
+        for(int i = 0; i < userCourseList.size(); i++) {
+            Course course = userCourseList.get(i);
+            // Course description is: name + " " + ID
+            String courseDescription = course.getCourseName() + " " + Integer.toString(course.getCourseNumber());
+
+            // Add course to the view
+            addCourse(courseDescription, client);
         }
     }
-    
-//    public JButton getCourseViewButton(int index){
-//        JPanel temp = courseList.getCourseList().get(index);
-//        System.out.println(temp.getComponentCount());
-//       return (JButton)temp.getComponent(2);
-//    }
 
     /**
      * Gets the courseListView
@@ -180,9 +183,5 @@ public class UserGUI extends JFrame implements ColourSchemeConstants, FontConsta
      */
     public CourseListView getCourseListView() {
         return courseList;
-    }
-
-    public static void main(String[] args) {
-        
     }
 }

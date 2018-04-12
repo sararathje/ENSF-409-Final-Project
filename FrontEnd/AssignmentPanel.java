@@ -47,11 +47,11 @@ public class AssignmentPanel extends JPanel implements ColourSchemeConstants, Fo
         view.setFont(BUTTON_FONT);
         view.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(client.getAuthenticatedUser().getUserType() == 'P' && e.getSource() == view){
+                if(client.getAuthenticatedUser().getUserType() == 'P' && e.getSource() == view) {
                     ProfAssignmentPage profAssignPage = new ProfAssignmentPage(AssignmentPanel.this.assignment, AssignmentPanel.this.client);
                     profAssignPage.setVisible(true);
                 }
-                else if(client.getAuthenticatedUser().getUserType() == 'S' && e.getSource() == view){
+                else if(client.getAuthenticatedUser().getUserType() == 'S' && e.getSource() == view) {
                     StudentAssignmentPage studentAssignPage = new StudentAssignmentPage(AssignmentPanel.this.assignment, AssignmentPanel.this.client);
                     studentAssignPage.setVisible(true);
                 }

@@ -1,4 +1,3 @@
-
 package FrontEnd;
 
 
@@ -8,11 +7,10 @@ package FrontEnd;
  * @version 1.0
  * @since April 2, 2018
  */
-public class StudentGUI extends UserGUI{                                        // this needs to be chaged to extend UserGui
-
-    
-     /**
-     * Constructs an object of type StudentGUI.
+public class StudentGUI extends UserGUI {
+    /**
+     * Constructs an object of type StudentGUI with the value of client specified by the given parameter.
+     * @param client client
      */
     public StudentGUI(Client client){
         //Get set data fields from super
@@ -20,8 +18,6 @@ public class StudentGUI extends UserGUI{                                        
         
         // Set title
         setTitle("Student Home Page");
-        
-
     }
    
     // Placeholder for now just to test what it looks like

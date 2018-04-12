@@ -45,7 +45,6 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
         else{
             addUnenrollButton();
         }
-        
     }
     
         private void addStudentInfo(){
@@ -81,34 +80,34 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
             add(Box.createHorizontalGlue());
         }
     
-        private void addEnrollButton(){
-            
-            enrollButton = new JButton("Enroll");
-            enrollButton.setFont(BUTTON_FONT);
-            enrollButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-            
-                    
-                    client.enrollStudent(student, courseName);
-                    enrollButton.setText("Enrolled!");
-                    enrollButton.setEnabled(false);
-                }
-            });
-            add(enrollButton);
-            
-        }
-        
-        private void addUnenrollButton(){
-            unenrollButton = new JButton("Unenroll");
-            unenrollButton.setFont(BUTTON_FONT);
-            unenrollButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    
-                    client.unenrollStudent(student, courseName);
-                    unenrollButton.setText("Unenrolled!");
-                    unenrollButton.setEnabled(false);
-                }
-            });
-            add(unenrollButton);
-        }
+    private void addEnrollButton(){
+        enrollButton = new JButton("Enroll");
+        enrollButton.setFont(BUTTON_FONT);
+        enrollButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+
+                client.enrollStudent(student, courseName);
+                enrollButton.setText("Enrolled!");
+                enrollButton.setEnabled(false);
+            }
+        });
+
+        add(enrollButton);
+    }
+
+    private void addUnenrollButton(){
+        unenrollButton = new JButton("Unenroll");
+        unenrollButton.setFont(BUTTON_FONT);
+        unenrollButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+                client.unenrollStudent(student, courseName);
+                unenrollButton.setText("Unenrolled!");
+                unenrollButton.setEnabled(false);
+            }
+        });
+
+        add(unenrollButton);
+    }
 }
