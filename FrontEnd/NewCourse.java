@@ -53,7 +53,7 @@ public class NewCourse extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Course");
 
-        name.setText("Depatment:");
+        name.setText("Department:");
         name.setForeground(FOREGROUND_COLOUR);
 
         courseNumber.setText("Course Number:");

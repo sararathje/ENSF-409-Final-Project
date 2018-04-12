@@ -78,4 +78,6 @@ public class Email implements Serializable
 	public String getSubject() { return subject; } 
 	
 	public String getSenderPW() { return senderPassword; }
+	
+	public void setSenderPW(String PW) { this.senderPassword = PW; }
 }
