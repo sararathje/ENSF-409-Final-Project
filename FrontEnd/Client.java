@@ -410,9 +410,42 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Error in getting course list");
     	}
-		//TODO make the assignment list visible on the GUI
+		
     }
     
+     int getGrade(int assignmentID, int studentID, int courseID ){
+         try
+    	{
+            int grade;
+            sendObject(GET_GRADE);
+            sendObject(assignmentID);
+            sendObject(studentID);
+            sendObject(courseID);
+            Object input = socketIn.readObject();
+
+            if(input instanceof Integer){
+                grade = (int)input;
+            }
+            else{
+                grade = -1;
+            }
+
+            return grade;
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error Recieving Grades");
+                e.printStackTrace();
+    	}
+         catch(ClassNotFoundException f)
+    	{
+    		System.err.println("Error Recieving Grades");
+                f.printStackTrace();
+    	}
+         return -2;
+     }   
+       
+        
     /**
      * Sends a message to server to stop session
      */

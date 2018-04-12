@@ -410,6 +410,33 @@ public class DatabaseHelper implements DatabaseInformation
 	{
 		//TODO
 	}
+        public int getGrade(int assignmentID, int studentID, int courseID){
+            String sql = "SELECT * FROM " + gradeTable + "WHERE ASSIGNMENTID = ?"
+                    + " AND STUDENTID = ? AND COURSEID = ?";
+            
+            try{
+                statement = jdbc_connection.prepareStatement(sql);
+                statement.setInt(1, assignmentID);
+                statement.setInt(2, studentID);
+                statement.setInt(2, courseID);
+                
+                
+                ResultSet result = statement.executeQuery();
+                if(result.next()){
+                    return result.getInt("GRADE");
+                            
+                }
+                else{
+                    return -1;
+                }
+                
+                
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+            return -2;
+        }
 	
 	/**
 	 * Adds a submission to the database

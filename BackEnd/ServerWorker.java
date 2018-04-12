@@ -117,7 +117,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if(input.equals(NEW_ASSIGNMENT))
 					{
 						input = objIn.readObject();
-                        dbHelper.addAssignment((Assignment)input);
+                                                dbHelper.addAssignment((Assignment)input);
 					}
 					else if (input.equals(ASSIGNMENT_LIST_PROF))
 					{
@@ -186,6 +186,13 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						//TODO
 					}
+                                        else if(input.equals(GET_GRADE)){
+                                            int assignmentID = (int) objIn.readObject();
+                                            int studentID = (int) objIn.readObject();
+                                            int courseID = (int) objIn.readObject();
+                                            int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
+                                            sendObject(grade);
+                                        }
 					else if(input.equals(QUIT))
 					{
 						break;
