@@ -104,11 +104,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					{
 						//TODO gets the course list for a specific student and send it to the client
 					}
-                                        else if(input.equals(GET_ASSIGNMENT_INFO))
-                                        {
-                                                sendObject("Sending Assignment List");
-                                                sendObject(dbHelper.getAssignmentList());
-                                        }
+                    else if(input.equals(GET_ASSIGNMENT_INFO))
+                    {
+                            sendObject("Sending Assignment List");
+                            sendObject(dbHelper.getAssignmentList());
+                    }
 					else if(input.equals(SET_ASSIGNMENT_ACTIVE))
 					{
 						input = objIn.readObject();
@@ -122,7 +122,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if(input.equals(NEW_ASSIGNMENT))
 					{
 						input = objIn.readObject();
-                                                dbHelper.addAssignment((Assignment)input);
+                        dbHelper.addAssignment((Assignment)input);
 					}
 					else if (input.equals(ASSIGNMENT_LIST_PROF))
 					{
@@ -171,7 +171,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						String name = (String) objIn.readObject();
 						byte[] content = (byte[])objIn.readObject();
 						String extension = (String) objIn.readObject();
-						fHelper.getFile(name, extension);
+						fHelper.saveFile(name, content, extension);
+					}
+					else if (input.equals(DOWNLOAD_FILE))
+					{
+						//TODO
 					}
 					else if(input.equals(QUIT))
 					{
