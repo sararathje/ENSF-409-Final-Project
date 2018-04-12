@@ -4,16 +4,16 @@ import Constants.ColourSchemeConstants;
 import Constants.FontConstants;
 import Constants.LabelConstants;
 
-import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
-import static Constants.MessageConstants.EMPTY_NEW_COURSE_FIELDS;
 import static Constants.MessageConstants.INVALID_COURSE_ID;
+import static Constants.MessageConstants.MESSAGE_SENT;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import Models.Email;
+import Models.User;
 
 public class EmailWindow extends JDialog implements ColourSchemeConstants, FontConstants, LabelConstants
 {
@@ -23,26 +23,57 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
 	 */
 	private static final long serialVersionUID = 123L;
 	
+	/**
+	 * Buttons that either send an email or close the frame
+	 */
 	JButton sendB, cancelB;
 	
+	/**
+	 * Labels for the frame
+	 */
 	JLabel subjectL, textL, emailAddressL, emailPWL;
 	
+	/**
+	 * Text area where the subject, message and email password are written
+	 */
 	JTextArea subjectTA, textTA, emailPWTA;
 	
+	/**
+	 * Client that communicates with the server
+	 */
 	Client client;
 	
+	/**
+	 * Email model that will be sent to the server
+	 */
 	Email email;
 	
-	public EmailWindow(java.awt.Frame parent, boolean modal, Client client)
+	/**
+	 * List of user who will receive the email
+	 */
+	ArrayList<User> emailReceivers;
+	
+	/**
+	 * Constructor for the email window
+	 * @param parent JFrame that calls this window
+	 * @param modal Sets whether or not other frames can be accessed while this window is up
+	 * @param client Client that connects to the server
+	 * @param emailReceivers An array list of users that will receive the email
+	 */
+	public EmailWindow(CoursePage parent, boolean modal, Client client, ArrayList<User> emailReceivers)
 	{
 		super(parent, modal);
 		this.client = client;
 		email = new Email(client.getAuthenticatedUser().getEmail(), null);
+		this.emailReceivers = emailReceivers;
 		
 		initializeComp();
 		setListener();
 	}
 	
+	/**
+	 * Initializes all components of the window
+	 */
 	private void initializeComp()
 	{
 		sendB = new JButton("Send");
@@ -93,8 +124,12 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
 		getContentPane().add(pane4);
 	}
 	
+	/**
+	 * Adds a the listeners to the frame for the 2 JButtons on the frame
+	 */
 	private void setListener()
 	{
+		//Collects information from the text areas and sends an email through the database
 		sendB.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) 
             {
@@ -108,11 +143,21 @@ public class EmailWindow extends JDialog implements ColourSchemeConstants, FontC
                 {
                 	EmailWindow.this.email.compose(EmailWindow.this.subjectTA.getText(), EmailWindow.this.textTA.getText());
                 	EmailWindow.this.email.setSenderPW(EmailWindow.this.emailPWTA.getText());
+                	
+            		for(int i = 0; i < EmailWindow.this.emailReceivers.size(); i++)
+            		{
+            			EmailWindow.this.email.addRecipient(EmailWindow.this.emailReceivers.get(i).getEmail());
+            		}
+                	
                 	EmailWindow.this.client.sendEmail(EmailWindow.this.email);
-                	dispose();
+                    JOptionPane.showMessageDialog(getContentPane(), MESSAGE_SENT, "",
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    dispose();
                 }       
         }});
 
+		//Closes the frame
         cancelB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 dispose();

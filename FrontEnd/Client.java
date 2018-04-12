@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import Models.*;
 import Constants.*;
@@ -545,20 +546,10 @@ public class Client implements ConnectionConstants, MessageConstants {
      * Sends an email object to the server which will be sent to all recipients in the email list
      * @param email
      */
-    void sendEmail(Email email, int courseID)
+    void sendEmail(Email email)
     {
     	try
     	{
-    		if(authenticatedUser.getUserType() == 'S')
-    		{
-    			sendObject(PROF_EMAIL);
-    			sendObject(courseID);
-    			email.addRecipient((String)socketIn.readObject());
-    		}
-    		else if(authenticatedUser.getUserType() == 'P')
-    		{
-    			
-    		}
     		sendObject(SEND_EMAIL);
     		sendObject(email);
     	}

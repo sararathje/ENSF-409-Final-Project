@@ -14,4 +14,5 @@ public interface MessageConstants {
     String NO_MATCHES_FOUND = "No matches found.";
     String INVALID_COURSE_ID = "A course ID can only contain digits. Letters are not permitted.";
     String EMPTY_NEW_COURSE_FIELDS = "Whoops! All fields must be filled in to create a course";
+    String MESSAGE_SENT = "Email sent!";
 }
