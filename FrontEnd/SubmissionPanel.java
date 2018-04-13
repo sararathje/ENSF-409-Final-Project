@@ -44,6 +44,7 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         name = submission.getTitle();
         studentID = Integer.toString(submission.getStudentID());
         timeStamp = submission.getTimeStamp();
+        updateGrade();
         grade = Integer.toString(submission.getGrade()) + "%";
         
         JPanel info = new JPanel();
@@ -74,6 +75,11 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         add(Box.createHorizontalGlue());
     }
     
+    private void updateGrade(){
+        int grade = client.getGrade(submission.getAssignmentID(), submission.getStudentID());
+        submission.setGrade(grade);
+}
+    
     private void addAssignGradeButton(){
         gradeButton = new JButton("Assign Grade");
         gradeButton.setFont(BUTTON_FONT);
@@ -81,8 +87,8 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         add(Box.createRigidArea(new Dimension(20,50)));
         gradeButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                System.out.println("made it");
-                SetGradePanel setGrades = new SetGradePanel((DropBoxView)SubmissionPanel.this.getTopLevelAncestor(), true);
+                SetGradePanel setGrades = new SetGradePanel((DropBoxView)SubmissionPanel.this.getTopLevelAncestor(),
+                        true, submission,  client);
                 setGrades.setVisible(true);
             }
     

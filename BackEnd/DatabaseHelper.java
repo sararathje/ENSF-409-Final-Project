@@ -386,17 +386,16 @@ public class DatabaseHelper implements DatabaseInformation
 	 * @param grade grade to assign to submission
 	 * @param submission student submission
 	 */
-	public void addGrade(int grade, Submission submission)
+	public void addGrade(int assignmentID, int studentID, int grade)
 	{
-	    String sql = "INSERT INTO " + gradeTable + " VALUES(?,?,?,?)";
+	    String sql = "UPDATE " + submissionTable + " SET GRADE = ?"
+                    + " WHERE ASSIGNMENTID = ? AND STUDENTID = ? ";
 
 		try {
 			statement = jdbc_connection.prepareStatement(sql);
-
-			statement.setInt(1, submission.getAssignmentID());
-			statement.setInt(2, submission.getStudentID());
-			statement.setInt(3, submission.getCourseID());
-			statement.setInt(4, grade);
+                        statement.setInt(1, grade);
+                        statement.setInt(2, assignmentID);
+			statement.setInt(3, studentID);
 
 			statement.executeUpdate();
 		} catch(SQLException e) {

@@ -415,8 +415,26 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
 		
     }
+        
+        
+    void addGrade(int assignmentID, int studentID, int grade){
+        try
+    	{
+            sendObject(GRADE_SUBMISSION);
+            sendObject(assignmentID);
+            sendObject(studentID);
+            sendObject(grade);
+           
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error Recieving Grades");
+                e.printStackTrace();
+    	}
+
+    }
     
-     int getGrade(int assignmentID, int studentID){
+    int getGrade(int assignmentID, int studentID){
          try
     	{
             int grade;
@@ -445,7 +463,7 @@ public class Client implements ConnectionConstants, MessageConstants {
                 f.printStackTrace();
     	}
          return -2;
-     }   
+    }   
        
         
     /**

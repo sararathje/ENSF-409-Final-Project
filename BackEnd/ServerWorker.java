@@ -160,7 +160,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(GRADE_SUBMISSION))
 					{
-						//TODO
+						int assignID = (int)objIn.readObject();
+                                                int studentID = (int)objIn.readObject();
+                                                int grade = (int)objIn.readObject();
+                                                
+                                                dbHelper.addGrade(assignID, studentID, grade);
 					}
 					else if (input.equals(SEND_EMAIL))
 					{
