@@ -427,25 +427,31 @@ public class DatabaseHelper implements DatabaseInformation
             e.printStackTrace();
         }
 	}
-        public int getGrade(int assignmentID, int studentID, int courseID){
-            String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGNMENTID = ?"
-                    + " AND STUDENTID = ? AND COURSEID = ?";
-            
+	
+	/**
+	 * Gets the highest grade from the submission table that matches the studentID and assignmentID
+	 * @param assignmentID
+	 * @param studentID
+	 * @return
+	 */
+        public int getGrade(int assignmentID, int studentID){
+            String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGNMENTID = ?"
+                    + " AND STUDENTID = ?";
+            //TODO fix on front end
             try{
                 statement = jdbc_connection.prepareStatement(sql);
                 statement.setInt(1, assignmentID);
-                statement.setInt(2, studentID);
-                statement.setInt(3, courseID);
-                
+                statement.setInt(2, studentID);  
                 
                 ResultSet result = statement.executeQuery();
-                if(result.next()){
-                    return result.getInt("GRADE");
-                            
+                int resultInt = 0;
+                while(result.next()){
+                    if(result.getInt("GRADE") > resultInt)
+                    {
+                    	resultInt = result.getInt("GRADE");
+                    }             
                 }
-                else{
-                    return -1;
-                }
+                return resultInt;
                 
                 
             }
@@ -756,56 +762,7 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-	    // Sara's garbage be below
-//	    DatabaseHelper dbHelper = new DatabaseHelper();
-//	    int profid = dbHelper.generateUserID();
-//	    Login proflogin = new Login ("testProf", "test");
-//	    String profemail = "sararathje@gmail.com";
-//	    String proffirstName = "Testy";
-//	    String proflastName = "Prof";
-//	    char profuserType = 'P';
-//
-//	    int studentid = dbHelper.generateUserID();
-//        Login studentlogin = new Login ("testStud", "test");
-//        String studentemail = "purplejellyfish27@gmail.com";
-//        String studentfirstname = "Testy";
-//        String studentlastname = "Stud";
-//        char studentusertype = 'S';
-//
-//
-//	    // String emailAddress, String firstName, String lastName, char userType
-//	    User prof = new User(profid, proflogin, profemail, proffirstName, proflastName, profuserType);
-//	    User student = new User(studentid, studentlogin, studentemail, studentfirstname, studentlastname, studentusertype);
-//
-//	    dbHelper.addUser(prof);
-//	    dbHelper.addUser(student);
 
-//		Login deez = new Login("rylan", "1");
-//                User user1 = new User(1234, deez, "bob12@jim.com", "bob", "kettles", 'S');
-//                User user2 = new User(4567, deez, "nasty12@jim.com", "sally", "kettles", 'S');
-//                User user3 = new User(8912, deez, "dank12@jim.com", "jane", "kettles", 'S');
-//                User user4 = new User(3456, deez, "boi12@jim.com", "jim", "kettles", 'S');
-//                User user5 = new User(7890, deez, "yeet12@jim.com", "ash", "kettles", 'S');
-//                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
-//                
-//                
-//		Course banana = new Course("Banana", 2345, 4, true);
-//		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
-//		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
-//
-//
-//		DatabaseHelper rock = new DatabaseHelper();
-//		rock.addSubmission(sub);
-//		ArrayList<Submission> stuff = rock.searchSubmission(206419);
-//		
-//		for(int i = 0; i < stuff.size(); i++)
-//		{
-//			System.out.println(stuff.get(i).getTitle());
-//		}
-//		rock.addGrade(69, sub);
-
-               
-           // Submission sub = new Submission();
 
 	}
 }
