@@ -45,11 +45,6 @@ public class SetGradePanel extends javax.swing.JDialog {
         jLabel3.setText("%");
 
         addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
 
         cancelButton.setText("Cancel");
 
@@ -89,10 +84,6 @@ public class SetGradePanel extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,11 +141,10 @@ private void addListener()
     {
     	addButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
-            	   System.out.println("made it");
                 int assignmentID = submission.getAssignmentID();
                 int studentID = submission.getStudentID();
                 int grade = Integer.parseInt(gradeField.getText());
-                SetGradePanel.this.client.addGrade(assignmentID, studentID, grade);
+                client.addGrade(assignmentID, studentID, grade);
             	dispose();
             }   
         });

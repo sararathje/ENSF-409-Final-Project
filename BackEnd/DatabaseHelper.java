@@ -525,7 +525,7 @@ public class DatabaseHelper implements DatabaseInformation
         while(submissions.next()) {
             submissionList.add(new Submission(submissions.getInt("ASSIGNMENTID"),
             		submissions.getInt("STUDENTID"), submissions.getString("PATH"),
-            		0, submissions.getString("TITLE"), submissions.getString("TIMESTAMP")));
+                    submissions.getString("TITLE"), submissions.getString("TIMESTAMP")));
         }
         }
         catch(SQLException e)
@@ -764,6 +764,16 @@ public class DatabaseHelper implements DatabaseInformation
 
 	    // Sara's garbage be below
 //	    DatabaseHelper dbHelper = new DatabaseHelper();
+//
+//	    int assignmentID = 799701;
+//	    int studentID = 97072291;
+//	    String title = "ENEL 897 Assignment 1";
+//	    String timeStamp = "13/04/201806:21";
+//	    String path = "/Users/sararathje/Desktop/Submissions/ENEL_897_Assignment_1.txt";
+//
+//	    Submission firstSubmission = new Submission(assignmentID, studentID, path, title, timeStamp);
+//
+//	    dbHelper.addSubmission(firstSubmission);
 //	    int profid = dbHelper.generateUserID();
 //	    Login proflogin = new Login ("testProf", "test");
 //	    String profemail = "sararathje@gmail.com";

@@ -67,14 +67,13 @@ public class Submission implements Serializable
 	 * Constructor for the class Submission
 	 * @param localPath
 	 */
-	public Submission(int assignmentID, int studentID, String localPath, int courseID, String title,
+	public Submission(int assignmentID, int studentID, String localPath, String title,
                       String timeStamp)
 	{
         generateSubmissionID();
 		this.path = localPath;
 		this.grade = 0;
 		this.assignmentID = assignmentID;
-		this.courseID = courseID;
 		this.studentID = studentID;
 		this.title = title;
 		this.timeStamp = timeStamp;
