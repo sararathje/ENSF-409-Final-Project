@@ -3,6 +3,8 @@ package FrontEnd;
 
 import Models.Assignment;
 import Models.Date;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -12,7 +14,7 @@ import javax.swing.*;
 public class ProfAssignmentPage extends AssignmentPage{
     
     private JButton uploadFile;
-    private JButton assignGrade;
+    private JButton viewDropBox;
     private JButton activeButton;
     
     public ProfAssignmentPage(Assignment assignment, Client client) {
@@ -21,7 +23,7 @@ public class ProfAssignmentPage extends AssignmentPage{
         
         createUploadFileButton();
         
-        createAssignGradeButton();
+        createViewDropBoxButton();
         
         createSetActiveButton(assignment);
         
@@ -41,11 +43,18 @@ public class ProfAssignmentPage extends AssignmentPage{
                        
     }
     
-    private void createAssignGradeButton(){
-        assignGrade = new JButton("Assign Grade");
-        bottom.add(assignGrade);
+    private void createViewDropBoxButton(){
+        viewDropBox = new JButton("View Drop Box");
+        bottom.add(viewDropBox);
         
-        //todo: add action listener
+        viewDropBox.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               DropBoxView dropboxView = new DropBoxView(assignment.getDropbox(), client);
+               dropboxView.setVisible(true);
+                
+            }
+        });
+        
         
     }
     

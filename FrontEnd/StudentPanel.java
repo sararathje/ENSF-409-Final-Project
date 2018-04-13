@@ -54,9 +54,6 @@ public class StudentPanel extends JPanel implements ColourSchemeConstants, FontC
             firstName = student.getFirstName();
             lastName = student.getLastName();
             
-            String toAdd = "Student ID: " + id + "\n " + "First Name: " + firstName + "\n " + "Last Name: " +
-                    lastName + "\n " + "Email: " + email;
-            
             JPanel info = new JPanel();
             info.setLayout(new BoxLayout(info, BoxLayout.PAGE_AXIS));
             info.setBackground(LOGIN_BACKGROUND_COLOUR);

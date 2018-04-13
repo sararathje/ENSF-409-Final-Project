@@ -474,7 +474,7 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(6, submission.getGrade());
             statement.setString(7, submission.getTimeStamp());
 
-		    statement.executeQuery();
+		    statement.executeUpdate();
         } catch(SQLException e) {
 		    e.printStackTrace();
         }
@@ -684,15 +684,15 @@ public class DatabaseHelper implements DatabaseInformation
 //                
 //                
 //		Course banana = new Course("Banana", 2345, 4, true);
-//		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
+		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
 //		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
 //
-//		DatabaseHelper rock = new DatabaseHelper();
+		DatabaseHelper rock = new DatabaseHelper();
 //		rock.addGrade(69, sub);
 
-               
-           // Submission sub = new Submission();
+               rock.addSubmission(sub);
+          
 
 	}
 }
