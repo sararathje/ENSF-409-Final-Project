@@ -10,8 +10,8 @@ public interface DatabaseInformation
 
                 
                 //uncomment the one you want.
-			  login          = "Jack_Glass",
-			  password       = "S16T25R6";
+			  login          = "root",
+			  password       = "Greenbananas567";
 
 //			  login          = "root",
 //			  password       = "Rysql";
