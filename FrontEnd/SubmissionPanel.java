@@ -7,6 +7,8 @@ import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import Models.Submission;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -15,6 +17,8 @@ import javax.swing.*;
  */
 public class SubmissionPanel extends JPanel implements ColourSchemeConstants, FontConstants{
    
+    
+    
     private Submission submission;
     
     private Client client;
@@ -75,7 +79,15 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         gradeButton.setFont(BUTTON_FONT);
         add(gradeButton);
         add(Box.createRigidArea(new Dimension(20,50)));
-        //add action listener
+        gradeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                System.out.println("made it");
+                SetGradePanel setGrades = new SetGradePanel((DropBoxView)SubmissionPanel.this.getTopLevelAncestor(), true);
+                setGrades.setVisible(true);
+            }
+    
+                
+        });
         
     }
     
