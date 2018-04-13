@@ -58,7 +58,7 @@ public class Client implements ConnectionConstants, MessageConstants {
         try {
         	//HOSTNAME for local connection
         	//HOSTNAMEREMOTE for remote connection
-            socket = new Socket(IPADDRESS, PORT);
+            socket = new Socket(HOSTNAME, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
             
