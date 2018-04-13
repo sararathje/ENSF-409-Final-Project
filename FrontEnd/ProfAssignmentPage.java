@@ -46,6 +46,7 @@ public class ProfAssignmentPage extends AssignmentPage{
 
         uploadFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // Sara: We could probably make this a method in AssignmentPage class
                 FileSelector fileSelector = new FileSelector();
                 String fullPath = fileSelector.getAbsoluteFilePath();
 

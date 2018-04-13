@@ -152,7 +152,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if (input.equals(SUBMIT_ASSIGNMENT))
 					{
 						Submission s = (Submission) objIn.readObject();
-						//TODO
+						dbHelper.addSubmission(s);
 					}
 					else if (input.equals(DOWNLOAD_SUBMISSION))
 					{

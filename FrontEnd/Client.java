@@ -615,8 +615,8 @@ public class Client implements ConnectionConstants, MessageConstants {
 
     void submitAssignment(Submission submission, String extension)
     {
-    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_" 
-    				+ String.valueOf(submission.getStudentID()), extension);
+//    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_"
+//    				+ String.valueOf(submission.getStudentID()), extension);
     	submission.setPath(serverDirPath);
     	
     	try

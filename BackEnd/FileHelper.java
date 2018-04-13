@@ -12,7 +12,7 @@ import Constants.ConnectionConstants;
 public class FileHelper implements ConnectionConstants
 {	
 	/**
-	 * Uploads a file to the server's memory and saves the file name to the database
+	 * Uploads a file to the server's memory and saves the file name to the database.
 	 * @param name file name
 	 * @param content file content
 	 * @param extension file extension

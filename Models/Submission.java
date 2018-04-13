@@ -1,5 +1,7 @@
 package Models;
 
+import sun.java2d.pipe.SpanShapeRenderer;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -67,16 +69,15 @@ public class Submission implements Serializable
 	 * Constructor for the class Submission
 	 * @param localPath
 	 */
-	public Submission(int assignmentID, int studentID, String localPath, String title,
-                      String timeStamp)
+	public Submission(int assignmentID, int studentID, String localPath, String title)
 	{
         generateSubmissionID();
+        generateTimeStamp();
 		this.path = localPath;
 		this.grade = 0;
 		this.assignmentID = assignmentID;
 		this.studentID = studentID;
 		this.title = title;
-		this.timeStamp = timeStamp;
 	}
 	
 	/**
@@ -104,7 +105,34 @@ public class Submission implements Serializable
         Random r = new Random();
         submissionID = r.nextInt(high - low + 1) + low;
     }
-	
+
+    /**
+     * Sets time stamp for submission.
+     */
+    private void generateTimeStamp() {
+        // Sara: temp
+        timeStamp = "13/04/2018 2:34";
+//        String pattern = "MM//dd//yyyy";
+//        SimpleDateFormat format = new SimpleDateFormat(pattern);
+//
+//        try {
+//            Date date = format.parse()
+//        }
+//        public class MainClass {
+//            public static void main(String[] args) {
+//                String pattern = "MM/dd/yyyy";
+//                SimpleDateFormat format = new SimpleDateFormat(pattern);
+//                try {
+//                    Date date = format.parse("12/31/2006");
+//                    System.out.println(date);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                // formatting
+//                System.out.println(format.format(new Date()));
+//            }
+//        }
+    }
 	
 	//Getters and setters
 
