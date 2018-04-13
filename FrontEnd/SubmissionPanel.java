@@ -25,6 +25,8 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
     
     private JButton gradeButton;
     
+    private JButton viewFile;
+    
     public SubmissionPanel(Submission submission, Client client){
         this.client = client;
         this.submission = submission;
@@ -36,6 +38,7 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         
         addSubmissionInfo();
+        addViewFileButton();
         addAssignGradeButton();
     }
     
@@ -79,6 +82,19 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         int grade = client.getGrade(submission.getAssignmentID(), submission.getStudentID());
         submission.setGrade(grade);
 }
+    
+    private void addViewFileButton(){
+        viewFile = new JButton("View File");
+        viewFile.setFont(BUTTON_FONT);
+        add(viewFile);
+        viewFile.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                //TODO do something here
+            }
+    
+                
+        });
+    }
     
     private void addAssignGradeButton(){
         gradeButton = new JButton("Assign Grade");
