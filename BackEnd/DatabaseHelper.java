@@ -790,13 +790,13 @@ public class DatabaseHelper implements DatabaseInformation
 //                
 //                
 //		Course banana = new Course("Banana", 2345, 4, true);
-<<<<<<< HEAD
-		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
+
+//		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
 //		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
 //
 		DatabaseHelper rock = new DatabaseHelper();
-=======
+
 //		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
 //		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
@@ -809,10 +809,10 @@ public class DatabaseHelper implements DatabaseInformation
 //		{
 //			System.out.println(stuff.get(i).getTitle());
 //		}
->>>>>>> cc4fc22b2213e1950123c0e9da2dd03139b40388
+
 //		rock.addGrade(69, sub);
 
-               rock.addSubmission(sub);
+//               rock.addSubmission(sub);
           
 
 	}
