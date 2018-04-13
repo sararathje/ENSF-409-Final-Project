@@ -48,7 +48,7 @@ public class StudentAssignmentPage extends AssignmentPage {
         else{
             gr = "Ungraded  ";
         }
-        gradeLabel = new JLabel("Grade: " + gr);
+        gradeLabel = new JLabel("Grade: " + gr+ "%  ");
         gradeLabel.setFont(PANEL_TITLE_FONT);
         gradeLabel.setForeground(FOREGROUND_COLOUR);
         infoBar.add(Box.createHorizontalGlue());
