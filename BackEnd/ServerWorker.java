@@ -184,7 +184,10 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(DOWNLOAD_FILE))
 					{
-						//TODO
+						String name = (String) objIn.readObject();
+						String extension = (String) objIn.readObject();
+						byte[] content = fHelper.getFile(name, extension);
+						sendObject(content);
 					}
                     else if(input.equals(GET_GRADE)){
                         int assignmentID = (int) objIn.readObject();

@@ -58,7 +58,7 @@ public class Client implements ConnectionConstants, MessageConstants {
         try {
         	//HOSTNAME for local connection
         	//HOSTNAMEREMOTE for remote connection
-            socket = new Socket(IPADDRESS, PORT);
+            socket = new Socket(HOSTNAME, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
             
@@ -512,26 +512,29 @@ public class Client implements ConnectionConstants, MessageConstants {
             sendObject(ext);
 
             byte[] content = (byte[])socketIn.readObject();
-
-            File newFile = new File(CLIENTTEMPPATH + name + ext);
-            if(!newFile.exists())
-            newFile.createNewFile();
-            FileOutputStream writer = new FileOutputStream(newFile);
-            BufferedOutputStream bos = new BufferedOutputStream(writer);
-            bos.write(content);
-            bos.close();
-
-            FileReader fis = new FileReader(newFile);
-            BufferedReader bis = new BufferedReader(fis);
-
-            String line = bis.readLine();
-    	while(line != null)
-    	{
-    		theArea.append(line);
-    		line = bis.readLine();
-    	}
-    	bis.close();
-    	newFile.delete();
+            
+            if(content != null)
+            {
+		        File newFile = new File(CLIENTTEMPPATH + name + ext);
+		        if(!newFile.exists())
+		        newFile.createNewFile();
+		        FileOutputStream writer = new FileOutputStream(newFile);
+		        BufferedOutputStream bos = new BufferedOutputStream(writer);
+		        bos.write(content);
+		        bos.close();
+		
+		        FileReader fis = new FileReader(newFile);
+		        BufferedReader bis = new BufferedReader(fis);
+		
+		        String line = bis.readLine();
+		    	while(line != null)
+		    	{
+		    		theArea.append(line);
+		    		line = bis.readLine();
+		    	}
+		    	bis.close();
+		    	newFile.delete();
+            }
     	}
     	catch(IOException e)
     	{
