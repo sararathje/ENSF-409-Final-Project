@@ -763,6 +763,5 @@ public class DatabaseHelper implements DatabaseInformation
 	public static void main(String[] args)
 	{
 
-
 	}
 }
