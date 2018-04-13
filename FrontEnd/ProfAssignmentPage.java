@@ -49,10 +49,12 @@ public class ProfAssignmentPage extends AssignmentPage{
                 // Sara: We could probably make this a method in AssignmentPage class
                 FileSelector fileSelector = new FileSelector();
                 String fullPath = fileSelector.getAbsoluteFilePath();
+                
+                System.out.println(fullPath);;
 
                 Path filePathWithName = Paths.get(fullPath).getFileName();
-                String fileName = filePathWithName.toString();
-                String extension = "." + fileName.split("\\.")[1];
+                String fileName = assignment.getName();
+                String extension = fullPath.substring(fullPath.length() - 4);
 
                 if (!fullPath.equals("")) {
                     client.uploadFile(fullPath, fileName, extension);

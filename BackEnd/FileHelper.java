@@ -41,13 +41,16 @@ public class FileHelper implements ConnectionConstants
 			if (extension.equals(TXT) || extension.equals(PDF))
 	    	{
 				File selectedFile = new File(serverDirPath + name + extension);
-		    	long length = selectedFile.length();
-		    	content = new byte[(int) length];
-		    	FileInputStream fis = new FileInputStream(selectedFile);
-		    	BufferedInputStream bos = new BufferedInputStream(fis);
-		    	bos.read(content, 0, (int)length);
-		    	bos.close();
-		    	fis.close();
+				if(selectedFile.canRead())
+				{
+			    	long length = selectedFile.length();
+			    	content = new byte[(int) length];
+			    	FileInputStream fis = new FileInputStream(selectedFile);
+			    	BufferedInputStream bos = new BufferedInputStream(fis);
+			    	bos.read(content, 0, (int)length);
+			    	bos.close();
+			    	fis.close();
+				}
 	    	}
 			else
 			{
@@ -63,4 +66,12 @@ public class FileHelper implements ConnectionConstants
     		e.printStackTrace();
     	}
     	return content;
-	}}
+	}
+
+	public static void main()
+	{
+		FileHelper h = new FileHelper();
+		h.getFile("Test", TXT);
+	}
+	
+}
