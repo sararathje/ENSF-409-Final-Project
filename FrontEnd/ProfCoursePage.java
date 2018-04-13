@@ -1,6 +1,7 @@
 
 package FrontEnd;
 
+import Models.Course;
 import Models.User;
 
 import static Constants.FontConstants.BUTTON_FONT;
@@ -58,6 +59,7 @@ public class ProfCoursePage extends CoursePage {
         addSearchlStudentButton();
         addAssignmentButton();
         addListeners();
+        updateAssignmentList();
         updateEnrolledStudentList();
     }
     
@@ -171,6 +173,29 @@ public class ProfCoursePage extends CoursePage {
            }
        });
    }
+
+   // NOTE: This would be a perfect abstract method if coursePage was abstract
+    /**
+     * Updates the Assignment List in the professor course view.
+     */
+    private void updateAssignmentList() {
+        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+        // empty out the current course list.
+        assignmentList.setAssignmentList(newList);
+        Course c = getSelectedCourse(panelName);
+
+        addAssignmentsToView(c);
+    }
+
+    /**
+     * Adds assignments to the view.
+     * @param c course that assignments belong to
+     */
+    private void addAssignmentsToView(Course c) {
+        for(int i = 0; i < c.getAssignmentList().size(); i++) {
+           addAssignment(c.getAssignmentList().get(i));
+       }
+    }
 
     /**
      * Updates the student list.

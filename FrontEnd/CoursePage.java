@@ -79,7 +79,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         
         //create assignment list
         assignmentList = new AssignmentListView(client);
-        initializeAssignListView(panelName);
+        // initializeAssignListView(panelName);
 
         middle.add(assignmentList);
         
@@ -118,15 +118,15 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         bottom.add(refresh);
     }
 
-    /**
-     * Updates the Assignment List in the course view.
-     */
-    protected void updateAssignmentList() {
-        ArrayList<AssignmentPanel> newList = new ArrayList<>();
-        // empty out the current course list.
-        assignmentList.setAssignmentList(newList);
-        initializeAssignListView(panelName);
-    }
+//    /**
+//     * Updates the Assignment List in the course view.
+//     */
+//    protected void updateAssignmentList() {
+//        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+//        // empty out the current course list.
+//        assignmentList.setAssignmentList(newList);
+//        initializeAssignListView(panelName);
+//    }
 
     
     /**
@@ -212,25 +212,41 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
        return (JButton)temp.getComponent(2);
        
    }
-   
-   
-   /**
-    * Initializes the AssignmentListView on the page.
-    * @param courseName 
-    */
-   private void initializeAssignListView(String courseName) {
-       CoursePage.this.client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
-       Course c = null;
-       ArrayList<Course> courses = CoursePage.this.client.getAuthenticatedUser().getCourses();
-       for(int i = 0; i < courses.size(); i++){
-            String info = courses.get(i).getCourseName() +" " + courses.get(i).getCourseNumber();
-            if(courseName.equals(info)){
-                c = courses.get(i);
-            }
-        }
 
-       for(int i = 0; i < c.getAssignmentList().size(); i++){
-           CoursePage.this.addAssignment(c.getAssignmentList().get(i));
+
+//   /**
+//    * Initializes the AssignmentListView on the page.
+//    * @param courseName
+//    */
+//   protected void initializeAssignListView(String courseName) {
+//       client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
+//       Course c = getSelectedCourse(courseName);
+//
+//       // Now this part can go in the corresponding child course page. So in the child page, we call
+//       // initializeAssignListView from update
+//       // Then we would call this
+////       for(int i = 0; i < c.getAssignmentList().size(); i++) {
+////           addAssignment(c.getAssignmentList().get(i));
+////       }
+//   }
+
+    /**
+     * Gets the selected course.
+     * @return selected course
+     */
+   protected Course getSelectedCourse(String courseName) {
+       client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
+       ArrayList<Course> courses = client.getAuthenticatedUser().getCourses();
+       Course c = null;
+
+       for(int i = 0; i < courses.size(); i++) {
+           String info = courses.get(i).getCourseName() + " " + courses.get(i).getCourseNumber();
+           if(courseName.equals(info)){
+               c = courses.get(i);
+               break;
+           }
        }
+
+       return c;
    }
 }
