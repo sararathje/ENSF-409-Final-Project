@@ -74,7 +74,7 @@ public class ProfAssignmentPage extends AssignmentPage{
     }
             
     private void initializeDropboxSubmissionList(){
-      ArrayList<Submission> submissions = client.getSubmissionList();
+      ArrayList<Submission> submissions = client.getSubmissionList(assignment.getID());
       assignment.getDropbox().setSubmissions(submissions);
    }
     

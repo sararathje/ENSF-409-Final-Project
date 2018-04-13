@@ -416,14 +416,13 @@ public class Client implements ConnectionConstants, MessageConstants {
 		
     }
     
-     int getGrade(int assignmentID, int studentID, int courseID ){
+     int getGrade(int assignmentID, int studentID){
          try
     	{
             int grade;
             sendObject(GET_GRADE);
             sendObject(assignmentID);
             sendObject(studentID);
-            sendObject(courseID);
             Object input = socketIn.readObject();
 
             if(input instanceof Integer){
@@ -578,9 +577,10 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     }
     
-    ArrayList<Submission> getSubmissionList(){
+    ArrayList<Submission> getSubmissionList(int assignmentID){
         try{
             sendObject(GET_SUBMISSIONS);
+            sendObject(assignmentID);
             ArrayList<Submission> submissions = (ArrayList<Submission>)socketIn.readObject();
            return submissions;
         }

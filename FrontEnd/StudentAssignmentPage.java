@@ -59,7 +59,7 @@ public class StudentAssignmentPage extends AssignmentPage {
     
     
     public int getGradeFromServer(){
-        int grade = client.getGrade(assignment.getID(), client.getAuthenticatedUser().getID(), assignment.getCourseID() );
+        int grade = client.getGrade(assignment.getID(), client.getAuthenticatedUser().getID());
         return grade;
     }
     

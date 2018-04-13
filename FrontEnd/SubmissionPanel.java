@@ -46,12 +46,12 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         info.setLayout(new BoxLayout(info, BoxLayout.PAGE_AXIS));
         info.setBackground(LOGIN_BACKGROUND_COLOUR);
         
-        JLabel submissionName = new JLabel(name);
+        JLabel submissionName = new JLabel("Submission Name: " + name);
         submissionName.setFont(PANEL_TITLE_FONT);
         submissionName.setForeground(FOREGROUND_COLOUR);
         info.add(submissionName);
         
-        JLabel ID = new JLabel("Student ID " + studentID);
+        JLabel ID = new JLabel("Student ID: " + studentID);
         ID.setFont(PANEL_TITLE_FONT);
         ID.setForeground(FOREGROUND_COLOUR);
         info.add(ID);
@@ -71,9 +71,10 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
     }
     
     private void addAssignGradeButton(){
-        gradeButton = new JButton();
+        gradeButton = new JButton("Assign Grade");
         gradeButton.setFont(BUTTON_FONT);
-        
+        add(gradeButton);
+        add(Box.createRigidArea(new Dimension(20,50)));
         //add action listener
         
     }
