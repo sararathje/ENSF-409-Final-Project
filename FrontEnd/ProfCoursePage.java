@@ -59,7 +59,7 @@ public class ProfCoursePage extends CoursePage {
         addSearchlStudentButton();
         addAssignmentButton();
         addListeners();
-        updateAssignmentList();
+        updateProfessorAssignmentList();
         updateEnrolledStudentList();
     }
     
@@ -149,7 +149,7 @@ public class ProfCoursePage extends CoursePage {
    private void addRefreshListener() {
        refresh.addActionListener(new ActionListener(){
            public void actionPerformed(ActionEvent e){
-               updateAssignmentList();
+               updateProfessorAssignmentList();
                updateEnrolledStudentList();
            }
        });
@@ -175,16 +175,27 @@ public class ProfCoursePage extends CoursePage {
    }
 
    // NOTE: This would be a perfect abstract method if coursePage was abstract
-    /**
-     * Updates the Assignment List in the professor course view.
-     */
-    private void updateAssignmentList() {
-        ArrayList<AssignmentPanel> newList = new ArrayList<>();
-        // empty out the current course list.
-        assignmentList.setAssignmentList(newList);
-        Course c = getSelectedCourse(panelName);
+//    /**
+//     * Updates the Assignment List in the professor course view.
+//     */
+//    private void updateAssignmentList() {
+//        // Sara: Leave this shit in the coursePage, and then have a method that just calls it there
+//        // Then we won't have all this duplication.
+//        ArrayList<AssignmentPanel> newList = new ArrayList<>();
+//        // empty out the current course list.
+//        assignmentList.setAssignmentList(newList);
+//        Course c = getSelectedCourse(panelName);
+//
+//        addAssignmentsToView(c);
+//    }
 
-        addAssignmentsToView(c);
+    /**
+     * Updates professor assignment list.
+     */
+    private void updateProfessorAssignmentList() {
+       clearAssignmentList();
+       Course c = getSelectedCourse(panelName);
+       addAssignmentsToView(c);
     }
 
     /**

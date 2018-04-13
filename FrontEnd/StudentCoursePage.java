@@ -27,11 +27,9 @@ public class StudentCoursePage extends CoursePage {
         String userName = client.getAuthenticatedUser().getFirstName() + " "
                 + client.getAuthenticatedUser().getLastName();
         setTitle(userName + " Course Page (Student)");
-
-        // SARA: Come in and implement for the studentCoursePage
-        // updateAssignmentList();
         
         addListeners();
+        updateStudentAssignmentList();
     }
 
     /**
@@ -49,7 +47,7 @@ public class StudentCoursePage extends CoursePage {
         refresh.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 // SARA: Come in and implement for studentCoursePage
-                // updateAssignmentList();
+                updateStudentAssignmentList();
             }
         });
     }
@@ -105,34 +103,25 @@ public class StudentCoursePage extends CoursePage {
         emailWindow = new EmailWindow2(StudentCoursePage.this, false, client, userList);
         emailWindow.setVisible(true);
     }
-    
-//    @Override
-//    protected void updateAssignmentList() {
-//        ArrayList<AssignmentPanel> newList = new ArrayList<>();
-//        // empty out the current course list.
-//        assignmentList.setAssignmentList(newList);
-//        initializeStudentAssignListView(panelName);
-//    }
-    
-//     /**
-//    * Initializes the AssignmentListView on the page.
-//    * @param courseName
-//    */
-//   private void initializeStudentAssignListView(String courseName) {
-//       StudentCoursePage.this.client.getAssignmentInfo(courseName, client.getAuthenticatedUser().getUserType());
-//       Course c = null;
-//       ArrayList<Course> courses = StudentCoursePage.this.client.getAuthenticatedUser().getCourses();
-//       for(int i = 0; i < courses.size(); i++){
-//            String info = courses.get(i).getCourseName() + " " + courses.get(i).getCourseNumber();
-//            if(courseName.equals(info)){
-//                c = courses.get(i);
-//            }
-//        }
-//       for(int i = 0; i < c.getAssignmentList().size(); i++){
-//           if(c.getAssignmentList().get(i).isActive()) {
-//               System.out.println("blah");
-//                addAssignment(c.getAssignmentList().get(i));
-//           }
-//       }
-//   }
+
+    /**
+     * Updates student assignment list.
+     */
+    private void updateStudentAssignmentList() {
+        clearAssignmentList();
+        Course c = getSelectedCourse(panelName);
+        addAssignmentsToView(c);
+    }
+
+    /**
+     * Adds assignments to view.
+     * @param c course that assignments belong to
+     */
+    private void addAssignmentsToView(Course c) {
+        for(int i = 0; i < c.getAssignmentList().size(); i++){
+           if(c.getAssignmentList().get(i).isActive()) {
+                addAssignment(c.getAssignmentList().get(i));
+           }
+       }
+    }
 }
