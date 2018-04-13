@@ -59,7 +59,6 @@ public class ProfAssignmentPage extends AssignmentPage{
 
             }
         });
-        //todo: add action listener
                        
     }
     
@@ -78,8 +77,23 @@ public class ProfAssignmentPage extends AssignmentPage{
         else{
             activeButton = new JButton("Activate");
         }
-        
-        //todo add listeners;
+        activeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event) {
+            	if(activeButton.getText().equals("Deactivate"))
+            	{
+            		activeButton.setText("Activate");
+            		assign.deactivateAssignment();
+            		client.setAssignmentInactive(assign);
+            	}
+            	else if(activeButton.getText().equals("Activate"))
+            	{
+            		activeButton.setText("Deactivate");
+            		assign.activateAssignment();
+            		client.setAssignmentActive(assign);
+            	}
+
+            }
+        });
         bottom.add(activeButton);
     }
             
