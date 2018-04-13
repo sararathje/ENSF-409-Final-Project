@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import Models.*;
 import Constants.*;
+import com.sun.codemodel.internal.JOp;
+
 import java.util.ArrayList;
 
 
@@ -465,37 +467,33 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
-     * Uploads a file to the server
+     * Uploads a file to the server.
      */
     void uploadFile(String path, String name, String ext)
     {
-    	if(ext.equals(TXT) || ext.equals(PDF))
-    	{
+    	if (ext.equals(TXT) || ext.equals(PDF)) {
     		File selectedFile = new File(path);
         	long length = selectedFile.length();
         	byte[] content = new byte[(int) length]; // Converting Long to Int
         	try {
-        	FileInputStream fis = new FileInputStream(selectedFile);
-        	BufferedInputStream bos = new BufferedInputStream(fis);
-        	bos.read(content, 0, (int)length);
-        	sendObject(UPLOAD_FILE);
-        	sendObject(name);
-        	sendObject(content);
-        	sendObject(ext);
-        	bos.close();
+                FileInputStream fis = new FileInputStream(selectedFile);
+                BufferedInputStream bos = new BufferedInputStream(fis);
+                bos.read(content, 0, (int)length);
+                sendObject(UPLOAD_FILE);
+                sendObject(name);
+                sendObject(content);
+                sendObject(ext);
+                bos.close();
         	} 
-        	catch (FileNotFoundException e) 
-        	{
-        	e.printStackTrace();
+        	catch (FileNotFoundException e) {
+        	    e.printStackTrace();
         	} 
-        	catch(IOException e)
-        	{
-        	e.printStackTrace();
+        	catch(IOException e) {
+        	    e.printStackTrace();
         	}
-    	} else
-    	{
-    		System.err.println("Invalid extension");
-    		return;
+    	} else {
+    	    JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, "",
+                    JOptionPane.WARNING_MESSAGE);
     	}
     	
     }
