@@ -374,6 +374,21 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
+     * Sends request to server to set assignment as active.
+     * @param assignment assignment to set active
+     */
+    void setAssignmentInactive(Assignment assignment) {
+        try {
+        	sendObject(SET_ASSIGNMENT_INACTIVE);
+            sendObject(assignment);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Gets assignment list for a course
      */
     @SuppressWarnings("unchecked")
@@ -512,26 +527,29 @@ public class Client implements ConnectionConstants, MessageConstants {
             sendObject(ext);
 
             byte[] content = (byte[])socketIn.readObject();
-
-            File newFile = new File(CLIENTTEMPPATH + name + ext);
-            if(!newFile.exists())
-            newFile.createNewFile();
-            FileOutputStream writer = new FileOutputStream(newFile);
-            BufferedOutputStream bos = new BufferedOutputStream(writer);
-            bos.write(content);
-            bos.close();
-
-            FileReader fis = new FileReader(newFile);
-            BufferedReader bis = new BufferedReader(fis);
-
-            String line = bis.readLine();
-    	while(line != null)
-    	{
-    		theArea.append(line);
-    		line = bis.readLine();
-    	}
-    	bis.close();
-    	newFile.delete();
+            
+            if(content != null)
+            {
+		        File newFile = new File(CLIENTTEMPPATH + name + ext);
+		        if(!newFile.exists())
+		        newFile.createNewFile();
+		        FileOutputStream writer = new FileOutputStream(newFile);
+		        BufferedOutputStream bos = new BufferedOutputStream(writer);
+		        bos.write(content);
+		        bos.close();
+		
+		        FileReader fis = new FileReader(newFile);
+		        BufferedReader bis = new BufferedReader(fis);
+		
+		        String line = bis.readLine();
+		    	while(line != null)
+		    	{
+		    		theArea.append(line);
+		    		line = bis.readLine();
+		    	}
+		    	bis.close();
+		    	newFile.delete();
+            }
     	}
     	catch(IOException e)
     	{

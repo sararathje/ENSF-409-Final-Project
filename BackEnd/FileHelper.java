@@ -31,26 +31,28 @@ public class FileHelper implements ConnectionConstants
 		catch(IOException e){
 		e.printStackTrace();
 		}
-		//TODO add file name to a database table if we need to
 	}
 	
 	byte[]  getFile(String name, String extension)
 	{
-		byte[] content;
-		if(extension != TXT || extension != PDF)
-    	{
-    		System.err.println("Invalid extension");
-    		return null;
-    	}
-    	File selectedFile = new File(serverDirPath + name + extension);
-    	long length = selectedFile.length();
-    	content = new byte[(int) length];
-    	try {
-    	FileInputStream fis = new FileInputStream(selectedFile);
-    	BufferedInputStream bos = new BufferedInputStream(fis);
-    	bos.read(content, 0, (int)length);
-    	bos.close();
-    	fis.close();
+		byte[] content = null;
+		try
+		{
+			if(extension.equals(TXT) || extension.equals(PDF))
+	    	{
+				File selectedFile = new File(serverDirPath + name + extension);
+		    	long length = selectedFile.length();
+		    	content = new byte[(int) length];
+		    	FileInputStream fis = new FileInputStream(selectedFile);
+		    	BufferedInputStream bos = new BufferedInputStream(fis);
+		    	bos.read(content, 0, (int)length);
+		    	bos.close();
+		    	fis.close();
+	    	}
+			else
+			{
+				System.err.println("Invalid extension");
+			}
     	} 
     	catch (FileNotFoundException e) 
     	{
