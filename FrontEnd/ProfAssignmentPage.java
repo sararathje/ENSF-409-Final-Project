@@ -6,6 +6,8 @@ import Models.Date;
 import Models.Submission;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -42,10 +44,26 @@ public class ProfAssignmentPage extends AssignmentPage{
         uploadFile = new JButton("Upload Assignment File");
         bottom.add(uploadFile);
 
-        //todo: add action listener
+        uploadFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FileSelector fileSelector = new FileSelector();
+                String fullPath = fileSelector.getAbsoluteFilePath();
+
+                Path filePathWithName = Paths.get(fullPath).getFileName();
+                String fileName = filePathWithName.toString();
+                String extension = "." + fileName.split("\\.")[1];
+
+                if (!fullPath.equals("")) {
+                    client.uploadFile(fullPath, fileName, extension);
+                }
+            }
+        });
                        
     }
-    
+
+    /**
+     * Creates View Dropbox button.
+     */
     private void createViewDropBoxButton(){
         viewDropBox = new JButton("View Drop Box");
         bottom.add(viewDropBox);

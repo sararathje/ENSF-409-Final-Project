@@ -14,6 +14,7 @@ public interface ConnectionConstants {
     
     String CLIENTTEMPPATH = "C:\\temp\\"; //Jack's path: C:\\temp\\
     String serverDirPath = "C:\\ENSF_409\\"; //Jack's path: C:\\ENSF_409\\
+    // String serverDirPath = "/Users/sararathje/Desktop/";
     
     //List of commands that the client can send to the server
     String QUIT = "QUIT";

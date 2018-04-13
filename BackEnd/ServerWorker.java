@@ -185,19 +185,19 @@ public class ServerWorker implements Runnable, ConnectionConstants
 						byte[] content = fHelper.getFile(name, extension);
 						sendObject(content);
 					}
-                                        else if(input.equals(GET_GRADE)){
-                                            int assignmentID = (int) objIn.readObject();
-                                            int studentID = (int) objIn.readObject();
-                                            int grade = dbHelper.getGrade(assignmentID, studentID);
-                                            //TODO fix this
-                                            sendObject(grade);
-                                        } 
-                                        else if(input.equals(GET_SUBMISSIONS)){
-                                            int assignmentID = (int) objIn.readObject();
-                                            ArrayList<Submission> submissions = dbHelper.searchSubmission(assignmentID);
-                                            sendObject(submissions);
-                                        }
-                                        else if(input.equals(SEARCH_FOR_PROF)) {
+                    else if(input.equals(GET_GRADE)){
+                        int assignmentID = (int) objIn.readObject();
+                        int studentID = (int) objIn.readObject();
+                        int grade = dbHelper.getGrade(assignmentID, studentID);
+                        //TODO fix this
+                        sendObject(grade);
+                    }
+                    else if(input.equals(GET_SUBMISSIONS)){
+                        int assignmentID = (int) objIn.readObject();
+                        ArrayList<Submission> submissions = dbHelper.searchSubmission(assignmentID);
+                        sendObject(submissions);
+                    }
+                    else if(input.equals(SEARCH_FOR_PROF)) {
 					    User professor = dbHelper.searchForProfessor((int)objIn.readObject());
 					    sendObject(professor);
                     }
