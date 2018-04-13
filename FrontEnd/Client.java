@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import Models.*;
 import Constants.*;
+//import com.sun.codemodel.internal.JOp;   //Rylam: idk where this came from.....
+
 import java.util.ArrayList;
 
 
@@ -375,6 +377,21 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
+     * Sends request to server to set assignment as Inactive.
+     * @param assignment assignment to set active
+     */
+    void setAssignmentInactive(Assignment assignment) {
+        try {
+        	sendObject(SET_ASSIGNMENT_INACTIVE);
+            sendObject(assignment);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Gets assignment list for a course
      */
     @SuppressWarnings("unchecked")
@@ -415,15 +432,32 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
 		
     }
+        
+        
+    void addGrade(int assignmentID, int studentID, int grade){
+        try
+    	{
+            sendObject(GRADE_SUBMISSION);
+            sendObject(assignmentID);
+            sendObject(studentID);
+            sendObject(grade);
+           
+    	}
+    	catch(IOException e)
+    	{
+    		System.err.println("Error Recieving Grades");
+                e.printStackTrace();
+    	}
+
+    }
     
-     int getGrade(int assignmentID, int studentID, int courseID ){
+    int getGrade(int assignmentID, int studentID){
          try
     	{
             int grade;
             sendObject(GET_GRADE);
             sendObject(assignmentID);
             sendObject(studentID);
-            sendObject(courseID);
             Object input = socketIn.readObject();
 
             if(input instanceof Integer){
@@ -446,7 +480,7 @@ public class Client implements ConnectionConstants, MessageConstants {
                 f.printStackTrace();
     	}
          return -2;
-     }   
+    }   
        
         
     /**
@@ -466,37 +500,33 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
-     * Uploads a file to the server
+     * Uploads a file to the server.
      */
     void uploadFile(String path, String name, String ext)
     {
-    	if(ext.equals(TXT) || ext.equals(PDF))
-    	{
+    	if (ext.equals(TXT) || ext.equals(PDF)) {
     		File selectedFile = new File(path);
         	long length = selectedFile.length();
         	byte[] content = new byte[(int) length]; // Converting Long to Int
         	try {
-        	FileInputStream fis = new FileInputStream(selectedFile);
-        	BufferedInputStream bos = new BufferedInputStream(fis);
-        	bos.read(content, 0, (int)length);
-        	sendObject(UPLOAD_FILE);
-        	sendObject(name);
-        	sendObject(content);
-        	sendObject(ext);
-        	bos.close();
+                FileInputStream fis = new FileInputStream(selectedFile);
+                BufferedInputStream bos = new BufferedInputStream(fis);
+                bos.read(content, 0, (int)length);
+                sendObject(UPLOAD_FILE);
+                sendObject(name);
+                sendObject(content);
+                sendObject(ext);
+                bos.close();
         	} 
-        	catch (FileNotFoundException e) 
-        	{
-        	e.printStackTrace();
+        	catch (FileNotFoundException e) {
+        	    e.printStackTrace();
         	} 
-        	catch(IOException e)
-        	{
-        	e.printStackTrace();
+        	catch(IOException e) {
+        	    e.printStackTrace();
         	}
-    	} else
-    	{
-    		System.err.println("Invalid extension");
-    		return;
+    	} else {
+    	    JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, "",
+                    JOptionPane.WARNING_MESSAGE);
     	}
     	
     }
@@ -543,6 +573,28 @@ public class Client implements ConnectionConstants, MessageConstants {
     		System.err.println("Class not found");
     	}
     }
+
+    /**
+     * Sends request to server to search for Professor with id provided by the given parameter.
+     * @param id professor ID
+     * @return Professor matching the professor ID
+     */
+    User searchProfessor(int id) {
+        User user = null;
+
+        try {
+            sendObject(SEARCH_FOR_PROF);
+            sendObject(id);
+
+            user =  (User)socketIn.readObject();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
     
     /**
      * Sends an email object to the server which will be sent to all recipients in the email list
@@ -563,8 +615,8 @@ public class Client implements ConnectionConstants, MessageConstants {
 
     void submitAssignment(Submission submission, String extension)
     {
-    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_" 
-    				+ String.valueOf(submission.getStudentID()), extension);
+//    	uploadFile(submission.getPath(), String.valueOf(submission.getAssignmentID()) + "_"
+//    				+ String.valueOf(submission.getStudentID()), extension);
     	submission.setPath(serverDirPath);
     	
     	try
@@ -578,9 +630,10 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     }
     
-    ArrayList<Submission> getSubmissionList(){
+    ArrayList<Submission> getSubmissionList(int assignmentID){
         try{
             sendObject(GET_SUBMISSIONS);
+            sendObject(assignmentID);
             ArrayList<Submission> submissions = (ArrayList<Submission>)socketIn.readObject();
            return submissions;
         }

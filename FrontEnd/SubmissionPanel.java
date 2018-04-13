@@ -7,6 +7,8 @@ import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import Models.Submission;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -15,11 +17,15 @@ import javax.swing.*;
  */
 public class SubmissionPanel extends JPanel implements ColourSchemeConstants, FontConstants{
    
+    
+    
     private Submission submission;
     
     private Client client;
     
     private JButton gradeButton;
+    
+    private JButton viewFile;
     
     public SubmissionPanel(Submission submission, Client client){
         this.client = client;
@@ -32,6 +38,7 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         setBorder(BorderFactory.createLineBorder(FOREGROUND_COLOUR));
         
         addSubmissionInfo();
+        addViewFileButton();
         addAssignGradeButton();
     }
     
@@ -40,18 +47,19 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         name = submission.getTitle();
         studentID = Integer.toString(submission.getStudentID());
         timeStamp = submission.getTimeStamp();
+        updateGrade();
         grade = Integer.toString(submission.getGrade()) + "%";
         
         JPanel info = new JPanel();
         info.setLayout(new BoxLayout(info, BoxLayout.PAGE_AXIS));
         info.setBackground(LOGIN_BACKGROUND_COLOUR);
         
-        JLabel submissionName = new JLabel(name);
+        JLabel submissionName = new JLabel("Submission Name: " + name);
         submissionName.setFont(PANEL_TITLE_FONT);
         submissionName.setForeground(FOREGROUND_COLOUR);
         info.add(submissionName);
         
-        JLabel ID = new JLabel("Student ID " + studentID);
+        JLabel ID = new JLabel("Student ID: " + studentID);
         ID.setFont(PANEL_TITLE_FONT);
         ID.setForeground(FOREGROUND_COLOUR);
         info.add(ID);
@@ -70,11 +78,38 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         add(Box.createHorizontalGlue());
     }
     
+    private void updateGrade(){
+        int grade = client.getGrade(submission.getAssignmentID(), submission.getStudentID());
+        submission.setGrade(grade);
+}
+    
+    private void addViewFileButton(){
+        viewFile = new JButton("View File");
+        viewFile.setFont(BUTTON_FONT);
+        add(viewFile);
+        viewFile.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                //TODO do something here
+            }
+    
+                
+        });
+    }
+    
     private void addAssignGradeButton(){
-        gradeButton = new JButton();
+        gradeButton = new JButton("Assign Grade");
         gradeButton.setFont(BUTTON_FONT);
-        
-        //add action listener
+        add(gradeButton);
+        add(Box.createRigidArea(new Dimension(20,50)));
+        gradeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                SetGradePanel setGrades = new SetGradePanel((DropBoxView)SubmissionPanel.this.getTopLevelAncestor(),
+                        true, submission,  client);
+                setGrades.setVisible(true);
+            }
+    
+                
+        });
         
     }
     

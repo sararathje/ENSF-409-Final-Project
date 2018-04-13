@@ -1,6 +1,7 @@
 
 package FrontEnd;
 
+import Models.Course;
 import Models.User;
 
 import static Constants.FontConstants.BUTTON_FONT;
@@ -58,6 +59,7 @@ public class ProfCoursePage extends CoursePage {
         addSearchlStudentButton();
         addAssignmentButton();
         addListeners();
+        updateProfessorAssignmentList();
         updateEnrolledStudentList();
     }
     
@@ -147,7 +149,7 @@ public class ProfCoursePage extends CoursePage {
    private void addRefreshListener() {
        refresh.addActionListener(new ActionListener(){
            public void actionPerformed(ActionEvent e){
-               updateAssignmentList();
+               updateProfessorAssignmentList();
                updateEnrolledStudentList();
            }
        });
@@ -171,6 +173,25 @@ public class ProfCoursePage extends CoursePage {
            }
        });
    }
+
+    /**
+     * Updates professor assignment list.
+     */
+    private void updateProfessorAssignmentList() {
+       clearAssignmentList();
+       Course c = getSelectedCourse(panelName);
+       addAssignmentsToView(c);
+    }
+
+    /**
+     * Adds assignments to the view.
+     * @param c course that assignments belong to
+     */
+    private void addAssignmentsToView(Course c) {
+        for(int i = 0; i < c.getAssignmentList().size(); i++) {
+           addAssignment(c.getAssignmentList().get(i));
+       }
+    }
 
     /**
      * Updates the student list.

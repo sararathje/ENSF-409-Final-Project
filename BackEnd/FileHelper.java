@@ -12,33 +12,33 @@ import Constants.ConnectionConstants;
 public class FileHelper implements ConnectionConstants
 {	
 	/**
-	 * Uploads a file to the server's memory and saves the file name to the database
-	 * @param name
-	 * @param content
-	 * @param extension
+	 * Uploads a file to the server's memory and saves the file name to the database.
+	 * @param name file name
+	 * @param content file content
+	 * @param extension file extension
 	 */
 	void saveFile(String name, byte[] content, String extension)
 	{
 		File newFile = new File(serverDirPath + name + extension);
 		try{
-		if(! newFile.exists())
-		newFile.createNewFile();
-		FileOutputStream writer = new FileOutputStream(newFile);
-		BufferedOutputStream bos = new BufferedOutputStream(writer);
-		bos.write(content);
-		bos.close();
-		} 
+			if(! newFile.exists())
+				newFile.createNewFile();
+				FileOutputStream writer = new FileOutputStream(newFile);
+				BufferedOutputStream bos = new BufferedOutputStream(writer);
+				bos.write(content);
+				bos.close();
+			}
 		catch(IOException e){
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	
-	byte[]  getFile(String name, String extension)
+	byte[] getFile(String name, String extension)
 	{
 		byte[] content = null;
 		try
 		{
-			if(extension.equals(TXT) || extension.equals(PDF))
+			if (extension.equals(TXT) || extension.equals(PDF))
 	    	{
 				File selectedFile = new File(serverDirPath + name + extension);
 		    	long length = selectedFile.length();
@@ -56,11 +56,11 @@ public class FileHelper implements ConnectionConstants
     	} 
     	catch (FileNotFoundException e) 
     	{
-    	e.printStackTrace();
+    		e.printStackTrace();
     	} 
     	catch(IOException e)
     	{
-    	e.printStackTrace();
+    		e.printStackTrace();
     	}
     	return content;
 	}}

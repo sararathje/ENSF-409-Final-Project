@@ -66,16 +66,11 @@ public class EmailWindow2 extends javax.swing.JDialog {
                 if(String.valueOf(emailPWTA.getPassword()).equals("")) {
                     JOptionPane.showMessageDialog(getContentPane(), PASSWORD_REQUIRED, "",
                             JOptionPane.WARNING_MESSAGE);
-                    // Sara: I don't think that the return is needed
-                    // return;
                 }
                 else
                 {
                     email.compose(textTA.getText(), textTA.getText());
                     email.setSenderPW(String.valueOf(emailPWTA.getPassword()));
-
-                    // Sara
-                    System.out.println("Number of email receivers: " + emailReceivers.size());
 
                     for(int i = 0; i < emailReceivers.size(); i++)
                     {

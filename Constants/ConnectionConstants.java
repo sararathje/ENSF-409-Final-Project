@@ -14,6 +14,7 @@ public interface ConnectionConstants {
     
     String CLIENTTEMPPATH = "C:\\temp\\"; //Jack's path: C:\\temp\\
     String serverDirPath = "C:\\ENSF_409\\"; //Jack's path: C:\\ENSF_409\\
+    // String serverDirPath = "/Users/sararathje/Desktop/";
     
     //List of commands that the client can send to the server
     String QUIT = "QUIT";
@@ -45,7 +46,7 @@ public interface ConnectionConstants {
     String DOWNLOAD_SUBMISSION = "download submission";
     String GRADE_SUBMISSION = "GRADE SUBMISSION";
     String GET_GRADE = "GET GRADE";
-    
+    String GET_SUBMISSIONS = "GET SUBMISSIONS";
     String UPLOAD_FILE = "UPLOAD FILE";
     String DOWNLOAD_FILE = "DOWNLOAD FILE";
     String TXT = ".txt";

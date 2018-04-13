@@ -152,7 +152,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if (input.equals(SUBMIT_ASSIGNMENT))
 					{
 						Submission s = (Submission) objIn.readObject();
-						//TODO
+						dbHelper.addSubmission(s);
 					}
 					else if (input.equals(DOWNLOAD_SUBMISSION))
 					{
@@ -160,7 +160,11 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(GRADE_SUBMISSION))
 					{
-						//TODO
+						int assignID = (int)objIn.readObject();
+                                                int studentID = (int)objIn.readObject();
+                                                int grade = (int)objIn.readObject();
+                                                
+                                                dbHelper.addGrade(assignID, studentID, grade);
 					}
 					else if (input.equals(SEND_EMAIL))
 					{
@@ -184,11 +188,16 @@ public class ServerWorker implements Runnable, ConnectionConstants
                     else if(input.equals(GET_GRADE)){
                         int assignmentID = (int) objIn.readObject();
                         int studentID = (int) objIn.readObject();
-                        int courseID = (int) objIn.readObject();
-                        int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
+                        int grade = dbHelper.getGrade(assignmentID, studentID);
                         //TODO fix this
                         sendObject(grade);
-                    } else if(input.equals(SEARCH_FOR_PROF)) {
+                    }
+                    else if(input.equals(GET_SUBMISSIONS)){
+                        int assignmentID = (int) objIn.readObject();
+                        ArrayList<Submission> submissions = dbHelper.searchSubmission(assignmentID);
+                        sendObject(submissions);
+                    }
+                    else if(input.equals(SEARCH_FOR_PROF)) {
 					    User professor = dbHelper.searchForProfessor((int)objIn.readObject());
 					    sendObject(professor);
                     }

@@ -72,4 +72,10 @@ public class AssignmentListView extends JScrollPane implements ColourSchemeConst
     public void setAssignmentList(ArrayList<AssignmentPanel> assignmentList) {
         this.assignmentList = assignmentList;
     }
+
+    public JPanel getDisplayPanel() {
+        return displayPanel;
+    }
+    
+    
 }

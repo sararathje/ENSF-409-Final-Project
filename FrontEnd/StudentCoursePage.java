@@ -27,7 +27,9 @@ public class StudentCoursePage extends CoursePage {
         String userName = client.getAuthenticatedUser().getFirstName() + " "
                 + client.getAuthenticatedUser().getLastName();
         setTitle(userName + " Course Page (Student)");
+        
         addListeners();
+        updateStudentAssignmentList();
     }
 
     /**
@@ -44,7 +46,7 @@ public class StudentCoursePage extends CoursePage {
     private void addRefreshListener() {
         refresh.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                updateAssignmentList();
+                updateStudentAssignmentList();
             }
         });
     }
@@ -99,5 +101,26 @@ public class StudentCoursePage extends CoursePage {
 
         emailWindow = new EmailWindow2(StudentCoursePage.this, false, client, userList);
         emailWindow.setVisible(true);
+    }
+
+    /**
+     * Updates student assignment list.
+     */
+    private void updateStudentAssignmentList() {
+        clearAssignmentList();
+        Course c = getSelectedCourse(panelName);
+        addAssignmentsToView(c);
+    }
+
+    /**
+     * Adds assignments to view.
+     * @param c course that assignments belong to
+     */
+    private void addAssignmentsToView(Course c) {
+        for(int i = 0; i < c.getAssignmentList().size(); i++){
+           if(c.getAssignmentList().get(i).isActive()) {
+                addAssignment(c.getAssignmentList().get(i));
+           }
+       }
     }
 }
