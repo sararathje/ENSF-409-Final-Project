@@ -762,75 +762,10 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
-
-	    // Sara's garbage be below
-//	    DatabaseHelper dbHelper = new DatabaseHelper();
-//
-//	    int assignmentID = 799701;
-//	    int studentID = 97072291;
-//	    String title = "ENEL 897 Assignment 1";
-//	    String timeStamp = "13/04/201806:21";
-//	    String path = "/Users/sararathje/Desktop/Submissions/ENEL_897_Assignment_1.txt";
-//
-//	    Submission firstSubmission = new Submission(assignmentID, studentID, path, title, timeStamp);
-//
-//	    dbHelper.addSubmission(firstSubmission);
-//	    int profid = dbHelper.generateUserID();
-//	    Login proflogin = new Login ("testProf", "test");
-//	    String profemail = "sararathje@gmail.com";
-//	    String proffirstName = "Testy";
-//	    String proflastName = "Prof";
-//	    char profuserType = 'P';
-//
-//	    int studentid = dbHelper.generateUserID();
-//        Login studentlogin = new Login ("testStud", "test");
-//        String studentemail = "purplejellyfish27@gmail.com";
-//        String studentfirstname = "Testy";
-//        String studentlastname = "Stud";
-//        char studentusertype = 'S';
-//
-//
-//	    // String emailAddress, String firstName, String lastName, char userType
-//	    User prof = new User(profid, proflogin, profemail, proffirstName, proflastName, profuserType);
-//	    User student = new User(studentid, studentlogin, studentemail, studentfirstname, studentlastname, studentusertype);
-//
-//	    dbHelper.addUser(prof);
-//	    dbHelper.addUser(student);
-
-//		Login deez = new Login("rylan", "1");
-//                User user1 = new User(1234, deez, "bob12@jim.com", "bob", "kettles", 'S');
-//                User user2 = new User(4567, deez, "nasty12@jim.com", "sally", "kettles", 'S');
-//                User user3 = new User(8912, deez, "dank12@jim.com", "jane", "kettles", 'S');
-//                User user4 = new User(3456, deez, "boi12@jim.com", "jim", "kettles", 'S');
-//                User user5 = new User(7890, deez, "yeet12@jim.com", "ash", "kettles", 'S');
-//                User user6 = new User(1245, deez, "420ayyy@jim.com", "bud", "kettles", 'S');
-//                
-//                
-//		Course banana = new Course("Banana", 2345, 4, true);
-
-//		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
-//		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
-//
-//
-		//DatabaseHelper rock = new DatabaseHelper();
-
-//		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
-//		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
-//
-//
-//		DatabaseHelper rock = new DatabaseHelper();
-//		rock.addSubmission(sub);
-//		ArrayList<Submission> stuff = rock.searchSubmission(206419);
-//		
-//		for(int i = 0; i < stuff.size(); i++)
-//		{
-//			System.out.println(stuff.get(i).getTitle());
-//		}
-
-//		rock.addGrade(69, sub);
-
-//               rock.addSubmission(sub);
-
+		User deez = new User(1111111, new Login("Perfect","Booty"), "theonebooty@gmail.com", "King", "Booty", 'P');
+		DatabaseHelper nuts = new DatabaseHelper();
+		
+		nuts.addUser(deez);
 
 	}
 }

@@ -58,10 +58,10 @@ public class Client implements ConnectionConstants, MessageConstants {
     public Client() {
         try {
             // Establish socket connection
-        	
+        	InetAddress add = InetAddress.getByAddress(ipAddress);
         	//HOSTNAME for local connection
         	//HOSTNAMEREMOTE for remote connection
-            socket = new Socket(HOSTNAME, PORT);
+            socket = new Socket(add, PORT);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
             socketIn = new ObjectInputStream(socket.getInputStream());
             
