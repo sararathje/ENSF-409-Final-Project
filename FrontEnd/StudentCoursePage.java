@@ -117,6 +117,10 @@ public class StudentCoursePage extends CoursePage {
      * @param c course that assignments belong to
      */
     private void addAssignmentsToView(Course c) {
+        assignmentList.getDisplayPanel().removeAll();
+        assignmentList.getDisplayPanel().revalidate();
+        assignmentList.getDisplayPanel().repaint();
+
         for(int i = 0; i < c.getAssignmentList().size(); i++){
            if(c.getAssignmentList().get(i).isActive()) {
                 addAssignment(c.getAssignmentList().get(i));
