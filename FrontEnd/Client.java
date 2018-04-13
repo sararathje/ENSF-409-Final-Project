@@ -542,6 +542,28 @@ public class Client implements ConnectionConstants, MessageConstants {
     		System.err.println("Class not found");
     	}
     }
+
+    /**
+     * Sends request to server to search for Professor with id provided by the given parameter.
+     * @param id professor ID
+     * @return Professor matching the professor ID
+     */
+    User searchProfessor(int id) {
+        User user = null;
+
+        try {
+            sendObject(SEARCH_FOR_PROF);
+            sendObject(id);
+
+            user =  (User)socketIn.readObject();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
     
     /**
      * Sends an email object to the server which will be sent to all recipients in the email list
