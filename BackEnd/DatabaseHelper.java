@@ -427,25 +427,31 @@ public class DatabaseHelper implements DatabaseInformation
             e.printStackTrace();
         }
 	}
-        public int getGrade(int assignmentID, int studentID, int courseID){
-            String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGNMENTID = ?"
-                    + " AND STUDENTID = ? AND COURSEID = ?";
-            
+	
+	/**
+	 * Gets the highest grade from the submission table that matches the studentID and assignmentID
+	 * @param assignmentID
+	 * @param studentID
+	 * @return
+	 */
+        public int getGrade(int assignmentID, int studentID){
+            String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGNMENTID = ?"
+                    + " AND STUDENTID = ?";
+            //TODO fix on front end
             try{
                 statement = jdbc_connection.prepareStatement(sql);
                 statement.setInt(1, assignmentID);
-                statement.setInt(2, studentID);
-                statement.setInt(3, courseID);
-                
+                statement.setInt(2, studentID);  
                 
                 ResultSet result = statement.executeQuery();
-                if(result.next()){
-                    return result.getInt("GRADE");
-                            
+                int resultInt = 0;
+                while(result.next()){
+                    if(result.getInt("GRADE") > resultInt)
+                    {
+                    	resultInt = result.getInt("GRADE");
+                    }             
                 }
-                else{
-                    return -1;
-                }
+                return resultInt;
                 
                 
             }
@@ -756,6 +762,7 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
+
 	    // Sara's garbage be below
 //	    DatabaseHelper dbHelper = new DatabaseHelper();
 //	    int profid = dbHelper.generateUserID();
@@ -795,7 +802,7 @@ public class DatabaseHelper implements DatabaseInformation
 //		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
 //
-		DatabaseHelper rock = new DatabaseHelper();
+		//DatabaseHelper rock = new DatabaseHelper();
 
 //		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
 //		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
@@ -813,7 +820,7 @@ public class DatabaseHelper implements DatabaseInformation
 //		rock.addGrade(69, sub);
 
 //               rock.addSubmission(sub);
-          
+
 
 	}
 }
