@@ -530,6 +530,23 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     	
     }
+
+    // This is repetitive, but hopefully this will download the file
+    /**
+     * Downloads the file.
+     * @param name file name
+     * @param ext file extension
+     */
+    void downLoadFile(String name, String ext) {
+        try {
+            sendObject(DOWNLOAD_FILE);
+            sendObject(name);
+            sendObject(ext);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     
     /**
      * Downloads a file from the server

@@ -16,9 +16,7 @@ import javax.swing.*;
  * @author Rylan
  */
 public class SubmissionPanel extends JPanel implements ColourSchemeConstants, FontConstants{
-   
-    
-    
+
     private Submission submission;
     
     private Client client;
@@ -88,11 +86,11 @@ public class SubmissionPanel extends JPanel implements ColourSchemeConstants, Fo
         viewFile.setFont(BUTTON_FONT);
         add(viewFile);
         viewFile.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                //TODO do something here
+            public void actionPerformed(ActionEvent e) {
+                // Sara: TBH, I don't know if this works.
+                String extension = "." + submission.getPath().split("\\.")[1];
+                client.downLoadFile(submission.getTitle(), extension);
             }
-    
-                
         });
     }
     
