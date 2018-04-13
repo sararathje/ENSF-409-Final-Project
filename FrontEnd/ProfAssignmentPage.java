@@ -81,13 +81,24 @@ public class ProfAssignmentPage extends AssignmentPage{
     
     private void createSetActiveButton(Assignment assign){
         if (assign.isActive()){
-            activeButton = new JButton("Deacivate");
+            activeButton = new JButton("Deactivate");
         }
         else{
             activeButton = new JButton("Activate");
         }
         
-        //todo add listeners;
+        activeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               if(activeButton.getText().equals("Activate")){
+                   client.setAssignmentActive(assignment);
+                   activeButton.setText("Deactivate");
+               }
+               else if(activeButton.getText().equals("Deactivate")){
+                   client.setAssignmentInactive(assignment);
+                   activeButton.setText("Activate");
+               }
+            }
+        });
         bottom.add(activeButton);
     }
             

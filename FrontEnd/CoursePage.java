@@ -125,7 +125,6 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
         ArrayList<AssignmentPanel> newList = new ArrayList<>();
         // empty out the current course list.
         assignmentList.setAssignmentList(newList);
-        CoursePage.this.getAssignmentList();
         initializeAssignListView(panelName);
     }
 

@@ -377,6 +377,21 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
+     * Sends request to server to set assignment as Inactive.
+     * @param assignment assignment to set active
+     */
+    void setAssignmentInactive(Assignment assignment) {
+        try {
+        	sendObject(SET_ASSIGNMENT_INACTIVE);
+            sendObject(assignment);
+            
+        } catch(IOException e) {
+            System.out.println("Error sending request to set assignment as active");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Gets assignment list for a course
      */
     @SuppressWarnings("unchecked")
