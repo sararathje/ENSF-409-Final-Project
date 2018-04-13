@@ -117,15 +117,7 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					else if(input.equals(NEW_ASSIGNMENT))
 					{
 						input = objIn.readObject();
-                                                dbHelper.addAssignment((Assignment)input);
-					}
-					else if (input.equals(ASSIGNMENT_LIST_PROF))
-					{
-						//TODO gets the assignment list for a specific course and send it to the client
-					}
-					else if (input.equals(ASSIGNMENT_LIST_STUDENT))
-					{
-						//TODO gets the assignment list for a specific course and send it to the client
+                        dbHelper.addAssignment((Assignment)input);
 					}
 					else if (input.equals(UNENROLL_STUDENT))
 					{
@@ -184,15 +176,21 @@ public class ServerWorker implements Runnable, ConnectionConstants
 					}
 					else if (input.equals(DOWNLOAD_FILE))
 					{
-						//TODO
+						String name = (String) objIn.readObject();
+						String extension = (String) objIn.readObject();
+						byte[] content = fHelper.getFile(name, extension);
+						sendObject(content);
 					}
-                                        else if(input.equals(GET_GRADE)){
-                                            int assignmentID = (int) objIn.readObject();
-                                            int studentID = (int) objIn.readObject();
-                                            int courseID = (int) objIn.readObject();
-                                            int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
-                                            sendObject(grade);
-                                        }
+                    else if(input.equals(GET_GRADE)){
+                        int assignmentID = (int) objIn.readObject();
+                        int studentID = (int) objIn.readObject();
+                        int courseID = (int) objIn.readObject();
+                        int grade = dbHelper.getGrade(assignmentID, studentID, courseID);
+                        sendObject(grade);
+                    } else if(input.equals(SEARCH_FOR_PROF)) {
+					    User professor = dbHelper.searchForProfessor((int)objIn.readObject());
+					    sendObject(professor);
+                    }
 					else if(input.equals(QUIT))
 					{
 						break;

@@ -1,6 +1,9 @@
 package Models;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -182,5 +185,10 @@ public class Submission implements Serializable
      * @param newPath submission path
      */
 	public void setPath(String newPath) { this.path = newPath; }
+
+	// TODO: USE THIS FOR DATE/TIME STAMP
+//   STAMP DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//    Calendar cal = Calendar.getInstance();
+//	System.out.println(dateFormat.format(cal)); //2016/11/16 12:08:43
 
 }

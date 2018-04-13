@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import Models.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class DatabaseHelper implements DatabaseInformation
 {
@@ -497,6 +498,38 @@ public class DatabaseHelper implements DatabaseInformation
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Searches database for submissions that match the assignment ID provided
+	 * @param assignID the key for the search
+	 * @return
+	 */
+	public ArrayList<Submission> searchSubmission(int assignID)
+	{
+		ResultSet submissions;
+		ArrayList<Submission> submissionList = new ArrayList<Submission>();
+
+        String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGNMENTID = ?";
+
+        try
+        {
+        statement = jdbc_connection.prepareStatement(sql);
+        statement.setInt(1, assignID);
+        submissions = statement.executeQuery();
+
+        while(submissions.next()) {
+            submissionList.add(new Submission(submissions.getInt("ASSIGNMENTID"),
+            		submissions.getInt("STUDENTID"), submissions.getString("PATH"),
+            		0, submissions.getString("TITLE"), submissions.getString("TIMESTAMP")));
+        }
+        }
+        catch(SQLException e)
+        {
+        	System.err.println("Error getting submissions");
+        }
+        return submissionList;
+		//TODO
+	}
 
     /**
      * Enrolls student in a course.
@@ -583,6 +616,11 @@ public class DatabaseHelper implements DatabaseInformation
         return studentList;
     }
 
+    /**
+     * Gets list of student IDs from course ID
+     * @param courseID course ID
+     * @return list of student IDs
+     */
     private ArrayList<Integer> getStudentIDInCourse(int courseID) {
         ArrayList<Integer> studentIDList = new ArrayList<>();
         ResultSet studentIDs;
@@ -667,6 +705,50 @@ public class DatabaseHelper implements DatabaseInformation
 
         return matchedStudents;
     }
+
+    /**
+     * Searches user table for user with ID given by the parameter.
+     * @param profID professor ID
+     * @return User matching professor ID
+     */
+    public User searchForProfessor(int profID) {
+        System.out.println("About to search for professor...");
+        User user = null;
+        ResultSet professorResult;
+
+        String sql = "SELECT * FROM " + userTable + " WHERE USERID = ?";
+
+        try {
+            statement = jdbc_connection.prepareStatement(sql);
+            statement.setInt(1, profID);
+            professorResult = statement.executeQuery();
+
+           if (professorResult.next()) {
+               Login profLogin = new Login(professorResult.getString("USERNAME"),
+                       professorResult.getString("PASSWORD"));
+
+               user = new User(professorResult.getInt("USERID"),
+                       profLogin,
+                       professorResult.getString("EMAIL"),
+                       professorResult.getString("FIRSTNAME"),
+                       professorResult.getString("LASTNAME"),
+                       professorResult.getString("CLIENTTYPE").charAt(0));
+           }
+        } catch (SQLException e) { e.printStackTrace(); }
+
+        return user;
+    }
+
+    // NOTE: This is for adding users to the database. Not needed for actual purposes
+    /**
+     * Generates pseudo-random 8-digit submission ID
+     */
+    private int generateUserID() {
+        int low = 10000000, high = 99999999;
+
+        Random r = new Random();
+        return r.nextInt(high - low + 1) + low;
+    }
 	
 	/**
 	 * for testing
@@ -674,6 +756,30 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
+	    // Sara's garbage be below
+//	    DatabaseHelper dbHelper = new DatabaseHelper();
+//	    int profid = dbHelper.generateUserID();
+//	    Login proflogin = new Login ("testProf", "test");
+//	    String profemail = "sararathje@gmail.com";
+//	    String proffirstName = "Testy";
+//	    String proflastName = "Prof";
+//	    char profuserType = 'P';
+//
+//	    int studentid = dbHelper.generateUserID();
+//        Login studentlogin = new Login ("testStud", "test");
+//        String studentemail = "purplejellyfish27@gmail.com";
+//        String studentfirstname = "Testy";
+//        String studentlastname = "Stud";
+//        char studentusertype = 'S';
+//
+//
+//	    // String emailAddress, String firstName, String lastName, char userType
+//	    User prof = new User(profid, proflogin, profemail, proffirstName, proflastName, profuserType);
+//	    User student = new User(studentid, studentlogin, studentemail, studentfirstname, studentlastname, studentusertype);
+//
+//	    dbHelper.addUser(prof);
+//	    dbHelper.addUser(student);
+
 //		Login deez = new Login("rylan", "1");
 //                User user1 = new User(1234, deez, "bob12@jim.com", "bob", "kettles", 'S');
 //                User user2 = new User(4567, deez, "nasty12@jim.com", "sally", "kettles", 'S');
@@ -684,11 +790,26 @@ public class DatabaseHelper implements DatabaseInformation
 //                
 //                
 //		Course banana = new Course("Banana", 2345, 4, true);
+<<<<<<< HEAD
 		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
 //		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
 //
 		DatabaseHelper rock = new DatabaseHelper();
+=======
+//		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
+//		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
+//
+//
+//		DatabaseHelper rock = new DatabaseHelper();
+//		rock.addSubmission(sub);
+//		ArrayList<Submission> stuff = rock.searchSubmission(206419);
+//		
+//		for(int i = 0; i < stuff.size(); i++)
+//		{
+//			System.out.println(stuff.get(i).getTitle());
+//		}
+>>>>>>> cc4fc22b2213e1950123c0e9da2dd03139b40388
 //		rock.addGrade(69, sub);
 
                rock.addSubmission(sub);

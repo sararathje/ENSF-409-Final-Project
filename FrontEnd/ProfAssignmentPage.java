@@ -3,8 +3,10 @@ package FrontEnd;
 
 import Models.Assignment;
 import Models.Date;
+import Models.Submission;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -20,6 +22,7 @@ public class ProfAssignmentPage extends AssignmentPage{
     public ProfAssignmentPage(Assignment assignment, Client client) {
         super(assignment, client);
         
+        initializeDropboxSubmissionList();
         
         createUploadFileButton();
         
@@ -70,6 +73,11 @@ public class ProfAssignmentPage extends AssignmentPage{
         bottom.add(activeButton);
     }
             
+    private void initializeDropboxSubmissionList(){
+      ArrayList<Submission> submissions = client.getSubmissionList();
+      assignment.getDropbox().setSubmissions(submissions);
+   }
+    
     public static void main(String[] args) {
         Client test = new Client();
         Assignment a = new Assignment("name", new Date(1,2,3,4, 5), 12345, 33333, true );

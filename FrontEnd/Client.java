@@ -6,8 +6,7 @@ import java.net.Socket;
 import Models.*;
 import Constants.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.swing.*;
 
@@ -577,6 +576,21 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Error sending the submission...");
     	}
+    }
+    
+    ArrayList<Submission> getSubmissionList(){
+        try{
+            sendObject(GET_SUBMISSIONS);
+            ArrayList<Submission> submissions = (ArrayList<Submission>)socketIn.readObject();
+           return submissions;
+        }
+        catch(IOException ex){
+            System.out.println("Error getting submission list");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error getting submission list");
+        }
+        
+        return null;
     }
     
     /**

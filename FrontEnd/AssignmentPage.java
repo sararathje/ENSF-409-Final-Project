@@ -5,6 +5,7 @@ import Constants.ColourSchemeConstants;
 import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
 import Constants.FontConstants;
 import Constants.LabelConstants;
+import Constants.ConnectionConstants;
 import Models.Assignment;
 import Models.Date;
 import java.awt.BorderLayout;
@@ -15,7 +16,7 @@ import javax.swing.*;
  *
  * @author Rylan
  */
-public class AssignmentPage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants{
+public class AssignmentPage extends JFrame implements ColourSchemeConstants, FontConstants, LabelConstants, ConnectionConstants{
     
     /**
      * The Assignment
@@ -91,6 +92,8 @@ public class AssignmentPage extends JFrame implements ColourSchemeConstants, Fon
                 
         //add blank space to the left and the right
         addBorders();
+        
+        client.viewFile(assignment.getName(), TXT, assignmentFileArea);
         pack();
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         
@@ -198,5 +201,5 @@ public class AssignmentPage extends JFrame implements ColourSchemeConstants, Fon
         add("West", left);
     }
    
-     
+    Assignment getAssignment() {return assignment;}
 }
