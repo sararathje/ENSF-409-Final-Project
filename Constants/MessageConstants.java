@@ -16,4 +16,5 @@ public interface MessageConstants {
     String EMPTY_NEW_COURSE_FIELDS = "Whoops! All fields must be filled in to create a course";
     String MESSAGE_SENT = "Email sent!";
     String NO_RECIPIENTS = "There are no students enrolled in this class! Cannot send email";
+    String PASSWORD_REQUIRED = "Password is required to send message!";
 }

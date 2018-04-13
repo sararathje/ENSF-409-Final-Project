@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import Models.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class DatabaseHelper implements DatabaseInformation
 {
@@ -737,6 +738,17 @@ public class DatabaseHelper implements DatabaseInformation
 
         return user;
     }
+
+    // NOTE: This is for adding users to the database. Not needed for actual purposes
+    /**
+     * Generates pseudo-random 8-digit submission ID
+     */
+    private int generateUserID() {
+        int low = 10000000, high = 99999999;
+
+        Random r = new Random();
+        return r.nextInt(high - low + 1) + low;
+    }
 	
 	/**
 	 * for testing
@@ -744,6 +756,30 @@ public class DatabaseHelper implements DatabaseInformation
 	 */
 	public static void main(String[] args)
 	{
+	    // Sara's garbage be below
+//	    DatabaseHelper dbHelper = new DatabaseHelper();
+//	    int profid = dbHelper.generateUserID();
+//	    Login proflogin = new Login ("testProf", "test");
+//	    String profemail = "sararathje@gmail.com";
+//	    String proffirstName = "Testy";
+//	    String proflastName = "Prof";
+//	    char profuserType = 'P';
+//
+//	    int studentid = dbHelper.generateUserID();
+//        Login studentlogin = new Login ("testStud", "test");
+//        String studentemail = "purplejellyfish27@gmail.com";
+//        String studentfirstname = "Testy";
+//        String studentlastname = "Stud";
+//        char studentusertype = 'S';
+//
+//
+//	    // String emailAddress, String firstName, String lastName, char userType
+//	    User prof = new User(profid, proflogin, profemail, proffirstName, proflastName, profuserType);
+//	    User student = new User(studentid, studentlogin, studentemail, studentfirstname, studentlastname, studentusertype);
+//
+//	    dbHelper.addUser(prof);
+//	    dbHelper.addUser(student);
+
 //		Login deez = new Login("rylan", "1");
 //                User user1 = new User(1234, deez, "bob12@jim.com", "bob", "kettles", 'S');
 //                User user2 = new User(4567, deez, "nasty12@jim.com", "sally", "kettles", 'S');

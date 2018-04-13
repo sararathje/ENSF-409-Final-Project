@@ -7,27 +7,96 @@ package FrontEnd;
 
 import Models.Email;
 import Models.User;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import static Constants.ColourSchemeConstants.FOREGROUND_COLOUR;
 import static Constants.ColourSchemeConstants.LOGIN_BACKGROUND_COLOUR;
+import static Constants.MessageConstants.INVALID_COURSE_ID;
+import static Constants.MessageConstants.MESSAGE_SENT;
+import static Constants.MessageConstants.PASSWORD_REQUIRED;
 
 /**
- *
+ * Creates a GUI to send emails.
  * @author Rylan
+ * @version 2.0
+ * @since April 12, 2018
  */
 public class EmailWindow2 extends javax.swing.JDialog {
-
+    /**
+     * Client that communicates with the server
+     */
+    private Client client;
+    /**
+     * Email model that will be sent to the server
+     */
+    private Email email;
+    /**
+     * List of users who will receive the email
+     */
+    ArrayList<User> emailReceivers;
     /**
      * Creates new form EmailWindow2
      */
     public EmailWindow2(java.awt.Frame parent, boolean modal, Client client, ArrayList<User> emailReceivers) {
         super(parent, modal);
-        initComponents();
         this.client = client;
         email = new Email(client.getAuthenticatedUser().getEmail(), null);
+        this.emailReceivers = emailReceivers;
+
+        initComponents();
+        setListeners();
+
+        this.pack();
+        this.setVisible(true);
     }
 
+    /**
+     * Adds a the listeners to the frame for the 2 JButtons on the frame
+     */
+    private void setListeners()
+    {
+        //Collects information from the text areas and sends an email through the database
+        sendB.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event)
+            {
+                if(String.valueOf(emailPWTA.getPassword()).equals("")) {
+                    JOptionPane.showMessageDialog(getContentPane(), PASSWORD_REQUIRED, "",
+                            JOptionPane.WARNING_MESSAGE);
+                    // Sara: I don't think that the return is needed
+                    // return;
+                }
+                else
+                {
+                    email.compose(textTA.getText(), textTA.getText());
+                    email.setSenderPW(String.valueOf(emailPWTA.getPassword()));
+
+                    // Sara
+                    System.out.println("Number of email receivers: " + emailReceivers.size());
+
+                    for(int i = 0; i < emailReceivers.size(); i++)
+                    {
+                        email.addRecipient(emailReceivers.get(i).getEmail());
+                    }
+
+                    client.sendEmail(email);
+                    JOptionPane.showMessageDialog(getContentPane(), MESSAGE_SENT, "",
+                            JOptionPane.PLAIN_MESSAGE);
+
+                    dispose();
+                }
+            }});
+
+        //Closes the frame
+        cancelB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                dispose();
+            }
+        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,28 +118,22 @@ public class EmailWindow2 extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compose New Email");
 
-        subjectField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subjectFieldActionPerformed(evt);
-            }
-        });
+        subjectField.setText("");
 
         jLabel1.setText("Subject Line:");
         jLabel1.setForeground(FOREGROUND_COLOUR);
 
         textTA.setColumns(20);
         textTA.setRows(5);
+        textTA.setText("");
         jScrollPane1.setViewportView(textTA);
 
         jLabel2.setText("Your Email Password:");
         jLabel2.setForeground(FOREGROUND_COLOUR);
 
+        emailPWTA.setText("");
+
         sendB.setText("Send");
-        sendB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendBActionPerformed(evt);
-            }
-        });
 
         cancelB.setText("Discard");
 
@@ -124,14 +187,6 @@ public class EmailWindow2 extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void subjectFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subjectFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_subjectFieldActionPerformed
-
-    private void sendBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sendBActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -184,9 +239,4 @@ public class EmailWindow2 extends javax.swing.JDialog {
     private javax.swing.JTextField subjectField;
     private javax.swing.JTextArea textTA;
     // End of variables declaration//GEN-END:variables
-    
-    private Client client;
-    private Email email;
-    ArrayList<User> emailReceivers;
-
 }
