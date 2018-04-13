@@ -3,13 +3,10 @@ package FrontEnd;
 
 import Models.Assignment;
 import Models.Date;
-
-import static Constants.MessageConstants.EMPTY_NEW_COURSE_FIELDS;
-import static Constants.MessageConstants.INVALID_COURSE_ID;
-
+import Models.Submission;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -19,16 +16,17 @@ import javax.swing.*;
 public class ProfAssignmentPage extends AssignmentPage{
     
     private JButton uploadFile;
-    private JButton assignGrade;
+    private JButton viewDropBox;
     private JButton activeButton;
     
     public ProfAssignmentPage(Assignment assignment, Client client) {
         super(assignment, client);
         
+        initializeDropboxSubmissionList();
         
         createUploadFileButton();
         
-        createAssignGradeButton();
+        createViewDropBoxButton();
         
         createSetActiveButton(assignment);
         
@@ -43,30 +41,23 @@ public class ProfAssignmentPage extends AssignmentPage{
     private void createUploadFileButton(){
         uploadFile = new JButton("Upload Assignment File");
         bottom.add(uploadFile);
-        
-        uploadFile.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event) {
-            	String s = JOptionPane.showInputDialog("Please Enter File Path");
-        		if(s == null)
-        		{
-        			JOptionPane.showMessageDialog(null, "Invalid path", "Error Message", JOptionPane.PLAIN_MESSAGE);
-        		}
-        		else
-        		{
-        			client.uploadFile(s, getAssignment().getName(), TXT);
-        			client.viewFile(assignment.getName(), TXT, assignmentFileArea);
-        		}
 
-            }
-        });
+        //todo: add action listener
                        
     }
     
-    private void createAssignGradeButton(){
-        assignGrade = new JButton("Assign Grade");
-        bottom.add(assignGrade);
+    private void createViewDropBoxButton(){
+        viewDropBox = new JButton("View Drop Box");
+        bottom.add(viewDropBox);
         
-        //todo: add action listener
+        viewDropBox.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+               DropBoxView dropboxView = new DropBoxView(assignment.getDropbox(), client);
+               dropboxView.setVisible(true);
+                
+            }
+        });
+        
         
     }
     
@@ -77,26 +68,16 @@ public class ProfAssignmentPage extends AssignmentPage{
         else{
             activeButton = new JButton("Activate");
         }
-        activeButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event) {
-            	if(activeButton.getText().equals("Deactivate"))
-            	{
-            		activeButton.setText("Activate");
-            		assign.deactivateAssignment();
-            		client.setAssignmentInactive(assign);
-            	}
-            	else if(activeButton.getText().equals("Activate"))
-            	{
-            		activeButton.setText("Deactivate");
-            		assign.activateAssignment();
-            		client.setAssignmentActive(assign);
-            	}
-
-            }
-        });
+        
+        //todo add listeners;
         bottom.add(activeButton);
     }
             
+    private void initializeDropboxSubmissionList(){
+      ArrayList<Submission> submissions = client.getSubmissionList();
+      assignment.getDropbox().setSubmissions(submissions);
+   }
+    
     public static void main(String[] args) {
         Client test = new Client();
         Assignment a = new Assignment("name", new Date(1,2,3,4, 5), 12345, 33333, true );

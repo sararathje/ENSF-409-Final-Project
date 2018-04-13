@@ -6,8 +6,7 @@ import java.net.Socket;
 import Models.*;
 import Constants.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.swing.*;
 
@@ -56,6 +55,8 @@ public class Client implements ConnectionConstants, MessageConstants {
      */
     public Client() {
         try {
+            // Establish socket connection
+        	
         	//HOSTNAME for local connection
         	//HOSTNAMEREMOTE for remote connection
             socket = new Socket(HOSTNAME, PORT);
@@ -374,21 +375,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     }
     
     /**
-     * Sends request to server to set assignment as active.
-     * @param assignment assignment to set active
-     */
-    void setAssignmentInactive(Assignment assignment) {
-        try {
-        	sendObject(SET_ASSIGNMENT_INACTIVE);
-            sendObject(assignment);
-            
-        } catch(IOException e) {
-            System.out.println("Error sending request to set assignment as active");
-            e.printStackTrace();
-        }
-    }
-    
-    /**
      * Gets assignment list for a course
      */
     @SuppressWarnings("unchecked")
@@ -490,22 +476,22 @@ public class Client implements ConnectionConstants, MessageConstants {
         	long length = selectedFile.length();
         	byte[] content = new byte[(int) length]; // Converting Long to Int
         	try {
-                FileInputStream fis = new FileInputStream(selectedFile);
-                BufferedInputStream bos = new BufferedInputStream(fis);
-                bos.read(content, 0, (int)length);
-                sendObject(UPLOAD_FILE);
-                sendObject(name);
-                sendObject(content);
-                sendObject(ext);
-                bos.close();
+        	FileInputStream fis = new FileInputStream(selectedFile);
+        	BufferedInputStream bos = new BufferedInputStream(fis);
+        	bos.read(content, 0, (int)length);
+        	sendObject(UPLOAD_FILE);
+        	sendObject(name);
+        	sendObject(content);
+        	sendObject(ext);
+        	bos.close();
         	} 
         	catch (FileNotFoundException e) 
         	{
-        	    e.printStackTrace();
+        	e.printStackTrace();
         	} 
         	catch(IOException e)
         	{
-        	    e.printStackTrace();
+        	e.printStackTrace();
         	}
     	} else
     	{
@@ -522,34 +508,31 @@ public class Client implements ConnectionConstants, MessageConstants {
     {
     	try
     	{
-            sendObject(DOWNLOAD_FILE);
-            sendObject(name);
-            sendObject(ext);
-
-            byte[] content = (byte[])socketIn.readObject();
-            
-            if(content != null)
-            {
-		        File newFile = new File(CLIENTTEMPPATH + name + ext);
-		        if(!newFile.exists())
-		        newFile.createNewFile();
-		        FileOutputStream writer = new FileOutputStream(newFile);
-		        BufferedOutputStream bos = new BufferedOutputStream(writer);
-		        bos.write(content);
-		        bos.close();
+    	sendObject(DOWNLOAD_FILE);
+    	sendObject(name);
+    	sendObject(ext);
+    	
+    	byte[] content = (byte[])socketIn.readObject();
+    	
+    	File newFile = new File(CLIENTTEMPPATH + name + ext);
+		if(!newFile.exists())
+		newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
 		
-		        FileReader fis = new FileReader(newFile);
-		        BufferedReader bis = new BufferedReader(fis);
-		
-		        String line = bis.readLine();
-		    	while(line != null)
-		    	{
-		    		theArea.append(line);
-		    		line = bis.readLine();
-		    	}
-		    	bis.close();
-		    	newFile.delete();
-            }
+		FileReader fis = new FileReader(newFile);
+    	BufferedReader bis = new BufferedReader(fis);
+    	
+    	String line = bis.readLine();
+    	while(line != null)
+    	{
+    		theArea.append(line);
+    		line = bis.readLine();
+    	}
+    	bis.close();
+    	newFile.delete();
     	}
     	catch(IOException e)
     	{
@@ -559,28 +542,6 @@ public class Client implements ConnectionConstants, MessageConstants {
     	{
     		System.err.println("Class not found");
     	}
-    }
-
-    /**
-     * Sends request to server to search for Professor with id provided by the given parameter.
-     * @param id professor ID
-     * @return Professor matching the professor ID
-     */
-    User searchProfessor(int id) {
-        User user = null;
-
-        try {
-            sendObject(SEARCH_FOR_PROF);
-            sendObject(id);
-
-            user =  (User)socketIn.readObject();
-        } catch(IOException e) {
-            e.printStackTrace();
-        } catch(ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return user;
     }
     
     /**
@@ -617,6 +578,21 @@ public class Client implements ConnectionConstants, MessageConstants {
     	}
     }
     
+    ArrayList<Submission> getSubmissionList(){
+        try{
+            sendObject(GET_SUBMISSIONS);
+            ArrayList<Submission> submissions = (ArrayList<Submission>)socketIn.readObject();
+           return submissions;
+        }
+        catch(IOException ex){
+            System.out.println("Error getting submission list");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error getting submission list");
+        }
+        
+        return null;
+    }
+    
     /**
      * Helper function that sends objects to the server and flushes the output stream
      * @param obj
@@ -628,3 +604,4 @@ public class Client implements ConnectionConstants, MessageConstants {
         socketOut.flush();
     }
  }
+

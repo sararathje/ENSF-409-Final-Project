@@ -44,4 +44,10 @@ public class Dropbox implements Serializable
 	public void openDropbox() { isActive = true; }
 	
 	public void closeDropbox() { isActive = false; }
+
+        public void setSubmissions(ArrayList<Submission> submissions) {
+            this.submissions = submissions;
+        }
+        
+        
 }
