@@ -155,7 +155,7 @@ private void addListener()
                 int studentID = submission.getStudentID();
                 int grade = Integer.parseInt(gradeField.getText());
                 SetGradePanel.this.client.addGrade(assignmentID, studentID, grade);
-            	
+            	dispose();
             }   
         });
     }
