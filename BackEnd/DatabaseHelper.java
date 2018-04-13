@@ -474,7 +474,7 @@ public class DatabaseHelper implements DatabaseInformation
             statement.setInt(6, submission.getGrade());
             statement.setString(7, submission.getTimeStamp());
 
-		    statement.executeQuery();
+		    statement.executeUpdate();
         } catch(SQLException e) {
 		    e.printStackTrace();
         }
@@ -496,6 +496,38 @@ public class DatabaseHelper implements DatabaseInformation
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Searches database for submissions that match the assignment ID provided
+	 * @param assignID the key for the search
+	 * @return
+	 */
+	public ArrayList<Submission> searchSubmission(int assignID)
+	{
+		ResultSet submissions;
+		ArrayList<Submission> submissionList = new ArrayList<Submission>();
+
+        String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGNMENTID = ?";
+
+        try
+        {
+        statement = jdbc_connection.prepareStatement(sql);
+        statement.setInt(1, assignID);
+        submissions = statement.executeQuery();
+
+        while(submissions.next()) {
+            submissionList.add(new Submission(submissions.getInt("ASSIGNMENTID"),
+            		submissions.getInt("STUDENTID"), submissions.getString("PATH"),
+            		0, submissions.getString("TITLE"), submissions.getString("TIMESTAMP")));
+        }
+        }
+        catch(SQLException e)
+        {
+        	System.err.println("Error getting submissions");
+        }
+        return submissionList;
+		//TODO
 	}
 
     /**
@@ -722,11 +754,18 @@ public class DatabaseHelper implements DatabaseInformation
 //                
 //                
 //		Course banana = new Course("Banana", 2345, 4, true);
-//		Submission sub = new Submission(206419, 9, "localPath", 111, "sumbission", "timeStamp" );
-//		//Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
+//		Submission sub = new Submission(206419, 9, "localPath", 111, "toots", "timeStamp" );
+//		Assignment nuts = new Assignment("Potato", new Date(1,1,1,1,1), 423, banana.getCourseNumber(), false);
 //
 //
 //		DatabaseHelper rock = new DatabaseHelper();
+//		rock.addSubmission(sub);
+//		ArrayList<Submission> stuff = rock.searchSubmission(206419);
+//		
+//		for(int i = 0; i < stuff.size(); i++)
+//		{
+//			System.out.println(stuff.get(i).getTitle());
+//		}
 //		rock.addGrade(69, sub);
 
                
