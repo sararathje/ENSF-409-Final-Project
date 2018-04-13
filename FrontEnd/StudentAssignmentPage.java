@@ -49,6 +49,7 @@ public class StudentAssignmentPage extends AssignmentPage {
                 String fileName = filePathWithName.toString();
                 String extension = "." + fileName.split("\\.")[1];
 
+                // Upload file and create submission
                 if (!fullPath.equals("")) {
                     int assignmentID = assignment.getID();
                     int studentID = client.getAuthenticatedUser().getID();
@@ -58,7 +59,9 @@ public class StudentAssignmentPage extends AssignmentPage {
                     Submission submission = new Submission(assignmentID, studentID, serverDirPath, title);
                     String submissionFileName = String.valueOf(submission.getAssignmentID()) + "_"
                             + String.valueOf(submission.getStudentID());
+
                     client.uploadFile(fullPath, submissionFileName, extension);
+                    client.submitAssignment(submission, extension);
                 }
             }
         });

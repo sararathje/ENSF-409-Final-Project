@@ -383,8 +383,9 @@ public class DatabaseHelper implements DatabaseInformation
 
 	/**
 	 * Grades a submission in the database.
-	 * @param grade grade to assign to submission
-	 * @param submission student submission
+	 * @param assignmentID grade to assign to submission
+	 * @param studentID student ID
+     * @param grade int grade
 	 */
 	public void addGrade(int assignmentID, int studentID, int grade)
 	{
@@ -525,7 +526,7 @@ public class DatabaseHelper implements DatabaseInformation
         while(submissions.next()) {
             submissionList.add(new Submission(submissions.getInt("ASSIGNMENTID"),
             		submissions.getInt("STUDENTID"), submissions.getString("PATH"),
-                    submissions.getString("TITLE"), submissions.getString("TIMESTAMP")));
+                    submissions.getString("TITLE")));
         }
         }
         catch(SQLException e)
