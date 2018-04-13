@@ -46,7 +46,6 @@ public class StudentCoursePage extends CoursePage {
     private void addRefreshListener() {
         refresh.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                // SARA: Come in and implement for studentCoursePage
                 updateStudentAssignmentList();
             }
         });
