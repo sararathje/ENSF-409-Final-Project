@@ -60,7 +60,7 @@ public class CoursePage extends JFrame implements ColourSchemeConstants, FontCon
     /**
      * Email window
      */
-    protected EmailWindow emailWindow;
+    protected EmailWindow2 emailWindow;
     
     /**
      * Creates an object of type CoursePage.
