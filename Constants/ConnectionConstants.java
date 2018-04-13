@@ -9,7 +9,7 @@ package Constants;
 public interface ConnectionConstants {
     String HOSTNAME = "localhost";
     String HOSTNAMEREMOTE = "DESKTOP-A3JUSUB";
-    String IPADDRESS = "136.159.49.113";
+    String IPADDRESS = "10.13.158.104/24";
     byte[] ipAddress = new byte[] {(byte)136,(byte)159,(byte)49,(byte)113};
     int PORT = 9090;
     
